@@ -15,10 +15,10 @@ class FileHandler
 {
     public:
         FileHandler();
-        static SDL_Surface* load_img(string filename);
+        static SDL_Surface* load_img(std::string filename);
 
     private:
-        static const string imagePath;
+        static const std::string imagePath;
 
 };
 

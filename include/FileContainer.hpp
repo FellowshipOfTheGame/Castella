@@ -10,10 +10,10 @@ class FileContainer
         virtual ~FileContainer();
 
         void push(SDL_Surface* surface);
-        SDL_Surface* push(string filename);
+        SDL_Surface* push(std::string filename);
 
     protected:
-        vector<SDL_Surface*> surfaces;
+        std::vector<SDL_Surface*> surfaces;
 
     private:
 };

@@ -1,8 +1,23 @@
 #include "Button.hpp"
 #include "simpleSDLfunctions.h"
 
+
+Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk) {
+    callback_method = new LuaObject(cbk);
+    this->imgInactive = imgInactive;
+    this->imgActive = imgActive;
+    this->window = window;
+    windowRelativeOffset.x = x;
+    windowRelativeOffset.y = y;
+    box.x = windowRelativeOffset.x + window->x;
+    box.y = windowRelativeOffset.y + window->y;
+    box.w = this->imgInactive->w;
+    box.h = this->imgInactive->h;
+    deactivate();
+}
+
 Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, void (*method)()) {
-    callback_method = method;
+    cbk_method = method;
     this->imgInactive = imgInactive;
     this->imgActive = imgActive;
     this->window = window;
@@ -54,10 +69,17 @@ void Button::draw(SDL_Surface* target){
     apply_surface(box.x, box.y, image, target);
 }
 
+void Button::cbk(){
+    cbk_method();
+}
+
 void Button::callback(){
-    callback_method();
+    using namespace std;
+    using namespace luabind;
+    //call_function<void>( *callback_method )[adopt(result)];
+    (*callback_method)()[discard_result];
 }
 
 Button* Button::create_button_list(int buttonCount){
-    return (Button*)malloc(sizeof(Button)*buttonCount);
+    return (Button *) malloc( buttonCount * sizeof(Button) );
 }

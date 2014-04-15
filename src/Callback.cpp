@@ -9,6 +9,10 @@ Callback::Callback()
     //ctor
 }
 
+Callback::Callback(lua_State *L) {
+    registerCallbacks(L);
+}
+
 Callback::~Callback()
 {
     //dtor
@@ -18,6 +22,7 @@ Callback::~Callback()
 //Start button
 void Callback::game_start(){
     //add condition (is scene a StartMenu?)
+    std::cout << "Funcionando" << std::endl;
     SceneControl::set_next(SceneControl::SCENE_WORLD);
 }
 //Load button
@@ -31,6 +36,16 @@ void Callback::game_quit(){
 //Battle
 void Callback::start_battle(){
     SceneControl::set_next(SceneControl::SCENE_BATTLE);
+}
+
+void Callback::registerCallbacks( lua_State *L ) {
+    using namespace luabind;
+    module( L ) [
+        def( "game_quit", &Callback::game_quit ),
+        def( "game_start", &Callback::game_start ),
+        def( "game_load", &Callback::game_load ),
+        def( "start_battle", &Callback::start_battle )
+    ];
 }
 
 funcPointer Callback::callback(int i){

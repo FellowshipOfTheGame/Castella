@@ -38,9 +38,10 @@ void SceneControl::update(){
             case SCENE_START_MENU:
                 Scene::scene = new Scene_StartMenu();
                 break;
+            /*
             case SCENE_EDITOR:
                 Scene::scene = new Scene_MapEditor();
-                break;
+                break;*/
             case SCENE_BATTLE:
                 Scene::scene = new Scene_Battle();
                 break;

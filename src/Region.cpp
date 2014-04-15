@@ -69,13 +69,8 @@ int Region::Distance (Region *region) {
 }
 
 
-
-
-
 /* * * * * * * * * * * *
- *                     *
  * GRAFO DAS REGIÕES   *
- *                     *
  * * * * * * * * * * * */
 RegionGraph::RegionGraph () {
 	
@@ -96,8 +91,6 @@ int RegionGraph::NewRegion (Region_Type new_type) {
 	}
 	// e vê se liga com os vizinhos
 	findLastNeighbours ();
-
-	return 0;
 }
 
 

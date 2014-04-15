@@ -3,8 +3,14 @@
 #include <memory>
 
 ScriptHandler::ScriptHandler(){
-    //cout << "-ctor ScriptHandler()" << endl;
-    }
+    //cout << "-ctor ScriptHandler(string)" << endl;
+    //Set a lua state
+    L = luaL_newstate();
+    //Open lua standard libraries
+    luaL_openlibs(L);
+    //Open luabind libraries
+    luabind::open(L);
+}
 
 ScriptHandler::ScriptHandler(std::string script)
 {
@@ -31,11 +37,15 @@ ScriptHandler::~ScriptHandler(){
     //cout << "dtor ScriptHandler: lua closed" << endl;
 } //dtor
 
-void ScriptHandler::close(){
-    lua_close(L);
-}
+LuaTable ScriptHandler::getTable(const char *tableName) { return LuaTable( luabind::gettable( luabind::globals(L), tableName ) ); }
 
-void ScriptHandler::variable_toLua(double source, const char* target){
+lua_State *ScriptHandler::state() const { return L; }
+
+LuaTable ScriptHandler::global() const { return LuaTable( luabind::globals(L) ); }
+
+void ScriptHandler::close(){ lua_close(L); }
+
+void ScriptHandler::variable_toLua(double source, const char* target) {
     //TODO try to check types here (instead of a double source only), to make a more generic method
     lua_pushnumber(L, source);
     lua_setglobal(L, target);
@@ -105,19 +115,8 @@ int ScriptHandler::teste(){
     lua_pop(L, 1);
     std::cout << "C++ can read the value set from Lua luavar = " << luavar << std::endl;
 
-
-
-
-
-
-
     return 0;
 }
-
-
-
-
-
 
 //extern "C" {
 //        static int l_cppfunction(lua_State *L){

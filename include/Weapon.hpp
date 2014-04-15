@@ -2,21 +2,25 @@
 * Um esboço das armas TODO: Definir tipos de dano, encantos(Aumenta velocidade, cega o inimigo, etc), adicionar gasto de stamina por ataque e "pontos de defesa" da arma.
 */
 
-#ifndef _WEAPON_HPP_
-#define _WEAPON_HPP_
+#ifndef WEAPON_HPP
+#define WEAPON_HPP
 
 #include "Item.hpp"
 
-class weapon : public item {
+class Weapon : public Item
+{
 
     private:
-        int damage;
-        int fatigue;
-        int range;
+        double damage;
+        double fatigue;
+        double range;
 
     public:
-        weapon(const char *name, const int baseCost, SDL_Surface *img, const int damage, const int fatigue, const int range);
-        weapon(const std::string *name, const int baseCost, SDL_Surface *img, const int damage, const int fatigue, const int range);
+        Weapon(const Weapon &that);
+        /*Weapon(const char *name, const char *imgFile, const double baseCost,
+                const double damage, const double fatigue, const double range);*/
+        Weapon(const std::string &name, const std::string &imgFile, const double baseCost,
+                const double damage, const double fatigue, const double range);
 };
 
 #endif

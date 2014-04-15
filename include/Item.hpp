@@ -2,23 +2,39 @@
 *   Um esboço dos itens, todos os ítens tem em comum: nome, preço e um sprite.
 */
 
-#ifndef _ITEM_HPP_
-#define _ITEM_HPP_
+#ifndef ITEM_HPP
+#define ITEM_HPP
 
 #include <SDL.h>
 #include <SDL_image.h>
+
+#include <iostream>
 #include <string>
 
-class item {
+#include "ScriptHandler.hpp"
+
+class Item
+{
 
     private:
-        std::string name;
-        int baseCost;
+        std::string name, imgFile;
+        double baseCost;
         SDL_Surface *img;
 
     public:
-        item(const char *name, const int baseCost, SDL_Surface *img);
-        item(const std::string *name, const int baseCost, SDL_Surface *img);
+        //Item(const Item& that);
+        Item(const char *scriptFile, ScriptHandler &sh);
+        //Item(const char *name, const char *imgFile, const double baseCost);
+        Item(const std::string &name, const std::string &imgFile, const double baseCost);
+
+        /* DISABLED
+        void setName(std::string rhs);
+        void setImgFile(std::string rhs);
+        void setBaseCost(const double &rhs);
+        */
+
+        void print();
+        //void registerAtLua(lua_State *state);
 
 };
 

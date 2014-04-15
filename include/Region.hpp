@@ -79,14 +79,11 @@ public:
 };
 
 
-/** @brief Grafo de regiões, a ser posto no @ref World "Mundo"
- * 
- * Grafo das regiões: implementado usando lista de adjacências, 
- * sem peso nas arestas, sem direção.
- */
+
 class RegionGraph {
 private:
 	std::vector<Region*> regions;	///< Vetor de todas as regiões do mundo
+	std::vector<std::vector<bool> > adjacency_matrix;	///< Matriz de adjacência de 
 	
 	/** @brief Acha quantos e quais são os vizinhos da região, os guardando em neighbours e neighbourhood
 	 *

@@ -4,6 +4,8 @@
 #include "SDL/SDL.h"
 #include <iostream>
 
+#include "LuaWBind.hpp"
+
 class Button
 {
     private:
@@ -12,11 +14,13 @@ class Button
         SDL_Rect *window; //parent window offset
         SDL_Surface *imgInactive, *imgActive, *image; //images when the button is active, inactive, and the logic image
         int activated; //holds the number of frames for the button to stay active
-        void (*callback_method)(); //the method called back from the button when it is activated
+        void (*cbk_method)(); //the method called back from the button when it is activated
+        LuaFunction *callback_method; //the method called back from the button when it is activated
 
     public:
         //Creates a button bound to a window, at a relative position (x,y), that calls a method when activated
-        Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, void (*method)());
+        Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, void (*method)() );
+        Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk);
         virtual ~Button();
         //Checks if the mouse is over the button
         bool mouse_try_click (int x, int y);
@@ -29,6 +33,7 @@ class Button
         //Draws the button
         void draw(SDL_Surface* target);
         //Runs the callback method for this button
+        void cbk();
         void callback();
 
         //Static method to allocate memory for an array of buttons
