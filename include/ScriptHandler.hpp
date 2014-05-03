@@ -5,7 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <SDL_image.h>
+#include <SDL/SDL_image.h>
 
 #include "LuaTable.hpp"
 

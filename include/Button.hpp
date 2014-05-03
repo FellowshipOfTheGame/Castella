@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "SDL/SDL.h"
+#include <SDL/SDL.h>
 #include <iostream>
 
 #include "LuaWBind.hpp"

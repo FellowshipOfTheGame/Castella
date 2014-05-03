@@ -60,7 +60,7 @@ private:
 	std::vector<Structure*> inner_structures;	///< estruturas encontradas na região: depende do @ref Region_Type "tipo"
 	//Actor *owner;	///< personagem (ainda não sei o nome da classe) dono da região; se NULL, não há dono
 	/** @brief Diplomacia é o recurso que simboliza a relação entre o jogador e o lorde/prefeito/dono da região.
-	 * 
+	 *
 	 * A diplomacia pode estar boa (positiva), ruim (negativa), ou neutra (zero).
 	 */
 	int diplomacy;
@@ -83,19 +83,19 @@ public:
 class RegionGraph {
 private:
 	std::vector<Region*> regions;	///< Vetor de todas as regiões do mundo
-	std::vector<std::vector<bool> > adjacency_matrix;	///< Matriz de adjacência de 
-	
+	std::vector<std::vector<bool> > adjacency_matrix;	///< Matriz de adjacência de
+
 	/** @brief Acha quantos e quais são os vizinhos da região, os guardando em neighbours e neighbourhood
 	 *
 	 * São possíveis vizinhos a região que estiver a uma distância absoluta máxima de @ref NEIGHBOUR_MAX_DISTANCE
 	 */
 	void findLastNeighbours ();
-	
+
 protected:
 
 public:
 	RegionGraph ();
-	int NewRegion (Region_Type new_type);
+	void NewRegion (Region_Type new_type);
 };
 
 

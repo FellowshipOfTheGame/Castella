@@ -1,10 +1,10 @@
 #ifndef FILEHANDLER_H
 #define FILEHANDLER_H
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_mixer.h"
-#include "simpleSDLfunctions.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
+#include <simpleSDLfunctions.h>
 #include <sstream>
 #include <string>
 #include <vector>
