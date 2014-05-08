@@ -1,4 +1,4 @@
-#include "Scene_Battle.hpp"
+#include <Scene_Battle.hpp>
 
 Scene_Battle::Scene_Battle()
 {

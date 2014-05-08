@@ -1,4 +1,4 @@
-#include "Window_StartMenu.hpp"
+#include <Window_StartMenu.hpp>
 
 Window_StartMenu::Window_StartMenu(){}
 

@@ -1,4 +1,4 @@
-#include "LuaTable.hpp"
+#include <LuaTable.hpp>
 
 using namespace luabind;
 

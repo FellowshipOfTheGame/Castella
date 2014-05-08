@@ -1,15 +1,19 @@
-#include "ScriptHandler.hpp"
+#include <ScriptHandler.hpp>
 #include <string.h>
 #include <memory>
 
+lua_State *ScriptHandler::L = NULL;
+
 ScriptHandler::ScriptHandler(){
     //cout << "-ctor ScriptHandler(string)" << endl;
-    //Set a lua state
-    L = luaL_newstate();
-    //Open lua standard libraries
-    luaL_openlibs(L);
-    //Open luabind libraries
-    luabind::open(L);
+    if ( ScriptHandler::L == NULL ){
+        //Set a lua state
+        L = luaL_newstate();
+        //Open lua standard libraries
+        luaL_openlibs(L);
+        //Open luabind libraries
+        luabind::open(L);
+    }
 }
 
 ScriptHandler::ScriptHandler(std::string script)

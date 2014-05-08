@@ -1,4 +1,4 @@
-#include "simpleSDLfunctions.h"
+#include <simpleSDLfunctions.h>
 
 //################################## FUNÇÔES DE ATALHO ##################################OO
 //Funções para facilitar a aplicação de outras funções, otimizando suas utilizações,

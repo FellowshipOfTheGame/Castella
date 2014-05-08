@@ -1,4 +1,4 @@
-#include "SoundManager.hpp"
+#include <SoundManager.hpp>
 
 #define PI 3.14159265
 #define RELDIST(a, b) ( (a > b) ? (a - b) : (b - a) ) //Calcula a distancia em uma dimensão
@@ -6,17 +6,15 @@
 #define degrees(a) ( (int)(a * 180.0/PI ) ) //Converte um ângulo em radianos para graus.
 #define REMOVE //
 
-#define DEFAULT_CHUNKSIZE 1024
-
 #ifdef NDEBUG
 #define REMOVE
 #endif
 
-SoundManager::SoundManager(){ init(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, DEFAULT_CHUNKSIZE); }
 SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize){ init(frequency, format, superchannels, chunksize); }
 SoundManager::~SoundManager(){ this->terminate(); }
 
 void SoundManager::init(int frequency, Uint16 format, int channels, int chunksize){
+    channels = ( (channels < 2) ? 1:2 );
     if ( Mix_OpenAudio( frequency, format, channels, chunksize ) == -1 )
         REMOVE std::cout << "Mixer: Failed to initialize audio.\n";
     this->currentFrequency = frequency;
@@ -50,19 +48,7 @@ bool SoundManager::isPlaying(int channel){ return Mix_Playing(channel); }
 
 int SoundManager::getPlayingCount(){ return Mix_Playing(-1); }
 
-int SoundManager::getVol(int channel){ return Mix_Volume(channel, -1); }
-
 int SoundManager::reserveChannels(int num){ return Mix_ReserveChannels(num); }
-
-void SoundManager::play(Mix_Chunk *chunk){
-    if( Mix_PlayChannel(-1, chunk, 0) == -1 )
-        REMOVE std::cout << "Mixer: Error while playing chunk.\n";
-}
-
-void SoundManager::play(Mix_Chunk *chunk, int channel){
-    if( Mix_PlayChannel(channel, chunk, 0) == -1 )
-        REMOVE std::cout << "Mixer: Error while playing at channel " << channel << ".\n";
-}
 
 void SoundManager::play(Mix_Chunk *chunk, int channel, int nTimes){
     if( Mix_PlayChannel(channel, chunk, nTimes) == -1)
@@ -71,11 +57,6 @@ void SoundManager::play(Mix_Chunk *chunk, int channel, int nTimes){
 
 void SoundManager::loop(Mix_Chunk *chunk){
     if( Mix_PlayChannel(-1, chunk, -1) == -1)
-        REMOVE std::cout << "Mixer: Error while playing chunk.\n";
-}
-
-void SoundManager::loop(Mix_Chunk *chunk, int nTimes){
-    if( Mix_PlayChannel(-1, chunk, nTimes) == -1)
         REMOVE std::cout << "Mixer: Error while playing chunk.\n";
 }
 
@@ -92,6 +73,7 @@ void SoundManager::stopChannelAfter(int channel, int milisec){ Mix_ExpireChannel
 void SoundManager::fadeOut(int channel, int milisec){ Mix_FadeOutChannel(channel, milisec); }
 void SoundManager::fadeOutAllChannel(int milisec){ Mix_FadeOutChannel(-1, milisec); }
 
+int SoundManager::getVol(int channel){ return Mix_Volume(channel, -1); }
 void SoundManager::setVol(int channel, int vol){ Mix_Volume(channel, vol); }
 void SoundManager::setAllChannelVol(int vol){ Mix_Volume( -1, vol); }
 
@@ -125,10 +107,7 @@ void SoundManager::load(Mix_Chunk *chunk, const char *filename){
     REMOVE if ( chunk == NULL )    std::cout << "Error loading chunk.\n";
 }
 
-void SoundManager::free(Mix_Chunk *chunk){
-    Mix_FreeChunk(chunk);
-    chunk = NULL;
-}
+void SoundManager::free(Mix_Chunk *chunk){  Mix_FreeChunk(chunk); }
 
 int SoundManager::getVol(Mix_Chunk *chunk){ return Mix_VolumeChunk(chunk, -1); }
 
@@ -148,10 +127,8 @@ void SoundManager::load(Mix_Music *pointer, const char *filename){
 
 void SoundManager::free(Mix_Music *pointer){ Mix_FreeMusic(pointer); }
 
-void SoundManager::play(Mix_Music *music){ if ( Mix_PlayMusic(music, 1) == -1 )   REMOVE std::cout << "Mixer: Error while playing music.\n"; }
-
-void SoundManager::loop(Mix_Music *music, int nTimes){
-    if( Mix_PlayMusic(music, nTimes) == -1 )  REMOVE std::cout << "Mixer: Error while playing music " << nTimes << " times\n";
+void SoundManager::play(Mix_Music *music, int nTimes){
+    if ( Mix_PlayMusic(music, nTimes) == -1 )   REMOVE std::cout << "Mixer: Error while playing music.\n" << nTimes << " times\n";
 }
 
 void SoundManager::loop(Mix_Music *music){ if ( Mix_PlayMusic(music, -1) == -1 )   REMOVE std::cout << "Mixer: Error while looping music.\n"; }

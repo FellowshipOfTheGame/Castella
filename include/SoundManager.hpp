@@ -1,4 +1,4 @@
-/*
+/**
 *   O gerenciador de som é responsável por inicializar o sistema de som, alocar canais, obter o formato de som, alocar canais
 * e aplicar efeitos sonoros, também calcula distância entre 2 pontos e o ângulo no sentido horário, partindo de "12 horas" para uso na função
 * setChannelPostion.
@@ -15,12 +15,16 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 
+#define DEFAULT_CHUNKSIZE 1024
+#define DEFAULT_FADEIN_TIME 100
+#define DEFAULT_FADEOUT_TIME 100
+
 class SoundManager
 {
 
     private:
-        int currentFrequency; //Frequência de saída
-        Uint16 currentFormat;  //Formato de som
+        int currentFrequency; ///<Output frequency
+        Uint16 currentFormat;  ///<Sound format
 
 /* Formatos de som suportados
 AUDIO_U8
@@ -46,58 +50,53 @@ AUDIO_S16SYS (Padrão, equivale a MIX_DEFAULT_FORMAT)
 */
 
     public:
-        SoundManager();
-        SoundManager(int frequency, Uint16 format, int superchannels, int chunksize);
+        SoundManager(int frequency = MIX_DEFAULT_FREQUENCY, Uint16 format = MIX_DEFAULT_FORMAT, int superchannels = MIX_DEFAULT_CHANNELS, int chunksize = DEFAULT_CHUNKSIZE);
         ~SoundManager();
 
         void init(int frequency, Uint16 format, int superchannels, int chunksize);
-        //Inicializa o sistema de som do SDL_Mixer, "superchannels": 1 é mono e 2 é stereo, chunksize: tamanho ocupado pelos chunks carregados na memória.
-        void terminate(); //Finaliza o sistema de som
+        ///<Initializes SDL_Mixer, "superchannels": 1 for mono and 2 for stereo, chunksize: size occupied by chunks loaded in the memory.
+        void terminate(); ///<Terminates the SoundManager.
 
-        int getFormat(int *calls, int *frequency, Uint16 *format, int *channels); //Fornece o formato de som atual do sistema.
+        int getFormat(int *calls, int *frequency, Uint16 *format, int *channels); ///<Fornece o formato de som atual do sistema.
 
         //CANAIS INICIO
-        void allocateChannels(int numchans); //Alocar canais de som, neste caso não é mono ou stereo, são os canais que tocam os chunks.
+        void allocateChannels(int numchans); ///<Allocate sound channels, in this case  they are not mono or stereo, they are the channels that play chunks.
 
-        int getChannelNum(); //Fornece a quantidade de canais
+        int getChannelNum(); ///<Returns the number of channels
 
         bool isPlaying(int channel);
         int getPlayingCount();
 
-        int reserveChannels(int num); //Impedir que canais toquem sem ordens diretas (As AllChannel não terão efeito sobre eles)
+        int reserveChannels(int num); ///<Keeps num channels from doing anything without explicit orders (The AllChannel  functions won't work on them)
 
-        void play(Mix_Chunk *chunk);
-        void play(Mix_Chunk *chunk, int channel);
-        void play(Mix_Chunk *chunk, int channel, int nTimes);
+        void play(Mix_Chunk *chunk, int channel = -1, int nTimes = 0);
 
         void loop(Mix_Chunk *chunk);
-        void loop(Mix_Chunk *chunk, int nTimes);
 
-
-        void pause(int channel); //Para temporariamente o som, através de resumeChannel() ela irá continuar a tocar de onde parou
+        void pause(int channel); ///<Pauses the sound. Through resumeChannel() it continues to play.
         void pauseAllChannel();
 
         void resume(int channel);
         void resumeAllChannel();
 
-        void stop(int channel); //Para o som sem retorno e chama Mix_ChannelFinished se necessário.
+        void stop(int channel); ///<Stops the sound and calls Mix_ChannelFinished if necessary (in this case resumeChannel() won't work ).
         void stopAllChannel();
-        void stopChannelAfter(int channel, int milisec); //Para o canal após milisec milisegundos
+        void stopChannelAfter(int channel, int milisec); ///<Stops channel after milisec.
 
-        void fadeOut(int channel, int milisec); //Gradualmente remove o som no tempo milisec
+        void fadeOut(int channel, int milisec); ///<Reduces channel volume to 0 during milisec.
         void fadeOutAllChannel(int milisec);
 
         int getVol(int channel);
         void setVol(int channel, int vol);
         void setAllChannelVol(int vol);
 
-        void setPos(int channel, Sint16 angle, Uint8 distance); //Define a posição do som em relação ao ouvinte
-        void setDefaultPos(int channel); //Desativa o efeito de ṕosição.
+        void setPos(int channel, Sint16 angle, Uint8 distance); ///<Sets sound position relative to the listener.
+        void setDefaultPos(int channel); ///<Deactivates position effect.
 
-        void setPanning(int channel, Uint8 pos); //Define o "panning" do canal, quão intenso o som irá soar em cada "supercanal".
-        void setDefaultPanning(int channel); //Desativa o efeito de panning.
+        void setPanning(int channel, Uint8 pos); ///<Sets channel panning, how intense sound will be on each "superchannel".
+        void setDefaultPanning(int channel); ///<Deactivates panning effect.
 
-        void setReverseStereo(int channel, bool activated); //Inverte os "supercanais" Esq <-> Dir ou  Dir<->Esq
+        void setReverseStereo(int channel, bool activated); ///<Inverte os "supercanais" Esq <-> Dir ou  Dir<->Esq
 
         //CANAIS FIM
 
@@ -115,8 +114,7 @@ AUDIO_S16SYS (Padrão, equivale a MIX_DEFAULT_FORMAT)
         void load(Mix_Music *pointer, const char *filename);
         void free(Mix_Music *pointer);
 
-        void play(Mix_Music *music);
-        void loop(Mix_Music *music, int nTimes);
+        void play(Mix_Music *music, int nTimes = 0);
         void loop(Mix_Music *music);
 
         void pause();
@@ -125,17 +123,17 @@ AUDIO_S16SYS (Padrão, equivale a MIX_DEFAULT_FORMAT)
 
         void stop();
 
-        void fadeIn(Mix_Music *music, int nTimes, int milisec); //Faz um fade de duração milisec
-        void fadeInLoop(Mix_Music *music, int milisec);
+        void fadeIn(Mix_Music *music, int nTimes = 0, int milisec = DEFAULT_FADEIN_TIME); ///<Plays music while increasing it's volume from 0 to default, during milisec
+        void fadeInLoop(Mix_Music *music, int milisec = DEFAULT_CHUNKSIZE);
 
-        void fadeOut(int milisec);
+        void fadeOut(int milisec = DEFAULT_FADEOUT_TIME);
 
         int getVol();
         void setVol(int vol);
         //MÚSICA FIM
 
-        int getAngle(int x1, int y1, int x2, int y2); //Calcula o ângulo em que o som é produzido, a partir das 12 horas, no sentido horário, lembra um pouco coordenadas polares.
-        int getDistance(int xL, int yL, int x2, int y2); //Calcula a distância entre o ouvinte (listener) e o local em que ocorreu o som, seria o raio da coordenada polar.
+        int getAngle(int x1, int y1, int x2, int y2); ///<Returns the angle where sound must be produced, from 12 hours, clockwise, it's close to polar coordinates.
+        int getDistance(int xL, int yL, int x2, int y2); ///<Calculates the distance between the listener and the sound production, would be the radius of polar coordinates.
 
 };
 

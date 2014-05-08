@@ -1,9 +1,9 @@
-#include "Scene_World.hpp"
+#include <Scene_World.hpp>
 
 Scene_World::Scene_World()
 {
     SceneControl::set_cur(SceneControl::SCENE_WORLD);
-    windows.push_back(new Window("newgame"));
+    windows.push_back(new Window("newgame.lua"));
 }
 
 Scene_World::~Scene_World()

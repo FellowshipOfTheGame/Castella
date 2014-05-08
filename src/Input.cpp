@@ -1,4 +1,4 @@
-#include "Input.hpp"
+#include <Input.hpp>
 
 int Input::get_input(){
     //Next input to be popped

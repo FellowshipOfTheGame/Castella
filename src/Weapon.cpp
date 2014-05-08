@@ -1,4 +1,4 @@
-#include "Weapon.hpp"
+#include <Weapon.hpp>
 
 Weapon::Weapon(const Weapon &that) : Item( that ) {
     this->damage = that.damage;

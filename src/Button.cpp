@@ -1,5 +1,5 @@
-#include "Button.hpp"
-#include "simpleSDLfunctions.h"
+#include <Button.hpp>
+#include <simpleSDLfunctions.h>
 
 
 Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk) {
@@ -48,7 +48,8 @@ bool Button::mouse_try_click (int x, int y){
 void Button::activate(){
     image = imgActive;
     activated = 8;
-    callback();
+    std::cout << "Aqui =D\n";
+    cbk();
 }
 
 void Button::deactivate(){

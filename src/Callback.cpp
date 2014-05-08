@@ -1,8 +1,8 @@
-#include "Callback.hpp"
+#include <Callback.hpp>
 
 #include <stdlib.h>
-#include "GameStructure.hpp"
-#include "SceneControl.hpp"
+#include <GameStructure.hpp>
+#include <SceneControl.hpp>
 
 Callback::Callback()
 {

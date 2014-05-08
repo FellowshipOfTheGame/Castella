@@ -1,4 +1,4 @@
-#include "Structure.hpp"
+#include <Structure.hpp>
 
 /* * * * * * * * * *
  * ESTRUTURA ctor  *

@@ -1,8 +1,8 @@
 /*This piece of code was originally from Lazy Foo' Productions
 (http://lazyfoo.net/)*/
 
-#include "Timer.hpp"
-#include "SDL/SDL.h"
+#include <Timer.hpp>
+#include <SDL/SDL.h>
 
 Timer::Timer()
 {

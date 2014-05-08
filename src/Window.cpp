@@ -1,4 +1,4 @@
-#include "Window.hpp"
+#include <Window.hpp>
 using std::cout;
 using std::endl;
 
@@ -11,6 +11,7 @@ Window::Window(int x, int y)
 
 Window::Window(const char *scriptFile, ScriptHandler &sh ) {
     Callback ok;
+
     ok.registerCallbacks( sh.state() );
     sh.send<int>(Screen::WIDTH, "ScreenWidth");
     sh.send<int>(Screen::HEIGHT, "ScreenHeight");
@@ -105,14 +106,13 @@ void Window::elements_setup(){
         imgIname += (const char*)sHandler->table_element_fromLua(i, 2);
         imgAname += (const char*)sHandler->table_element_fromLua(i, 3);
         cbk = (int)sHandler->table_element_fromLua(i, 4);
-
-        //std::cout << "x: " << x << "  -  y: " << y << "  -  imgI: " << imgIname << "  -  imgA: " << imgAname << "  -  cbk: " << cbk << std::endl;
+        //std::cout << "x: " << x << " - y: " << y << " - imgI: " << imgIname << " - imgA: " << imgAname << " - cbk: " << cbk << std::endl;
         //Loads the images to SDL_Surface
         SDL_Surface *imgInactive = NULL, *imgActive = NULL;
         imgInactive = files.push(imgIname.c_str()); //load_image(&imgInactive, (char*)imgIname.c_str());
         imgActive = files.push(imgAname.c_str()); //load_image(&imgActive, (char*)imgAname.c_str());
         //Makes the button and pushes to the list
-        buttonList[i] = Button( &rect, x, y, imgInactive, imgActive, Callback::callback(cbk) );
+        buttonList[i] = Button(&rect, x, y, imgInactive, imgActive, Callback::callback(cbk));
     }
 }
 

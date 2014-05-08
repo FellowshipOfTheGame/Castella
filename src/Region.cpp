@@ -1,4 +1,4 @@
-#include "Region.hpp"
+#include <Region.hpp>
 
 /* * * * * * * * * * * *
  * REGIÃO ctor e dtor  *
@@ -73,16 +73,16 @@ int Region::Distance (Region *region) {
  * GRAFO DAS REGIÕES   *
  * * * * * * * * * * * */
 RegionGraph::RegionGraph () {
-	
+
 }
 
 
-int RegionGraph::NewRegion (Region_Type new_type) {
+void RegionGraph::NewRegion (Region_Type new_type) {
 	// mais uma região!
 	Region* aux = new Region (new_type);
 	// e guarda ela lá no grafo
 	regions.push_back (aux);
-	
+
 	// aumenta a matriz de arestas
 	int size = adjacency_matrix.size ();
 	adjacency_matrix.resize (++size);
@@ -101,7 +101,7 @@ void RegionGraph::findLastNeighbours () {
 	for (int i = 0; i < last; i++) {
 		// se for mesmo vizinho
 		aux = (regions[i]->Distance (regions[last]) < NEIGHBOUR_MAX_DISTANCE) ? true : false;
-		
+
 		adjacency_matrix[i][last] = adjacency_matrix[last][i] = aux;
 	}
 }
