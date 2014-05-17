@@ -9,15 +9,17 @@ Window::Window(int x, int y)
 //    sHandler = NULL; //not to let methods call on unallocated script
 }
 
-Window::Window(const char *scriptFile, ScriptHandler &sh ) {
-    Callback ok;
+Window::Window(std::string scriptFile) : sHandler(Window::scriptPath + scriptFile){
 
-    ok.registerCallbacks( sh.state() );
-    sh.send<int>(Screen::WIDTH, "ScreenWidth");
-    sh.send<int>(Screen::HEIGHT, "ScreenHeight");
-    luaL_dofile(sh.state(), scriptFile);
+    //Registers the needed variables and runs the code.
+    //Warning if the Callbacks are already registered at that lua state bad things may happen.
+    Callback::registerCallbacks(sHandler.L);
+    sHandler.send<int>(Screen::WIDTH, "ScreenWidth");
+    sHandler.send<int>(Screen::HEIGHT, "ScreenHeight");
+    sHandler.run_lua();
 
-    LuaTable table = sh.getTable("window");
+    //Creates a rect from the window table
+    LuaTable table = sHandler.getTable("window");
     rect.x = table.getInt("x");
     rect.y = table.getInt("y");
     rect.w = table.getInt("w");
@@ -28,124 +30,46 @@ Window::Window(const char *scriptFile, ScriptHandler &sh ) {
     windowSkin = files.push("images/windowskin.png");
     wSurface = ImageHandler::make_window(rect, windowSkin);
     //Setup elements
-    cout << "start elements-setup(state)" << endl;
-    elements_setup(sh);
-    cout << "end elements-setup(state)" << endl;
-}
-
-Window::Window(std::string script){
-    cout << "-ctor Window(string)" << endl;
-    //Set the lua script path
-    script = scriptPath+script;
-    cout << "start ScriptHandler(script)" << endl;
-    sHandler = new ScriptHandler(script);
-    cout << "end ScriptHandler(script)" << endl;
-    sHandler->variable_toLua(Screen::WIDTH, "ScreenWidth");
-    sHandler->variable_toLua(Screen::WIDTH, "ScreenHeight");
-    sHandler->run_lua(); //gets lua variables to the table (metatable?)
-    rect.x = (int)sHandler->variable_fromLua("wX");
-    rect.y = (int)sHandler->variable_fromLua("wY");
-    rect.w = sHandler->variable_fromLua("wW");
-    rect.h = sHandler->variable_fromLua("wH");
-    //Set window skin
-    SDL_Surface *windowSkin = NULL;
-    windowSkin = files.push("images/windowskin.png");
-    wSurface = ImageHandler::make_window(rect, windowSkin);
-    //Setup elements
     cout << "start elements-setup()" << endl;
     elements_setup();
     cout << "end elements-setup()" << endl;
-    sHandler->~ScriptHandler();
-    //sHandler.close(); //FIXME - it may not be necessary
 }
 
 Window::~Window(){
     SDL_FreeSurface(wSurface);
+    delete [] buttonList;
     cout << "dtor Window" << endl;
 }//dtor
 
-/*
-void Window::elements_setup(lua_State *state){
-    //Get button count from the script
-    buttonCount = to_cInt(luabind::globals(state), "buttonCount");
-    buttonList = Button::create_button_list(buttonCount);
-    //Builds each button on the window
-
-    //Definition of parameters to be passed to the button
-    LuaTable button, buttonTable = to_luaTable(luabind::globals(state), "buttons");
-    std::string path(buttonImgPath);
-
-    for(int i=0; i<buttonCount; i++){
-        //Get parameters from the window script
-        button = to_luaTable(buttonTable, i+1);
-        path += to_cString(button, 3);
-        button[3] = path.c_str();
-        path += to_cString(button, 4);
-        button[4] = path.c_str();
-        button[5] = cbk = to_cInt(button, 5);
-        //std::cout << "x: " << x << "  -  y: " << y << "  -  imgI: " << imgIname << "  -  imgA: " << imgAname << "  -  cbk: " << cbk << std::endl;
-        //Makes the button and pushes to the list
-        buttonList[i] = Button(&rect, button);
-    }
-}
-*/
-
 void Window::elements_setup(){
     //Get button count from the script
-    buttonCount = (int)sHandler->variable_fromLua("buttonCount");
-    buttonList = Button::create_button_list(buttonCount);
-    //Builds each button on the window
-    for(int i=0; i<buttonCount; i++){
-        //Definition of parameters to be passed to the button
-        int x, y, cbk;
-        std::string imgIname = buttonImgPath;
-        std::string imgAname = buttonImgPath;
-        //Get parameters from the window script
-        x = (int)sHandler->table_element_fromLua(i, 0); //+1: lua starts index from 1
-        y = (int)sHandler->table_element_fromLua(i, 1);
-        imgIname += (const char*)sHandler->table_element_fromLua(i, 2);
-        imgAname += (const char*)sHandler->table_element_fromLua(i, 3);
-        cbk = (int)sHandler->table_element_fromLua(i, 4);
-        //std::cout << "x: " << x << " - y: " << y << " - imgI: " << imgIname << " - imgA: " << imgAname << " - cbk: " << cbk << std::endl;
-        //Loads the images to SDL_Surface
-        SDL_Surface *imgInactive = NULL, *imgActive = NULL;
-        imgInactive = files.push(imgIname.c_str()); //load_image(&imgInactive, (char*)imgIname.c_str());
-        imgActive = files.push(imgAname.c_str()); //load_image(&imgActive, (char*)imgAname.c_str());
-        //Makes the button and pushes to the list
-        buttonList[i] = Button(&rect, x, y, imgInactive, imgActive, Callback::callback(cbk));
-    }
-}
-
-void Window::elements_setup(ScriptHandler &sh){
-    //Get button count from the script
-    buttonCount = sh.get<int>("buttonCount");
+    buttonCount = sHandler.get<int>("buttonCount");
     cout << "count = " << buttonCount << endl;
+    
+    //Allocate memory for the buttonlist
     buttonList = Button::create_button_list(buttonCount);
-    //Builds each button on the window
+    
+    //Build each button on the window
     std::string imgIname, imgAname;
-    //AQint x, y;
-    LuaTable button, buttons = sh.getTable("buttons");
-    //AQLuaObject cbk;
+    //Get the buttons table from lua.
+    LuaTable button, buttons = sHandler.getTable("buttons");
     SDL_Surface *imgInactive = NULL, *imgActive = NULL;
+    
     cout << "beginning loop" << endl;
     for(int i=0; i<buttonCount; i++) {
         button = buttons.getLuaTable(i+1);
         imgIname = imgAname = buttonImgPath;
         //Definition of parameters to be passed to the button
         //Get parameters from the window script
-        /*AQx = button.getInt(1);
-        y = button.getInt(2);*/
         imgIname += button.getString(3);
         imgAname += button.getString(4);
-        //AQcbk = button.getLuaType(5);
-        //AQcout << x << " -> " << y << " -> " << imgIname << " -> " << imgAname << endl;
 
         //Loads the images to SDL_Surface
-        imgInactive = files.push(imgIname.c_str()); //load_image(&imgInactive, (char*)imgIname.c_str());
-        imgActive = files.push(imgAname.c_str()); //load_image(&imgActive, (char*)imgAname.c_str());
-        //Makes the button and pushes to the list
-
-        buttonList[i] = Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive, button.getLuaType(5) );
+        imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
+        imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
+        
+        buttonList[i] = Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive, 
+                                        button.getLuaType(5) );
     }
 }
 

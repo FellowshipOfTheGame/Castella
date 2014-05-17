@@ -12,7 +12,7 @@ class Callback
         Callback(lua_State *L);
         virtual ~Callback();
 
-        void registerCallbacks(lua_State *L);
+        static void registerCallbacks(lua_State *L);
 
         static void game_start();
         static void game_load();
@@ -21,6 +21,8 @@ class Callback
         static void start_battle();
 
         static funcPointer callback(int i);
+	
+	//static const std::string callbackPath;
 
     protected:
     private:

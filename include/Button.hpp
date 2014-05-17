@@ -1,6 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+#include <cstdlib>
 #include <SDL/SDL.h>
 #include <iostream>
 
@@ -14,12 +15,11 @@ class Button
         SDL_Rect *window; //parent window offset
         SDL_Surface *imgInactive, *imgActive, *image; //images when the button is active, inactive, and the logic image
         int activated; //holds the number of frames for the button to stay active
-        void (*cbk_method)(); //the method called back from the button when it is activated
-        LuaFunction *callback_method; //the method called back from the button when it is activated
+        LuaFunction callback; //the method called back from the button when it is activated
 
     public:
+	Button();
         //Creates a button bound to a window, at a relative position (x,y), that calls a method when activated
-        Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, void (*method)() );
         Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk);
         virtual ~Button();
         //Checks if the mouse is over the button
@@ -32,9 +32,6 @@ class Button
         void update();
         //Draws the button
         void draw(SDL_Surface* target);
-        //Runs the callback method for this button
-        void cbk();
-        void callback();
 
         //Static method to allocate memory for an array of buttons
         static Button* create_button_list(int buttonCount);

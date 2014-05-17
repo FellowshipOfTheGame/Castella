@@ -3,7 +3,7 @@
 # algumas opcoes de ambiente pra compilar os trem
 env = Environment (
 	CC = 'cc',
-	CCFLAGS = '-g -Wall -pipe -fpermissive',
+	CCFLAGS = '-g -Wall -pipe',
 	LIBPATH = ['/usr/lib', '/usr/local/lib' , './libs'],
 	LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'luabindd'],
 	CPPPATH = ['../include', '/usr/include/SDL']

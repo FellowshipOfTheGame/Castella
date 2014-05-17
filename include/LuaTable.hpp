@@ -1,9 +1,14 @@
 #ifndef LUATABLE_HPP
 #define LUATABLE_HPP
 
+#include <cstdio>
 #include <string>
 
 #include "LuaWBind.hpp"
+
+/**
+* This class works as a wrapper for the luabind::objects that are tables, making it easier to retrieve values.
+*/
 
 class LuaTable
 {

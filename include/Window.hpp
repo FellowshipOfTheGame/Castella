@@ -25,9 +25,7 @@ class Window
     public:
         Window();
         Window(int x, int y); //ctor with window position as parameter
-        //Window(const std::string &scriptFile, lua_State *state );
-        Window(std::string script); //ctor with a lua script as parameter
-        Window(const char *scriptFile, ScriptHandler &sh );
+        Window(std::string scriptFile);
         virtual ~Window();
 
         //Sets the window position
@@ -49,14 +47,13 @@ class Window
         bool visible; //visibility of the window - to implement
         static const std::string scriptPath;
         static const std::string buttonImgPath;
-        ScriptHandler *sHandler;
+        ScriptHandler sHandler;
 
         FileContainer files;
 
         //Setup elements - such as buttons
-        virtual void elements_setup(ScriptHandler &sh );
-        //virtual void elements_setup(lua_State *state);
         virtual void elements_setup();
+        //virtual void elements_setup(lua_State *state);
         //Checks if the mouse is inside the window
         bool is_mouse_inside(int x, int y);
 

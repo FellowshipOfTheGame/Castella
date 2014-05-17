@@ -1,23 +1,10 @@
 #include <Button.hpp>
 #include <simpleSDLfunctions.h>
 
+Button::Button(){};
 
 Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk) {
-    callback_method = new LuaObject(cbk);
-    this->imgInactive = imgInactive;
-    this->imgActive = imgActive;
-    this->window = window;
-    windowRelativeOffset.x = x;
-    windowRelativeOffset.y = y;
-    box.x = windowRelativeOffset.x + window->x;
-    box.y = windowRelativeOffset.y + window->y;
-    box.w = this->imgInactive->w;
-    box.h = this->imgInactive->h;
-    deactivate();
-}
-
-Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, void (*method)()) {
-    cbk_method = method;
+    callback = cbk;
     this->imgInactive = imgInactive;
     this->imgActive = imgActive;
     this->window = window;
@@ -31,6 +18,7 @@ Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Sur
 }
 
 Button::~Button(){
+    std::cout << "Buttton dtor" << std::endl;
     //dtor
 }
 
@@ -49,7 +37,13 @@ void Button::activate(){
     image = imgActive;
     activated = 8;
     std::cout << "Aqui =D\n";
-    cbk();
+    try{
+		callback();
+    }
+    catch(luabind::error& e){
+		std::cout << "Error calling Luafunction: " << lua_tostring(e.state(), -1) << std::endl;
+    }
+    
 }
 
 void Button::deactivate(){
@@ -70,17 +64,7 @@ void Button::draw(SDL_Surface* target){
     apply_surface(box.x, box.y, image, target);
 }
 
-void Button::cbk(){
-    cbk_method();
-}
-
-void Button::callback(){
-    using namespace std;
-    using namespace luabind;
-    //call_function<void>( *callback_method )[adopt(result)];
-    (*callback_method)()[discard_result];
-}
-
 Button* Button::create_button_list(int buttonCount){
-    return (Button *) malloc( buttonCount * sizeof(Button) );
+    return new Button[buttonCount];
+    //return (Button *) malloc( buttonCount * sizeof(Button) );
 }

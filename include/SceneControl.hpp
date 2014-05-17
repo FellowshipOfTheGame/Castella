@@ -8,7 +8,7 @@ class SceneControl
             SCENE_NULL,
             SCENE_START_MENU,
             SCENE_WORLD,
-			SCENE_REGION,
+            SCENE_REGION,
             SCENE_BATTLE,
             SCENE_EDITOR,
             END
