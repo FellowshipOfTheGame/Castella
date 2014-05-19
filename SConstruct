@@ -1,17 +1,42 @@
 # SCons pra construir o jogo Castella!
 
-# algumas opcoes de ambiente pra compilar os trem
-env = Environment (
-	CC = 'cc',
-	CCFLAGS = '-g -Wall -pipe',
-	LIBPATH = ['/usr/lib', '/usr/local/lib' , './libs'],
-	LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'luabindd'],
-	CPPPATH = ['../include', '/usr/include/SDL']
-)
+import sys
 
-# so recompila se for mais novo e se o arquivo objeto mudaria
-env.Decider ('MD5-timestamp')
+Help ("""
+Para compilar o projeto, escreva 'scons' na linha de comando.
+Para apagar os objetos criados, assim como o executavel, use o comando 'scons -c'
+""")
 
-# constroi de 'src' pra 'build', sem duplicar os .cpp
-VariantDir ('build', 'src', duplicate = 0)
-SConscript ('build/SConscript', exports = 'env')	# script interno, que manda compilar na real o jogo
+if not GetOption ('help'):
+	# algumas opcoes de ambiente pra compilar os trem
+	env = Environment (
+		CC = 'g++',
+		CCFLAGS = '-g -Wall -pipe -fpermissive',
+		LIBPATH = ['/usr/lib'],
+		LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'luabindd'],
+		CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/'],
+	)
+
+	# define umas cores, pra ficar mais bonito hora de escrever mensagens no terminal
+	if sys.stdout.isatty:
+		vermelho = '\033[91m'
+		normal = '\033[0m'
+	else:
+		vermelho = ''
+		normal = ''
+
+	# Configuracaozinha: serve pra achar as dependencias; so serve se pedir pra construir
+	if not GetOption ('clean'):
+		conf = Configure (env)
+		if not conf.CheckLib ('luabindd'):
+			print ('%sLuabindd nao encontrado no sistema; Usando versao dinamica no pacote%s' % (vermelho, normal))
+			conf.env.Append (LIBPATH = '#libs')
+
+		env = conf.Finish ()
+
+	# so recompila se for mais novo e se o arquivo objeto mudaria
+	env.Decider ('MD5-timestamp')
+
+	# constroi de 'src' pra 'build', sem duplicar os .cpp
+	VariantDir ('build', 'src', duplicate = 0)
+	SConscript ('build/SConscript', exports = 'env')	# script interno, que manda compilar na real o jogo

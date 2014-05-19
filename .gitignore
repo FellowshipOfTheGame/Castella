@@ -31,9 +31,10 @@ Casttela/build/Debug/GNU-Linux-x86/main.o
 Casttela/Makefile
 Casttela/.dep.inc
 
+build/
+
 # coisas do Zumbi (Gil)
-*kdev*
-cleanUselessStuff.sh
+*scon*
 
 # Mercurial
 *hg*
