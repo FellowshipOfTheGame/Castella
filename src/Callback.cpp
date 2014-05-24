@@ -10,11 +10,6 @@ Callback::Callback()
     //ctor
 }
 
-Callback::Callback(lua_State *L) {
-	assert( L != NULL );
-    Callback::registerCallbacks(L);
-}
-
 Callback::~Callback()
 {
     //dtor
@@ -47,40 +42,11 @@ void Callback::registerCallbacks( lua_State *L ) {
 	assert( L != NULL );
     using namespace luabind;
     module( L ) [
-	    /*class_<Callback>("Callback")
-		.scope[*/
-		    def("game_start", &Callback::game_start),
-		    def("game_quit", &Callback::game_quit),
-		    def("game_load", &Callback::game_load),
-		    def("start_battle", &Callback::start_battle)
-		//] 
-    ];/*
-	class_<State>("State")
-	    .enum_("GameStates")[
-		value("NULL_STATE", State::NULL_STATE),
-		value("MAIN", State::MAIN),
-		value("WORLD", State::WORLD),
-		value("DIPLOMACY", State::DIPLOMACY),
-		value("QUIT", State::QUIT)
-	    ],
-        class_<SceneControl>("SceneControl")
-	    .scope[
-		def("set_next", &SceneControl::set_next)
-            ]
-	    .enum_("Scenes")[
-		value("SCENE_NULL", SceneControl::SCENE_NULL),
-		value("SCENE_START_MENU", SceneControl::SCENE_START_MENU),
-                value("SCENE_WORLD", SceneControl::SCENE_WORLD),
-                value("SCENE_REGION", SceneControl::SCENE_REGION),
-                value("SCENE_BATTLE", SceneControl::SCENE_BATTLE),
-                value("SCENE_EDITOR", SceneControl::SCENE_EDITOR),
-                value("END", SceneControl::END)
-	    ],
-	class_<GameVar>("GameVar")
-	    .def("set_State", (int(GameVar::*) (const int)) &GameVar::set_State)
+		    def("jogo_iniciar", &Callback::game_start),
+		    def("jogo_sair", &Callback::game_quit),
+		    def("jogo_carregar", &Callback::game_load),
+		    def("batalha_iniciar", &Callback::start_battle)
     ];
-    std::string file(Callback::callbackPath + "regCallback.lua");
-    if( luaL_dofile( L, file.c_str() ) ) std::cout << "Error registering callbacks" << std::endl;*/
 }
 
 funcPointer Callback::callback(int i){

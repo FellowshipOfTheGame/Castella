@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include <Weapon.hpp>
 #include <Window.hpp>
 
 #include <Game.hpp>

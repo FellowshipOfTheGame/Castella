@@ -25,7 +25,7 @@ class Window
     public:
         Window();
         Window(int x, int y); //ctor with window position as parameter
-        Window(std::string scriptFile);
+        Window(const std::string scriptFile);
         virtual ~Window();
 
         //Sets the window position

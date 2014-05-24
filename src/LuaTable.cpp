@@ -1,3 +1,4 @@
+#include <cassert>
 #include <LuaTable.hpp>
 
 using namespace luabind;
@@ -5,8 +6,8 @@ using namespace luabind;
 LuaTable::LuaTable() {}
 
 LuaTable::LuaTable(LuaObject obj) {
-    if ( type(obj) == LUA_TTABLE ) { table = obj; }
-    else std::cout << "Warning ! Failed to create luatable !" << std::endl;
+    assert( type(obj) == LUA_TTABLE ); 
+	table = obj;
 }
 
 int LuaTable::getInt(int key) { return object_cast<int>( table[key] ); }
@@ -27,15 +28,15 @@ LuaObject LuaTable::getLuaType(const char *key) { return table[key]; }
 LuaTable LuaTable::getLuaTable(int key) { return LuaTable( table[key] ); }
 LuaTable LuaTable::getLuaTable(const char *key) { return LuaTable( table[key] ); }
 
-const LuaTable& LuaTable::operator=(const LuaObject &rhs) {
-    if ( type(rhs) == LUA_TTABLE ) { this->table = rhs; }
-    else std::cout << "Warning ! Failed to get luatable operator= LuaTable" << std::endl;
+const LuaTable& LuaTable::operator=(const LuaObject rhs) {
+    assert( type(rhs) == LUA_TTABLE );
+	this->table = rhs;
     return *this;
 }
 
 const LuaTable& LuaTable::operator=(const LuaTable &rhs) {
-    if ( type(rhs.table) == LUA_TTABLE ) { this->table = rhs.table; }
-    else std::cout << "Warning ! Failed to get luatable operator= LuaTable" << std::endl;
+    assert( type(rhs.table) == LUA_TTABLE ); 
+	this->table = rhs.table;
     return *this;
 }
 

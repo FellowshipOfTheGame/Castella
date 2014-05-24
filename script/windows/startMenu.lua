@@ -1,21 +1,18 @@
 
---Window (x, y, Width, Height):
-window = 
-{ 
-	x = (ScreenWidth/2 - 160), 
-	y = 320, 
-	w = 320, 
-	h = 999  
+--Janela {x, y, w, h}:
+janela = { 
+	x = (ScreenWidth/2 - 160), --Posição na horizontal (esquerda da tela: 0, aumentando p/ a direita)
+	y = 320, --Posição na vertical (no topo da tela: 0, aumentando p/ baixo)
+	w = 320, --Comprimento
+	h = 999  --Altura
 }
 
---Buttons ( x, y, img, imgA, callback )
-b1 = {0, 0, "buttonStart.png", "buttonStartA.png", game_start}
-b2 = {0, 100, "buttonLoad.png", "buttonLoadA.png", game_load}
-b3 = {0, 200, "buttonQuit.png", "buttonQuitA.png", game_quit}
+--Botões { x, y, imagem, imagemAtivo, ação do botão }:
+b1 = {0, 0, "buttonStart.png", "buttonStartA.png", jogo_iniciar}
+b2 = {0, 100, "buttonLoad.png", "buttonLoadA.png", jogo_carregar}
+b3 = {0, 200, "buttonQuit.png", "buttonQuitA.png", jogo_sair}
 
-buttons = {b1, b2, b3}
+botoes = {b1, b2, b3}
 
-
-
--- Return values to C
-buttonCount = #buttons
+--Contar botões
+nBotoes = #botoes

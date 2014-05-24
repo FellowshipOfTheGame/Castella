@@ -38,7 +38,7 @@ class LuaTable
         LuaTable getLuaTable(int key);
         LuaTable getLuaTable(const char *key);
 
-        const LuaTable& operator=(const LuaObject &obj);
+        const LuaTable& operator=(const LuaObject obj);
         const LuaTable& operator=(const LuaTable &obj);
 
         LuaObject operator[](int key);

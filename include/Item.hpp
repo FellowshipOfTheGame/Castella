@@ -1,5 +1,6 @@
-/*
-*   Um esboço dos itens, todos os ítens tem em comum: nome, preço e um sprite.
+/**
+* @brief Base para os itens do jogo.
+* Um esboço dos ítens, todos os ítens tem em comum: nome, preço e um sprite.
 */
 
 #ifndef ITEM_HPP
@@ -21,21 +22,15 @@ class Item
         double baseCost;
         SDL_Surface *img;
 
+	protected:
+		static const std::string scriptPath;
+		
     public:
-        //Item(const Item& that);
-        Item(const char *scriptFile, ScriptHandler &sh);
-        //Item(const char *name, const char *imgFile, const double baseCost);
-        Item(const std::string &name, const std::string &imgFile, const double baseCost);
-
-        /* DISABLED
-        void setName(std::string rhs);
-        void setImgFile(std::string rhs);
-        void setBaseCost(const double &rhs);
-        */
-
-        void print();
-        //void registerAtLua(lua_State *state);
-
+        Item(const std::string scriptFile);
+        Item(const std::string name = "none", const std::string imgFile = "none", const double baseCost = 0.0);
+		
+		void buildItem(LuaTable &item);
+		
 };
 
 #endif

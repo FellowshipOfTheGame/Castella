@@ -65,7 +65,7 @@ void ScriptHandler::load(std::string script){
 void ScriptHandler::run_lua(){
     //Execute lua chunk and checks for error
 	checkState();
-    if(lua_pcall(L, 0, LUA_MULTRET, 0)){
+    if( lua_pcall(L, 0, LUA_MULTRET, 0) ){
         //Error
         std::cerr << "Error trying to run lua" << lua_tostring(L, -1) << std::endl;
     }
@@ -77,5 +77,3 @@ void ScriptHandler::close(){
 		L = NULL;
 	}
 }
-
-#undef checkState()

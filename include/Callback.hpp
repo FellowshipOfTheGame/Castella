@@ -9,7 +9,6 @@ class Callback
 {
     public:
         Callback();
-        Callback(lua_State *L);
         virtual ~Callback();
 
         static void registerCallbacks(lua_State *L);

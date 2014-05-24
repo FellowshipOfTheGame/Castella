@@ -9,7 +9,7 @@ Window::Window(int x, int y)
 //    sHandler = NULL; //not to let methods call on unallocated script
 }
 
-Window::Window(std::string scriptFile) : sHandler(Window::scriptPath + scriptFile){
+Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scriptFile){
 
     //Registers the needed variables and runs the code.
     //Warning if the Callbacks are already registered at that lua state bad things may happen.
@@ -19,7 +19,7 @@ Window::Window(std::string scriptFile) : sHandler(Window::scriptPath + scriptFil
     sHandler.run_lua();
 
     //Creates a rect from the window table
-    LuaTable table = sHandler.getTable("window");
+    LuaTable table = sHandler.getTable("janela");
     rect.x = table.getInt("x");
     rect.y = table.getInt("y");
     rect.w = table.getInt("w");
@@ -43,7 +43,7 @@ Window::~Window(){
 
 void Window::elements_setup(){
     //Get button count from the script
-    buttonCount = sHandler.get<int>("buttonCount");
+    buttonCount = sHandler.get<int>("nBotoes");
     cout << "count = " << buttonCount << endl;
     
     //Allocate memory for the buttonlist
@@ -52,7 +52,7 @@ void Window::elements_setup(){
     //Build each button on the window
     std::string imgIname, imgAname;
     //Get the buttons table from lua.
-    LuaTable button, buttons = sHandler.getTable("buttons");
+    LuaTable button, buttons = sHandler.getTable("botoes");
     SDL_Surface *imgInactive = NULL, *imgActive = NULL;
     
     cout << "beginning loop" << endl;
