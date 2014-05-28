@@ -8,6 +8,10 @@ Structure::Structure () {
 }
 
 
+Structure::~Structure () {
+	
+}
+
 
 
 Throne::Throne () {

@@ -2,7 +2,7 @@
 #define WORLD_H
 
 
-#include "Region.hpp"
+#include <Region.hpp>
 
 /** @brief Mundo do Castella!
  * 
@@ -23,7 +23,7 @@ class World
 
         static World* world;	///< Ponteiro eterno para o único mundo: NULL, se ainda não existir
         
-        RegionGraph all_regions;	///< Grafo contendo todas as regiões do mundo
+		RegionGraph regionMap;	///< Grafo contendo todas as regiões do mundo
 };
 
 #endif // WORLD_H
