@@ -8,6 +8,7 @@
 #define _CASTELLA_STRUCTURE_HPP_
 
 #include <string>
+#include <iostream>
 
 
 /** Enum do tipo da estrutura */
@@ -26,6 +27,8 @@ enum Structure_Type {
 /** @brief As estruturas dentro das regiões
  *
  * @sa Region.hpp
+ * 
+ * @todo Dtor
  */
 class Structure {
 private:
@@ -35,6 +38,7 @@ protected:
 
 public:
 	Structure ();	///< Ctor
+	~Structure ();	///< Dtor
 };
 
 
