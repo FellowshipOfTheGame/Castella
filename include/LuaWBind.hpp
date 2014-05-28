@@ -13,10 +13,10 @@ extern "C" {
 #include <luabind/operator.hpp>
 
 //Include luabind policies for calling functions
+#include <luabind/copy_policy.hpp>
 //TODO include only the ones neeeded
 /*
 #include <luabind/adopt_policy.hpp>
-#include <luabind/copy_policy.hpp>
 #include <luabind/dependency_policy.hpp>
 #include <luabind/discard_result_policy.hpp>
 #include <luabind/iterator_policy.hpp>

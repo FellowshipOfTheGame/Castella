@@ -14,16 +14,18 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
     //Registers the needed variables and runs the code.
     //Warning if the Callbacks are already registered at that lua state bad things may happen.
     Callback::registerCallbacks(sHandler.L);
-    sHandler.send<int>(Screen::WIDTH, "ScreenWidth");
-    sHandler.send<int>(Screen::HEIGHT, "ScreenHeight");
+    sHandler.send<int>(Screen::WIDTH, "TelaComprimento");
+    sHandler.send<int>(Screen::HEIGHT, "TelaAltura");
     sHandler.run_lua();
+	
+	sHandler.isNil();
 
     //Creates a rect from the window table
     LuaTable table = sHandler.getTable("janela");
     rect.x = table.getInt("x");
     rect.y = table.getInt("y");
-    rect.w = table.getInt("w");
-    rect.h = table.getInt("h");
+    rect.w = table.getInt("c");
+    rect.h = table.getInt("a");
 
     //Set window skin
     SDL_Surface *windowSkin = NULL;
@@ -67,7 +69,7 @@ void Window::elements_setup(){
         //Loads the images to SDL_Surface
         imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
         imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
-        
+
         buttonList[i] = Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive, 
                                         button.getLuaType(5) );
     }

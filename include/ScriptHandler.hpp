@@ -34,6 +34,8 @@ class ScriptHandler
         LuaTable global() const; ///<Returns the global table.
 
         lua_State *state() const; ///<Returns a pointer to the lua state.
+        
+        bool isNil(LuaObject obj);
 
 		void openLibs();
 		

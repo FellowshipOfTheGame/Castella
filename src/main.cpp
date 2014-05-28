@@ -4,14 +4,13 @@
 #include <iostream>
 #include <string>
 
-#include <Window.hpp>
-
-#include <Game.hpp>
 #include <memory>
 #include <fstream>
 
+#include <Game.hpp>
 #include <ScriptHandler.hpp>
 #include <ImageHandler.hpp>
+#include <Window.hpp>
 
 int main() {
 /*

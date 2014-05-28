@@ -30,14 +30,19 @@ LuaTable ScriptHandler::getTable(const char *tableName) const {
 	return LuaTable( luabind::gettable( luabind::globals(L), tableName ) ); 
 }
 
+LuaTable ScriptHandler::global() const { 
+	checkState();
+	return LuaTable( luabind::globals(L) ); 
+}
+
 lua_State *ScriptHandler::state() const { 
 	checkState();
 	return L; 
 }
 
-LuaTable ScriptHandler::global() const { 
-	checkState();
-	return LuaTable( luabind::globals(L) ); 
+bool ScriptHandler::isNil( LuaObject obj ) {
+	luaL_dostring(L, "function isNil(obj) return obj == nil end");
+	return luabind::call_function<bool>(L, "isNil", obj);
 }
 
 void ScriptHandler::openLibs(){
@@ -67,7 +72,7 @@ void ScriptHandler::run_lua(){
 	checkState();
     if( lua_pcall(L, 0, LUA_MULTRET, 0) ){
         //Error
-        std::cerr << "Error trying to run lua" << lua_tostring(L, -1) << std::endl;
+        std::cerr << "Error trying to run lua: " << lua_tostring(L, -1) << std::endl;
     }
 }
 
