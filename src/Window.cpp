@@ -17,8 +17,6 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
     sHandler.send<int>(Screen::WIDTH, "TelaComprimento");
     sHandler.send<int>(Screen::HEIGHT, "TelaAltura");
     sHandler.run_lua();
-	
-	sHandler.isNil();
 
     //Creates a rect from the window table
     LuaTable table = sHandler.getTable("janela");

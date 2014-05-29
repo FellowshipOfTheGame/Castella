@@ -45,10 +45,10 @@ class LuaTable
         LuaObject operator[](const char *key);
 
         template<typename T>
-        T operator[](int key){ return luabind::object_cast<T>( table[key] ); }
+        T get(int key){ return luabind::object_cast<T>( table[key] ); }
 
         template<typename T>
-        T operator[](const char *key){ return luabind::object_cast<T>( table[key] ); }
+        T get(const char *key){ return luabind::object_cast<T>( table[key] ); }
 
 };
 
