@@ -8,8 +8,6 @@
  * 
  * É o mapa global, que contém todas as regiões do jogo, que são organizadas em um grafo.
  * Esse mapa foi escrito usando o padrão _Singleton_ de POO, pois não há sentido em haver mais de um mundo.
- * 
- * @todo quem fez o mundo, põe mais coisaí, deve ter =P
  */
 class World
 {
@@ -17,7 +15,11 @@ class World
         virtual ~World();
 
         static World* get_world();	///< Método que nos retorna o mundo, o criando se ele ainda não existir
+        
+        RegionGraph *getRegionGraph ();	///< Método que retora no grafo das regiões
+        
     protected:
+    
     private:
         World();	///< Construtor do World, private pois só constrói um mundo se ele ainda não existir
 

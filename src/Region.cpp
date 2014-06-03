@@ -69,8 +69,20 @@ Region_Type Region::getType () {
 }
 
 
+int Region::getX () {
+	return x;
+}
+
+
+int Region::getY () {
+	return y;
+}
+
+
 int Region::getDistance (Region *region) {
-	return (std::abs ((pow (x - region->x, 2)) + (pow (y - region->y, 2))));
+	int x = this->x - region->x;
+	int y = this->y - region->y;
+	return (std::abs ((pow (x, 2)) + (pow (y, 2))));
 }
 
 
@@ -88,6 +100,14 @@ void Region::print () {
 }
 
 
+Region *Region::getNeighbour (unsigned int i) {
+	if (i >= neighbourhood.size ())
+		return NULL;
+	else {
+		return neighbourhood[i];
+	}
+}
+
 
 /* * * * * * * * * * * *
  *                     *
@@ -97,7 +117,7 @@ void Region::print () {
 RegionGraph::RegionGraph () {
 	// auxiliares pra criar o grafo com distâncias legais
 	int x, y;
-	int i, j;
+	unsigned int i, j;
 	
 	for (i = 0; i < map_height; i ++) {
 		for (j = 0; j < map_width; j ++) {
@@ -107,11 +127,11 @@ RegionGraph::RegionGraph () {
 		}
 	}
 	
-	for (i = 0; i < map_height; i ++) {
-		for (j = 0; j < map_width; j ++) {
-			checkNeighbourhood (regions[(i * map_height) + j]);
-		}
+	for (i = 0; i < regions.size (); i ++) {
+		checkNeighbourhood (regions[i]);
 	}
+	
+	printGraph ();
 }
 
 
@@ -190,4 +210,9 @@ void RegionGraph::printGraph () {
 		}
 		std::cout << "\n";
 	}
+}
+
+
+Region *RegionGraph::get (int i) {
+	return regions[i];
 }

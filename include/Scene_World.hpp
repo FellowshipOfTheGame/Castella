@@ -2,6 +2,7 @@
 #define SCENE_WORLD_H
 
 #include "Scene.hpp"
+#include <Map_World.hpp>
 
 class Scene_World : public Scene
 {
@@ -21,6 +22,7 @@ class Scene_World : public Scene
 
     protected:
     private:
+		Map_World *map;
 };
 
 #endif // SCENE_WORLD_H

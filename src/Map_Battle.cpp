@@ -28,8 +28,8 @@ Map_Battle::Map_Battle(int width, int height)
             }
         }
     }
-
 }
+
 Map_Battle::Map_Battle(std::string filename){
     //load map from file
 }

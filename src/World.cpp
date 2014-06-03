@@ -19,3 +19,8 @@ World* World::get_world(){
 }
 
 World* World::world = NULL;
+
+
+RegionGraph *World::getRegionGraph () {
+	return &regionMap;
+}

@@ -61,6 +61,7 @@ const int NEIGHBOUR_MAX_DISTANCE = 70;
  */
 class Region {
 	friend class RegionGraph;
+
 private:
 	Region_Type type;	///< tipo do reino
 	int ID;	///< ID da região
@@ -76,20 +77,25 @@ private:
 	 * A diplomacia pode estar boa (positiva), ruim (negativa), ou neutra (zero).
 	 */
 	int diplomacy;
+	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
 
 protected:
 
 public:
 	Region (int ID, Region_Type new_type, int x, int y);
+	~Region ();
+	void print ();	///< Imprime região na stdout, com ID, posição e lista de adjacência
+	
+	/* GETTERS */
 	/** @brief Vê qual o tipo da região em questão
 	 *
 	 * @return @ref Region_Type "Tipo" da região
 	 */
 	Region_Type getType ();
-	~Region ();
-	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
-	void print ();	///< Imprime região na stdout, com ID, posição e lista de adjacência
+	int getX ();
+	int getY ();
 	int getAdjQuantity ();
+	Region *getNeighbour (unsigned int i);	///< Pega os vizinhos
 };
 
 
@@ -106,11 +112,6 @@ public:
  */
 class RegionGraph {
 private:
-	// Consts do tilemap
-	static const int map_height = 10;	///< Altura do mapa, em blocos
-	static const int map_width = 10;	///< Largura do mapa, em bloco
-	static const int block_size = 4;	///< Tamanho do lado do bloco, em tiles
-	
 	// Taxa de aparecimento de cada região no mapa (em porcentagem)
 	static const int castle_ratio = 20;
 	static const int forest_ratio = 20;
@@ -135,6 +136,13 @@ public:
 	int newRegion (int ID, Region_Type new_type, int x, int y);
 	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
 	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
+	
+	Region *get (int i);
+	
+	// Consts do tilemap
+	static const int map_height = 5;	///< Altura do mapa, em blocos
+	static const int map_width = 5;	///< Largura do mapa, em bloco
+	static const int block_size = 2;	///< Tamanho do lado do bloco, em tiles
 };
 
 

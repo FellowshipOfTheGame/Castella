@@ -10,7 +10,9 @@ enum TERRAIN{
     TRR_DIRT,
     TRR_STONE,
     TRR_SAND,
-
+    // tiles do mapa mundi
+	WRLD_BKGD,		///< Fundo do mundo
+	WRLD_RGN		///< Regiões, no mundo
 };
 
 class MapTile
