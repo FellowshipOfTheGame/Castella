@@ -35,6 +35,8 @@ build/
 
 # coisas do Zumbi (Gil)
 *scon*
+config.log
+*cscope*
 
 # Mercurial
 *hg*

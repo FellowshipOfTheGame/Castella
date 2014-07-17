@@ -16,7 +16,7 @@ Map_World::Map_World () : height (RegionGraph::map_height), width (RegionGraph::
 	}
 
 	for (int i = 0; i < height * width; i++) {
-		tileMap.push_back (MapTile (graph->get(i)->getX (), graph->get(i)->getY (), WRLD_RGN));
+		tileMap.push_back (MapTile ((*graph)[i]->getX (), (*graph)[i]->getY (), WRLD_RGN));
 		tileMap[tileMap.size () - 1].set_terrain_image (region);
 	}
 }
@@ -24,16 +24,18 @@ Map_World::Map_World () : height (RegionGraph::map_height), width (RegionGraph::
 
 void Map_World::draw (SDL_Surface *screen) {
 	// desenha os tiles
-	for (unsigned int i = 0; i < tileMap.size (); i++) {
-		tileMap[i].draw (screen);
+	for (MapTile T : tileMap) {
+		T.draw (screen);
 	}
 	
 	// desenha as linhas que mostram os caminhos entre as regiões
 	for (int i = 0; i < width * height; i++) {
-		Region *reg = graph->get(i);
-		for (int j = 0; j < reg->getAdjQuantity (); j++) {
-			Region *neighbour = reg->getNeighbour (j);
-			lineColor (screen, reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2), reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2), neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 0x000000ff);
+		Region *reg = (*graph)[i];
+		for (Region *neighbour : reg->getNeighbourhood ()) {
+			lineColor (screen, reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
+					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
+					neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 0x000000ff);
 		}
 	}
 }

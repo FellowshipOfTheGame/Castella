@@ -11,7 +11,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <vector>
+#include <set>
 #include <iostream>
+#include <stdexcept>
 
 
 /** Enum do tipo da região */
@@ -39,6 +41,8 @@ enum Region_Type {
 	 */
 	cave
 };
+
+std::string typeName (Region_Type tipo);
 
 
 /** Constante: distância absoluta máxima entre regiões consideradas vizinhas.
@@ -68,7 +72,7 @@ private:
 	char *name;	///< nome da região
 	int x,	///< coordenada _x_ do reino no mapa global
 		y;	///< coordenada _y_ do reino no mapa global
-	std::vector<Region*> neighbourhood;	///< vetor de regiões vizinhas
+	std::set<Region*> neighbourhood;	///< vetor de regiões vizinhas; É um set para não haver repetições
 	std::vector<Structure*> inner_structures;	///< estruturas encontradas na região: depende do @ref Region_Type "tipo"
 	//Actor *owner;	///< personagem (ainda não sei o nome da classe) dono da região; se NULL, não há dono
 	
@@ -78,6 +82,7 @@ private:
 	 */
 	int diplomacy;
 	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
+	bool liga (Region *region);
 
 protected:
 
@@ -94,8 +99,16 @@ public:
 	Region_Type getType ();
 	int getX ();
 	int getY ();
-	int getAdjQuantity ();
-	Region *getNeighbour (unsigned int i);	///< Pega os vizinhos
+	
+	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
+	std::set<Region*> getNeighbourhood ();	///< retorna o set de vizinhos
+	
+	/* Constantes */
+	/// Número máximo de vizinhos por região
+	static const int MaxNeighbours = 4;
+	/// Chance de ligar as regiões: bond_chance pra um de ligar
+	/// @warning Se puser 1 ou zero nessa, sempre liga
+	static const unsigned int bond_chance = 2;
 };
 
 
@@ -137,12 +150,12 @@ public:
 	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
 	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
 	
-	Region *get (int i);
+	Region *& operator[] (unsigned int i);	///< Acesso ao Vector de regiões; @throws std::out_of_range
 	
 	// Consts do tilemap
-	static const int map_height = 5;	///< Altura do mapa, em blocos
-	static const int map_width = 5;	///< Largura do mapa, em bloco
-	static const int block_size = 2;	///< Tamanho do lado do bloco, em tiles
+	static const int map_height = 4;	///< Altura do mapa, em blocos
+	static const int map_width = 4;	///< Largura do mapa, em bloco
+	static const int block_size = 3;	///< Tamanho do lado do bloco, em tiles
 };
 
 

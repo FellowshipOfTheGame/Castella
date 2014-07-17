@@ -1,5 +1,15 @@
 #include <Region.hpp>
 
+std::string typeName (Region_Type tipo) {
+	const std::string names[] = {
+		"castle",
+		"village",
+		"forest",
+		"cave"
+	};
+	
+	return names[tipo];
+}
 
 /* * * * * * * * * * * *
  * REGIÃO ctor e dtor  *
@@ -79,33 +89,42 @@ int Region::getY () {
 }
 
 
-int Region::getDistance (Region *region) {
-	int x = this->x - region->x;
-	int y = this->y - region->y;
-	return (std::abs ((pow (x, 2)) + (pow (y, 2))));
-}
-
-
-int Region::getAdjQuantity () {
+unsigned int Region::getAdjQuantity () {
 	return neighbourhood.size ();
 }
 
 
-void Region::print () {
-	std::cout << ID << ':' << x << "x" << y << '\n';
-	std::cout << "Adjacentes: ";
-	for (unsigned int i = 0; i < neighbourhood.size (); i++)
-		std::cout << neighbourhood[i]->ID << ", ";
-	std::cout << "\n\n";
+std::set<Region*> Region::getNeighbourhood () {
+	return neighbourhood;
 }
 
 
-Region *Region::getNeighbour (unsigned int i) {
-	if (i >= neighbourhood.size ())
-		return NULL;
-	else {
-		return neighbourhood[i];
+bool Region::liga (Region *region) {
+	int x = (this->x / RegionGraph::block_size) - (region->x / RegionGraph::block_size);
+	int y = (this->y / RegionGraph::block_size) - (region->y / RegionGraph::block_size);
+	
+	if (std::abs (x) > 1 || std::abs (y) > 1)
+		return false;
+	else
+		return true;
+}
+
+
+int Region::getDistance (Region *region) {
+	int x = this->x - region->x;
+	int y = this->y - region->y;
+	return (pow (x, 2) + pow (y, 2));
+}
+
+
+void Region::print () {
+	std::cout << "Tipo: " << typeName (type) << "; ";
+	std::cout << ID << ':' << x << "x" << y << '\n';
+	std::cout << "Adjacentes: ";
+	for (Region *R : neighbourhood) {
+		std::cout << R->ID << ", ";
 	}
+	std::cout << "\n\n";
 }
 
 
@@ -114,30 +133,42 @@ Region *Region::getNeighbour (unsigned int i) {
  * GRAFO DAS REGIÕES   *
  *                     *
  * * * * * * * * * * * */
+Region *& RegionGraph::operator[] (unsigned int i) {
+	try {
+		return regions.at (i);
+	}
+	catch (const std::out_of_range& oor) {
+		throw oor;
+	}
+}
+
+
 RegionGraph::RegionGraph () {
 	// auxiliares pra criar o grafo com distâncias legais
 	int x, y;
 	unsigned int i, j;
+	srand (time (NULL));
 	
 	for (i = 0; i < map_height; i ++) {
 		for (j = 0; j < map_width; j ++) {
 			y = (i * block_size) + (rand () % block_size);
 			x = (j * block_size) + (rand () % block_size);
-			newRegion ((i * map_height) + j, (Region_Type) (rand () % 4), x, y);
+			newRegion ((i * map_width) + j, (Region_Type) (rand () % 4), x, y);
 		}
 	}
-	
-	for (i = 0; i < regions.size (); i ++) {
-		checkNeighbourhood (regions[i]);
+
+	for (Region *R : regions) {
+		checkNeighbourhood (R);
 	}
 	
 	printGraph ();
+	printGraphInfo ();
 }
 
 
 RegionGraph::~RegionGraph () {
-	for (unsigned int i = 0; i < regions.size (); i++)
-		delete (regions[i]);
+	for (Region *R : regions)
+		delete (R);
 }
 
 
@@ -152,67 +183,73 @@ int RegionGraph::newRegion (int ID, Region_Type new_type, int x, int y) {
 
 
 void RegionGraph::checkNeighbourhood (Region *R) {
-	int min_distance = HUGE_VAL;		// menor distância, pra caso ninguém alcance a distância mínima
+	int min_distance = HUGE_VAL;	// menor distância, pra caso ninguém se conecte ao indivíduo
 	int closer = R->ID;		// região mais perto (a q tem a min_distance)
-	int distance;
+	int distance;	// a distância real (calculada pra cada um)
 	
 	int i, j, current;
 	
 	// pra cada região adjacente (num quadrado 3x3);
 	for (i = -1; i <= 1; i++) {
 		for (j = -1; j <= 1; j++) {
-			current = R->ID + (i * map_height) + j;
-			if (current > 0 && current < (int) regions.size () && i && j) {	// exclui o próprio R (0x0, centro do quadradim lá), os menores q 0 e maiores q size
-				
+			current = R->ID + (i * map_width) + j;
+			if (current > 0 && current < (int) regions.size () && (i || j)) {	// exclui o próprio R (0x0, centro do quadradim lá), os menores q 0 e maiores q size
+				Region *current_region = regions[current];
 				distance = R->getDistance (regions[current]);
 				// atualiza a menor distância
 				if (distance < min_distance) {
 					min_distance = distance;
 					closer = current;
 				}
-				if (distance < NEIGHBOUR_MAX_DISTANCE) {
-					R->neighbourhood.push_back (regions[current]);
+				
+				// Se puder serem vizinhos, os liga (dum pro outro, d'outro pro um)
+				if (R->liga (current_region) && R->getAdjQuantity () < Region::MaxNeighbours && 
+						current_region->getAdjQuantity () < Region::MaxNeighbours && 
+						rand () % Region::bond_chance) {
+					R->neighbourhood.insert (current_region);
+					current_region->neighbourhood.insert (R);
 				}
 			}
 		}
 	}
 	
 	if (R->neighbourhood.empty ()) {
-		R->neighbourhood.push_back (regions[closer]);
+		R->neighbourhood.insert (regions[closer]);
 	}
 }
 
 
 void RegionGraph::printGraphInfo () {
-	for (unsigned int i = 0; i < regions.size (); i++)
-		regions[i]->print ();
+	for (Region *R : regions)
+		R->print ();
 }
 
 
 void RegionGraph::printGraph () {
 	int width = map_width * block_size;
 	int height = map_height * block_size;
-	char to_print[height][width];
+	char to_print[height + 2][width + 1];
 	int i, j;
 	
 	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++)
-			to_print[i][j] = ' ';
-	}
-	
-	for (i = 0; i < (int) regions.size (); i++) {
-		to_print[regions[i]->y][regions[i]->x] = regions[i]->getAdjQuantity () + '0';
-	}
-	
-	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
+			to_print[i + 1][j] = ' ';
+			to_print[0][j] = '-';	// linha de cima
+			to_print[height + 1][j] = '-';	// linha de baixo
+		}
+		to_print[i + 1][j] = '|';	// lateral
+	}
+	to_print[0][j] = '\\';
+	to_print[i + 1][j] = '/';
+	
+	for (Region *R : regions) {
+		to_print[R->y + 1][R->x] = R->getAdjQuantity () + '0';
+	}
+	
+	for (i = 0; i < height + 2; i++) {
+		for (j = 0; j < width + 1; j++) {
 			std::cout << to_print[i][j];
 		}
 		std::cout << "\n";
 	}
-}
-
-
-Region *RegionGraph::get (int i) {
-	return regions[i];
 }
