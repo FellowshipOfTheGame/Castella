@@ -97,8 +97,8 @@ int Region::getDistance (Region *region) {
 
 
 void Region::print () {
+	std::cout << "Região " << ID << ": " << x << "x" << y << '\n';
 	std::cout << "Tipo: " << typeName (type) << "; ";
-	std::cout << ID << ':' << x << "x" << y << '\n';
 	std::cout << "Adjacentes: ";
 	for (Region *R : neighbourhood) {
 		std::cout << R->ID << ", ";

@@ -17,18 +17,20 @@
  */
 class Map_World {
 private:
-	
-protected:
-	static const int height = RegionGraph::map_height * RegionGraph::block_size;
-	static const int width = RegionGraph::map_height * RegionGraph::block_size;
-	
-	MapTile tileMap[height][width];
-	FileContainer tiles;
-	RegionGraph *graph;
 
 public:
 	void draw (SDL_Surface *screen);
 	Map_World ();
+	Region *getRegion (int x, int y);
+	
+	// Constantes
+	static const int map_height = RegionGraph::graph_height * RegionGraph::block_size;
+	static const int map_width = RegionGraph::graph_height * RegionGraph::block_size;
+	
+protected:
+	MapTile tileMap[map_height][map_width];
+	FileContainer tiles;
+	RegionGraph *graph;
 };
 
 

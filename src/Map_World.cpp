@@ -6,18 +6,18 @@ Map_World::Map_World () {
 	SDL_Surface *background = tiles.push ("images/tiles/world_background.png");
 	SDL_Surface *region = tiles.push ("images/tiles/world_region.png");
 
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+	for (int i = 0; i < map_height; i++) {
+		for (int j = 0; j < map_width; j++) {
 			tileMap[i][j].setTile (j, i, WRLD_BKGD);
 			tileMap[i][j].set_terrain_image (background);
 		}
 	}
 
-	for (int i = 0; i < RegionGraph::map_height * RegionGraph::map_width; i++) {
-		int y = (*graph)[i]->getY ();
-		int x = (*graph)[i]->getX ();
+	for (Region *reg : (*graph)) {
+		int y = reg->getY ();
+		int x = reg->getX ();
 		// tem uma região aqui
-		tileMap[y][x].setPtr ((*graph)[i]);
+		tileMap[y][x].setPtr (reg);
 		tileMap[y][x].setTile (x, y, WRLD_RGN);
 		tileMap[y][x].set_terrain_image (region);
 	}
@@ -26,15 +26,14 @@ Map_World::Map_World () {
 
 void Map_World::draw (SDL_Surface *screen) {
 	// desenha os tiles
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+	for (int i = 0; i < map_height; i++) {
+		for (int j = 0; j < map_width; j++) {
 			tileMap[i][j].draw (screen);
 		}
 	}
 	
 	// desenha as linhas que mostram os caminhos entre as regiões
-	for (int i = 0; i < RegionGraph::map_height * RegionGraph::map_width; i++) {
-		Region *reg = (*graph)[i];
+	for (Region *reg : (*graph)) {
 		for (Region *neighbour : reg->getNeighbourhood ()) {
 			lineColor (screen, reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
 					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
@@ -42,4 +41,9 @@ void Map_World::draw (SDL_Surface *screen) {
 					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 0x000000ff);
 		}
 	}
+}
+
+
+Region *Map_World::getRegion (int x, int y) {
+	return (Region*) tileMap[y][x].getPtr ();
 }

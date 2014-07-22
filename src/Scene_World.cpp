@@ -25,9 +25,16 @@ void Scene_World::draw (SDL_Surface *screen) {
 
 void Scene_World::mouseclick (int x, int y) {
 	Scene::mouseclick (x, y);
+	
+	// Mostra info da região no stdout
 	x /= MapTile::TILESIZE;
 	y /= MapTile::TILESIZE;
-	std::cout << "x: " << x << " ; y: " << y << '\n';
+	if (x < Map_World::map_width && y < Map_World::map_height) {
+		std::cout << "Clicou no mapa;		X: " << x << " ; Y: " << y << '\n';
+		Region *reg = map->getRegion (x, y);
+		if (reg != nullptr)
+			reg->print ();
+	}
 }
 
 void Scene_World::escape () {

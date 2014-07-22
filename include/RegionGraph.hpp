@@ -8,6 +8,9 @@
 
 #include <Region.hpp>
 
+// Só nome, pro RegionGraph saber que existe
+class RegionGraphIterator;
+
 /** @brief Grafo das @ref Region "regiões" propriamente dito.
  * 
  * Grafo organizado em um Vector de regiões,
@@ -48,10 +51,35 @@ public:
 	
 	Region *& operator[] (unsigned int i);	///< Acesso ao Vector de regiões; @throws std::out_of_range
 	
+	/* Iterador */
+	RegionGraphIterator begin () const;
+	RegionGraphIterator end () const;
+	
 	// Consts do tilemap
-	static const int map_height = 4;	///< Altura do mapa, em blocos
-	static const int map_width = 4;	///< Largura do mapa, em bloco
+	static const int graph_height = 4;	///< Altura do mapa, em blocos
+	static const int graph_width = 4;	///< Largura do mapa, em bloco
 	static const int block_size = 3;	///< Tamanho do lado do bloco, em tiles
+};
+
+
+/** @brief Um iterador para o RegionGraph
+ * 
+ * É útil para iterarmos por todos as Regiões do grafo
+ * usando a notação nova do C++11
+ */
+class RegionGraphIterator {
+private:
+	const RegionGraph *graph;
+	int pos;
+
+protected:
+
+public:
+	RegionGraphIterator (const RegionGraph *graph, int pos);	///< Ctor
+	/* Operadores, pra rolar a iteração */
+	bool operator!= (const RegionGraphIterator& other) const;
+	const RegionGraphIterator& operator++ ();
+	Region *& operator* () const;
 };
 
 #endif

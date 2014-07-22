@@ -17,15 +17,15 @@ Region *& RegionGraph::operator[] (unsigned int i) {
 
 RegionGraph::RegionGraph () {
 	// auxiliares pra criar o grafo com distâncias legais
-	int x, y;
+	int x, y, id = 0;
 	unsigned int i, j;
 	srand (time (NULL));
 	
-	for (i = 0; i < map_height; i ++) {
-		for (j = 0; j < map_width; j ++) {
+	for (i = 0; i < graph_height; i ++) {
+		for (j = 0; j < graph_width; j ++) {
 			y = (i * block_size) + (rand () % block_size);
 			x = (j * block_size) + (rand () % block_size);
-			newRegion ((i * map_width) + j, (Region_Type) (rand () % 4), x, y);
+			newRegion (id++, (Region_Type) (rand () % 4), x, y);
 		}
 	}
 
@@ -64,7 +64,7 @@ void RegionGraph::checkNeighbourhood (Region *R) {
 	// pra cada região adjacente (num quadrado 3x3);
 	for (i = -1; i <= 1; i++) {
 		for (j = -1; j <= 1; j++) {
-			current = R->ID + (i * map_width) + j;
+			current = R->ID + (i * graph_width) + j;
 			if (current > 0 && current < (int) regions.size () && (i || j)) {	// exclui o próprio R (0x0, centro do quadradim lá), os menores q 0 e maiores q size
 				Region *current_region = regions[current];
 				distance = R->getDistance (regions[current]);
@@ -109,8 +109,8 @@ void RegionGraph::printGraphInfo () {
 
 
 void RegionGraph::printGraph () {
-	int width = map_width * block_size;
-	int height = map_height * block_size;
+	int width = graph_width * block_size;
+	int height = graph_height * block_size;
 	char to_print[height + 2][width + 1];
 	int i, j;
 	
@@ -137,3 +137,32 @@ void RegionGraph::printGraph () {
 	}
 }
 
+
+RegionGraphIterator RegionGraph::begin () const {
+	return RegionGraphIterator (this, 0);
+}
+
+
+RegionGraphIterator RegionGraph::end () const {
+	return RegionGraphIterator (this, graph_height * graph_width);
+}
+
+
+/* * * * * * * * * * *
+ * ITERADOR DO GRAFO *
+ * * * * * * * * * * */
+RegionGraphIterator::RegionGraphIterator (const RegionGraph *graph, int pos) 
+	: graph (graph), pos (pos) {}
+
+bool RegionGraphIterator::operator!= (const RegionGraphIterator& other) const {
+	return pos != other.pos;
+}
+
+const RegionGraphIterator& RegionGraphIterator::operator++ () {
+	pos++;
+	return *this;
+}
+
+Region *& RegionGraphIterator::operator* () const {
+	return (*graph)[pos];
+}
