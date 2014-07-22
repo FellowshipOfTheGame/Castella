@@ -2,7 +2,7 @@
 #define WORLD_H
 
 
-#include <Region.hpp>
+#include <RegionGraph.hpp>
 
 /** @brief Mundo do Castella!
  * 

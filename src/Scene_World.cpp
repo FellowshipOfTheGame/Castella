@@ -25,6 +25,9 @@ void Scene_World::draw (SDL_Surface *screen) {
 
 void Scene_World::mouseclick (int x, int y) {
 	Scene::mouseclick (x, y);
+	x /= MapTile::TILESIZE;
+	y /= MapTile::TILESIZE;
+	std::cout << "x: " << x << " ; y: " << y << '\n';
 }
 
 void Scene_World::escape () {

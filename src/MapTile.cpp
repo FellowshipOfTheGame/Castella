@@ -1,12 +1,19 @@
 #include <MapTile.hpp>
 
-MapTile::MapTile(int x, int y, int type)
+MapTile::MapTile() : MapTile (0, 0, NONE) {}
+
+MapTile::MapTile(int x, int y, TERRAIN type)
 {
+	setTile (x, y, type);
+    unit = NULL;
+    ptr = nullptr;
+    if(type >= 0) passability = 0b11111111;
+}
+
+void MapTile::setTile (int x, int y, TERRAIN type) {
     posX = x;
     posY = y;
-    this->type = type;
-    unit = NULL;
-    if(type >= 0) passability = 0b11111111;
+    this->type = type;	
 }
 
 MapTile::~MapTile()
@@ -44,6 +51,14 @@ int MapTile::get_passability(){
     else return passability; //TODO: should use a passability mask instead, for the 4 directions, inwards or outwards (8 mask values)
 }
 
+/* User Pointer */
+void *MapTile::getPtr () {
+	return ptr;
+}
+
+void MapTile::setPtr (void *ptr) {
+	this->ptr = ptr;
+}
 
 
 const short int MapTile::TILESIZE = 64;

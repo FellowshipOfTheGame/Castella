@@ -7,7 +7,6 @@
 #ifndef _CASTELLA_STRUCTURE_HPP_
 #define _CASTELLA_STRUCTURE_HPP_
 
-#include <string>
 #include <iostream>
 
 
@@ -39,6 +38,13 @@ protected:
 public:
 	Structure ();	///< Ctor
 	~Structure ();	///< Dtor
+};
+
+
+/** @brief Fábrica de estruturas */
+class StructureFactory {
+public:
+	Structure *createStructure (Structure_Type structype);
 };
 
 

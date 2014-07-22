@@ -5,8 +5,9 @@
 #include "Actor_Battler.hpp"
 
 
-enum TERRAIN{
-    TRR_GRASS = 1,
+enum TERRAIN {
+	NONE = 0,
+    TRR_GRASS,
     TRR_DIRT,
     TRR_STONE,
     TRR_SAND,
@@ -18,7 +19,9 @@ enum TERRAIN{
 class MapTile
 {
     public:
-        MapTile(int x, int y, int type);
+        MapTile();	///< Ctor default
+        MapTile(int x, int y, TERRAIN type);
+        void setTile (int x, int y, TERRAIN type);
         virtual ~MapTile();
         virtual void update();
         virtual void draw(SDL_Surface *screen);
@@ -27,6 +30,9 @@ class MapTile
         virtual void add_unit(Actor_Battler *unit);
         virtual void remove_unit();
         virtual int get_passability(); // use return 0 for not passable at all
+        /* UserPointer: qualquer coisa pode estar aqui */
+        void *getPtr ();
+        void setPtr (void *ptr);
 
         static const short int TILESIZE;
 
@@ -36,6 +42,7 @@ class MapTile
         int type;
         SDL_Surface *terrain; //the terrain image
         list<SDL_Surface*> objects; //opitional objects to be put onto the tile
+        void *ptr;	///< Ponteiro opcional (e de qualquer tipo), para por qualquer coisa num tile!
         Actor_Battler *unit;
         int passability; //make it a 8-value mask
 };

@@ -39,19 +39,16 @@ enum Region_Type {
 	 * Cavernas contêm mateis, como ouro e aço.
 	 * Cuidado com os _Zubats_! xP
 	 */
-	cave
+	cave,
 };
 
-std::string typeName (Region_Type tipo);
-
-
-/** Constante: distância absoluta máxima entre regiões consideradas vizinhas.
+/** @brief Nome do tipo da região
  * 
- * Essa distância é calculada usando as coordenadas @ref Region::x "x" e @ref Region::y "y", através da fórmula x² + y²
- * @note Como a distância é arbitrária e não se precisa do valor exato, só comparativo, não usamos a raiz quadrada na fórmula da distância,
- * para assim não precisar de mais _headers_, economizando tamanho no objeto e executável
+ * @param[in] tipo Tipo da região
+ * 
+ * @return nome do tipo da região
  */
-const int NEIGHBOUR_MAX_DISTANCE = 70;
+std::string typeName (Region_Type tipo);
 
 
 /** @brief Regiões do @ref World "mundo"
@@ -69,7 +66,7 @@ class Region {
 private:
 	Region_Type type;	///< tipo do reino
 	int ID;	///< ID da região
-	char *name;	///< nome da região
+	std::string name;	///< nome da região
 	int x,	///< coordenada _x_ do reino no mapa global
 		y;	///< coordenada _y_ do reino no mapa global
 	std::set<Region*> neighbourhood;	///< vetor de regiões vizinhas; É um set para não haver repetições
@@ -82,7 +79,7 @@ private:
 	 */
 	int diplomacy;
 	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
-	bool liga (Region *region);
+	bool liga (Region *region);		///< Verifica se essa região pode se ligar a outra
 
 protected:
 
@@ -109,53 +106,6 @@ public:
 	/// Chance de ligar as regiões: bond_chance pra um de ligar
 	/// @warning Se puser 1 ou zero nessa, sempre liga
 	static const unsigned int bond_chance = 2;
-};
-
-
-
-
-/** @brief Grafo das @ref Region "regiões" propriamente dito.
- * 
- * Grafo organizado em um Vector de regiões,
- * implementado usando listas de adjacência.
- * 
- * @todo ligar os vértices ao criar
- * @todo Dtor
- * @todo DFS
- */
-class RegionGraph {
-private:
-	// Taxa de aparecimento de cada região no mapa (em porcentagem)
-	static const int castle_ratio = 20;
-	static const int forest_ratio = 20;
-	static const int cave_ratio = 20;
-	static const int village_ratio = 20;
-
-	std::vector<Region*> regions;	///< Vetor de todas as regiões do mundo
-	
-	/** @brief Acha quantos e quais são os vizinhos da região, os guardando em neighbours e neighbourhood
-	 *
-	 * São possíveis vizinhos a região que estiver a uma distância absoluta máxima de @ref NEIGHBOUR_MAX_DISTANCE
-	 * 
-	 * @param R Região a ser checada
-	 */
-	void checkNeighbourhood (Region *R);
-	
-protected:
-
-public:
-	RegionGraph ();		///< Ctor: constrói vértices baseado no tamanho do mapa
-	~RegionGraph ();
-	int newRegion (int ID, Region_Type new_type, int x, int y);
-	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
-	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
-	
-	Region *& operator[] (unsigned int i);	///< Acesso ao Vector de regiões; @throws std::out_of_range
-	
-	// Consts do tilemap
-	static const int map_height = 4;	///< Altura do mapa, em blocos
-	static const int map_width = 4;	///< Largura do mapa, em bloco
-	static const int block_size = 3;	///< Tamanho do lado do bloco, em tiles
 };
 
 

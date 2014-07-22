@@ -3,6 +3,7 @@
 
 #include "Scene.hpp"
 #include <Map_World.hpp>
+#include <iostream>
 
 class Scene_World : public Scene
 {
