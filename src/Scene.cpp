@@ -63,5 +63,7 @@ void Scene::handle_input(){
     }
     while(input); // returns 0 when there's no input
 }
-
-Scene * Scene::scene = NULL;
+// definindo as variáveis estáticas
+Scene *Scene::scene = nullptr;
+void *Scene::ptr = nullptr;
+std::stack<Scene*> Scene::scenes;

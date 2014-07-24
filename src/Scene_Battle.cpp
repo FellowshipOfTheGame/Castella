@@ -2,7 +2,7 @@
 
 Scene_Battle::Scene_Battle()
 {
-    SceneControl::set_cur(SceneControl::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
+    SceneControl::set_cur (Scenes::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
 
     battleMap = new Map_Battle(20,12);
 }
@@ -28,7 +28,7 @@ void Scene_Battle::mouseclick(int x, int y){
 }
 
 void Scene_Battle::escape(){
-    SceneControl::set_next(SceneControl::SCENE_WORLD);
+    SceneControl::exitScene ();
 }
 
 void Scene_Battle::handle_scene_input(int input){

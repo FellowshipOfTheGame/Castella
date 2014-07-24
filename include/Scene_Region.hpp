@@ -8,7 +8,9 @@
 #ifndef SCENE_REGION_HPP
 #define SCENE_REGION_HPP
 
-#include "Scene.hpp"
+#include <Scene.hpp>
+#include <Region.hpp>
+#include <FileContainer.hpp>
 
 class Scene_Region : public Scene {
 public:
@@ -16,11 +18,14 @@ public:
     virtual ~Scene_Region ();
 	virtual void update ();
 	virtual void draw (SDL_Surface *screen);
+	virtual void mouseclick (int x, int y);
+	virtual void escape();
+	virtual void handle_scene_input (int input);
 
 protected:
 
 private:
-
+	Region *current;
 };
 
 #endif

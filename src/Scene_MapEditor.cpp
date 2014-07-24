@@ -2,7 +2,7 @@
 
 Scene_MapEditor::Scene_MapEditor()
 {
-    SceneControl::set_cur(SceneControl::SCENE_EDITOR); //TODO Move this code to a SceneControl or somewhere alike
+    SceneControl::set_cur (Scenes::SCENE_EDITOR); //TODO Move this code to a SceneControl or somewhere alike
     window = new Window_StartMenu("startMenu");
     GameVar::fpsCap = false;
 }
