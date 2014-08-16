@@ -37,7 +37,9 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
 
 Window::~Window(){
     SDL_FreeSurface(wSurface);
-    delete [] buttonList;
+    for ( auto it = buttonList.begin(); it != buttonList.end(); ++it ){
+        delete *it;
+    }
     cout << "dtor Window" << endl;
 }//dtor
 
@@ -45,16 +47,13 @@ void Window::elements_setup(){
     //Get button count from the script
     buttonCount = sHandler.get<int>("nBotoes");
     cout << "count = " << buttonCount << endl;
-    
-    //Allocate memory for the buttonlist
-    buttonList = Button::create_button_list(buttonCount);
-    
+
     //Build each button on the window
     std::string imgIname, imgAname;
     //Get the buttons table from lua.
     LuaTable button, buttons = sHandler.getTable("botoes");
     SDL_Surface *imgInactive = NULL, *imgActive = NULL;
-    
+
     cout << "beginning loop" << endl;
     for(int i=0; i<buttonCount; i++) {
         button = buttons.getLuaTable(i+1);
@@ -68,8 +67,8 @@ void Window::elements_setup(){
         imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
         imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
 
-        buttonList[i] = Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive, 
-                                        button.getLuaType(5) );
+        buttonList.push_back(new Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive,
+                                                        button.getLuaType(5) ) );
     }
 }
 
@@ -96,7 +95,7 @@ void Window::mouseclick(int x, int y){
     if (!is_mouse_inside(x, y)) return;
     //Try click on each button
     for(int i = 0; i < buttonCount; i++){
-        buttonList[i].mouse_try_click(x,y);
+        buttonList[i]->mouse_try_click(x,y);
     }
 }
 
@@ -106,7 +105,7 @@ void Window::draw(SDL_Surface *screen){
     //For each window element: draw
     //Draw each button
     for(int i = 0; i < buttonCount; i++){
-        buttonList[i].draw(screen);
+        buttonList[i]->draw(screen);
     }
 }
 
@@ -115,7 +114,7 @@ void Window::update(){
 //        buttonList[i].update();
 //    }
     for(int i = 0; i < buttonCount; i++){
-        buttonList[i].update();
+        buttonList[i]->update();
     }
 }
 

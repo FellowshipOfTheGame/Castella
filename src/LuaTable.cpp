@@ -6,7 +6,7 @@ using namespace luabind;
 LuaTable::LuaTable() {}
 
 LuaTable::LuaTable(LuaObject obj) {
-    assert( type(obj) == LUA_TTABLE ); 
+    assert( type(obj) == LUA_TTABLE );
 	table = obj;
 }
 
@@ -19,8 +19,8 @@ double LuaTable::getDouble(const char *key) { return object_cast<double>( table[
 const char *LuaTable::get_cString(int key) { return object_cast<const char *>( table[key] ); }
 const char *LuaTable::get_cString(const char *key) { return object_cast<const char *>( table[key] ); }
 
-std::string LuaTable::getString(int key) { return std::string( object_cast<const char *>( table[key] ) ); }
-std::string LuaTable::getString(const char *key) { return std::string( object_cast<const char *>( table[key] ) ); }
+std::string LuaTable::getString(int key) { return object_cast<const char *>( table[key] ); }
+std::string LuaTable::getString(const char *key) { return object_cast<const char *>( table[key] ); }
 
 LuaObject LuaTable::getLuaType(int key) { return table[key]; }
 LuaObject LuaTable::getLuaType(const char *key) { return table[key]; }
@@ -35,7 +35,7 @@ const LuaTable& LuaTable::operator=(const LuaObject rhs) {
 }
 
 const LuaTable& LuaTable::operator=(const LuaTable &rhs) {
-    assert( type(rhs.table) == LUA_TTABLE ); 
+    assert( type(rhs.table) == LUA_TTABLE );
 	this->table = rhs.table;
     return *this;
 }

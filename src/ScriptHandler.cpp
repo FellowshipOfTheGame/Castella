@@ -25,24 +25,24 @@ ScriptHandler::~ScriptHandler(){
     //std::cout << "dtor ScriptHandler: lua closed" << std::endl;
 } //dtor
 
-LuaTable ScriptHandler::getTable(const char *tableName) const { 
+LuaTable ScriptHandler::getTable(const char *tableName) const {
 	checkState();
-	return LuaTable( luabind::gettable( luabind::globals(L), tableName ) ); 
+	return LuaTable( luabind::gettable( luabind::globals(L), tableName ) );
 }
 
-LuaTable ScriptHandler::global() const { 
+LuaTable ScriptHandler::global() const {
 	checkState();
-	return LuaTable( luabind::globals(L) ); 
+	return LuaTable( luabind::globals(L) );
 }
 
-lua_State *ScriptHandler::state() const { 
+lua_State *ScriptHandler::state() const {
 	checkState();
-	return L; 
+	return L;
 }
 
-bool ScriptHandler::isNil( LuaObject obj ) {
+bool ScriptHandler::isNil( LuaObject *obj ) {
 	luaL_dostring(L, "function isNil(obj) return obj == nil end");
-	return luabind::call_function<bool>(L, "isNil", obj);
+	return luabind::call_function<bool>(L, "isNil", *obj);
 }
 
 void ScriptHandler::openLibs(){
@@ -76,7 +76,7 @@ void ScriptHandler::run_lua(){
     }
 }
 
-void ScriptHandler::close(){ 
+void ScriptHandler::close(){
 	if ( L != NULL ){
 		lua_close(L);
 		L = NULL;

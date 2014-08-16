@@ -36,14 +36,13 @@ bool Button::mouse_try_click (int x, int y){
 void Button::activate(){
     image = imgActive;
     activated = 8;
-    std::cout << "Aqui =D\n";
     try{
 		callback();
     }
     catch(luabind::error& e){
 		std::cout << "Error calling Luafunction: " << lua_tostring(e.state(), -1) << std::endl;
     }
-    
+
 }
 
 void Button::deactivate(){

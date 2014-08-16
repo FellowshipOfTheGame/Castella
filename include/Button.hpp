@@ -18,7 +18,7 @@ class Button
         LuaFunction callback; //the method called back from the button when it is activated
 
     public:
-	Button();
+        Button();
         //Creates a button bound to a window, at a relative position (x,y), that calls a method when activated
         Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk);
         virtual ~Button();

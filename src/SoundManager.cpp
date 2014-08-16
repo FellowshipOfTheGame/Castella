@@ -14,53 +14,52 @@
 SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize){ init(frequency, format, superchannels, chunksize); }
 SoundManager::~SoundManager(){ this->terminate(); }
 
-void SoundManager::init(int frequency, Uint16 format, int channels, int chunksize){
+void SoundManager::init(int frequency, Uint16 format, int channels, int chunksize) {
+    bool isOpen = Mix_OpenAudio( frequency, format, channels, chunksize ) != -1;
     channels = ( (channels < 2) ? 1:2 );
-    assert ( Mix_OpenAudio( frequency, format, channels, chunksize ) != -1 );
+    assert( isOpen );
     this->currentFrequency = frequency;
     this->currentFormat = format;
 }
 
-void SoundManager::terminate(){
+void SoundManager::terminate() {
     int i,
         calls = Mix_QuerySpec( NULL, NULL, NULL );
-    assert( calls != 0 );
     for ( i = calls; i > 0; i-- )  Mix_CloseAudio();
 }
 
-int SoundManager::getFormat(int *calls, int *frequency, Uint16 *format, int *channels){
+int SoundManager::getFormat(int *calls, int *frequency, Uint16 *format, int *channels) {
     int nCalls = Mix_QuerySpec( frequency, format, channels );
-    assert(nCalls != 0);
     if ( calls != NULL )    *calls = nCalls;
     return nCalls;
 }
 
 //CANAS INICIO
-void SoundManager::allocateChannels(int numchans){    Mix_AllocateChannels(numchans);     }
+void SoundManager::allocateChannels(int numchans) {    Mix_AllocateChannels(numchans);     }
 
-int SoundManager::getChannelNum(){ return Mix_AllocateChannels(-1); }
+int SoundManager::getChannelNum() { return Mix_AllocateChannels(-1); }
 
-bool SoundManager::isPlaying(int channel){ return Mix_Playing(channel); }
+bool SoundManager::isPlaying(int channel) { return Mix_Playing(channel); }
 
-int SoundManager::getPlayingCount(){ return Mix_Playing(-1); }
+int SoundManager::getPlayingCount() { return Mix_Playing(-1); }
 
-int SoundManager::reserveChannels(int num){ return Mix_ReserveChannels(num); }
+int SoundManager::reserveChannels(int num) { return Mix_ReserveChannels(num); }
 
-void SoundManager::play(Mix_Chunk *chunk, int channel, int nTimes){
+void SoundManager::play(Mix_Chunk *chunk, int channel, int nTimes) {
     if( Mix_PlayChannel(channel, chunk, nTimes) == -1)
         REMOVE std::cout << "Mixer: Error playing at channel " << channel << ".\n";
 }
 
-void SoundManager::loop(Mix_Chunk *chunk){
+void SoundManager::loop(Mix_Chunk *chunk) {
     if( Mix_PlayChannel(-1, chunk, -1) == -1)
         REMOVE std::cout << "Mixer: Error playing chunk.\n";
 }
 
-void SoundManager::pause(int channel){ Mix_Pause(channel); }
-void SoundManager::pauseAllChannel(){ Mix_Pause(-1); }
+void SoundManager::pause(int channel) { Mix_Pause(channel); }
+void SoundManager::pauseAllChannel() { Mix_Pause(-1); }
 
-void SoundManager::resume(int channel){ Mix_Resume(channel); }
-void SoundManager::resumeAllChannel(){ Mix_Resume(-1); }
+void SoundManager::resume(int channel) { Mix_Resume(channel); }
+void SoundManager::resumeAllChannel() { Mix_Resume(-1); }
 
 void SoundManager::stop(int channel){ Mix_HaltChannel(channel); }
 void SoundManager::stopAllChannel(){ Mix_HaltChannel(-1); }
@@ -100,7 +99,7 @@ void SoundManager::setReverseStereo(int channel, bool activated){
 //CHUNK INICIO
 void SoundManager::load(Mix_Chunk *chunk, const char *filename){
     chunk = Mix_LoadWAV(filename);
-    REMOVE if ( chunk == NULL )    std::cout << "Error loading chunk.\n";
+    assert(chunk != NULL);
 }
 
 void SoundManager::free(Mix_Chunk *chunk){  Mix_FreeChunk(chunk); }
@@ -118,7 +117,7 @@ bool SoundManager::isPlaying(){
 
 void SoundManager::load(Mix_Music *pointer, const char *filename){
     pointer = Mix_LoadMUS(filename);
-    REMOVE if ( pointer == NULL )  std::cout << "Mixer: Error loading music.\n";
+    assert( pointer != NULL );
 }
 
 void SoundManager::free(Mix_Music *pointer){ Mix_FreeMusic(pointer); }

@@ -28,9 +28,10 @@ void SceneControl::set_cur(Scenes cur){
 void SceneControl::update(){
     //TODO - Should handle scene change
     if(SceneControl::get_next() != SceneControl::SCENE_NULL){ //scene must change
-            Scene::scene->~Scene();
-            //delete Scene::scene;
-            GameVar::fpsCap = true; //FIXME - this line is for test, only, and should be removed
+        delete Scene::scene;
+        std::cout << "Scene apagado" << std::endl;
+        //Scene::scene->~Scene();
+        GameVar::fpsCap = true; //FIXME - this line is for test, only, and should be removed
         switch(get_next()){
             case SCENE_WORLD:
                 Scene::scene = new Scene_World();

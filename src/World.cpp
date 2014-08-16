@@ -8,6 +8,7 @@ World::World()
 
 World::~World()
 {
+    delete world;
     //dtor
 }
 

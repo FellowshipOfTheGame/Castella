@@ -39,8 +39,9 @@ class Window
         //Do an update on the window's and its elements' logic
         virtual void update();
 
-        Button *buttonList; //a pointer to a list of buttons
     protected:
+        std::vector<Button *> buttonList; //Button lsit
+        //Button *buttonList; //a pointer to a list of buttons
         SDL_Rect rect; //the rectangle with coordinates and dimentions of the window
         SDL_Surface *wSurface; //the image surface for the window
         short int buttonCount; //the number of buttons on the window

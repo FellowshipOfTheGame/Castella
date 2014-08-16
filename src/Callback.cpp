@@ -5,6 +5,8 @@
 #include <GameStructure.hpp>
 #include <SceneControl.hpp>
 
+using namespace std;
+
 Callback::Callback()
 {
     //ctor
@@ -19,22 +21,22 @@ Callback::~Callback()
 //Start button
 void Callback::game_start(){
     //add condition (is scene a StartMenu?)
-    std::cout << "game_start works" << std::endl;
+    cout << "game_start works" << endl;
     SceneControl::set_next(SceneControl::SCENE_WORLD);
 }
 //Load button
 void Callback::game_load(){
-    std::cout << "game_load works" << std::endl;
+    cout << "game_load works" << endl;
     SceneControl::set_next(SceneControl::SCENE_EDITOR);
 }
 //Quit button
 void Callback::game_quit(){
-    std::cout << "game_quit works" << std::endl;
+    cout << "game_quit works" << endl;
     GameVar::gameState = State::QUIT; //TODO - Use methods in a class to set or get the QUIT state - maybe a GameStateController
 }
 //Battle
 void Callback::start_battle(){
-    std::cout << "start_battle works" << std::endl;
+    cout << "start_battle works" << endl;
     SceneControl::set_next(SceneControl::SCENE_BATTLE);
 }
 

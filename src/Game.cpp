@@ -78,6 +78,9 @@ void Game::run(){
     msTimer.start();
     int frameCounter = 0;
 
+    char caption[20];
+    char stringBuffer[4];
+
     //Game Loop
     while (GameVar::gameState != State::QUIT){
         timer.start();
@@ -99,12 +102,10 @@ void Game::run(){
         Scene::scene->draw(screen);
         SDL_Flip(screen);
 
-        //
         //Count the fps
         frameCounter ++;
         if (msTimer.get_ticks() >= 500){ //(one) half second has gone
-            char caption[20] = "Castella - FPS: ";
-            char stringBuffer[4];
+            strcpy(caption, "Castella - FPS: ");
             frameCounter *= 2; // half second, double rate
 			sprintf (stringBuffer, "%d", frameCounter);
             //itoa(frameCounter, stringBuffer, 10);
