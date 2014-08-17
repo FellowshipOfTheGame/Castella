@@ -1,18 +1,5 @@
 #include <Structure.hpp>
 
-std::string structureTypeName (Structure_Type tipo) {
-	const std::string nomes[] = {
-		"throne",
-		"townhall",
-		"tavern",
-		"blacksmith",
-		"woods",
-		"mines"
-	};
-
-	return nomes[tipo];
-}
-
 /* * * * * * * * * *
  * ESTRUTURA ctor  *
  * * * * * * * * * */
@@ -22,7 +9,7 @@ Structure::Structure () {
 
 
 Structure::~Structure () {
-	std::cout << "\t\t\tdestruindo estrutura (" << structureTypeName (type) << ")\n";
+	
 }
 
 
@@ -39,7 +26,7 @@ Structure *StructureFactory::createStructure (Structure_Type structype) {
 		case woods: new_structure = new Woods (); break;
 		case mines: new_structure = new Mines (); break;
 	}
-
+	
 	return new_structure;
 }
 

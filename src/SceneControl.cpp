@@ -37,6 +37,8 @@ void SceneControl::set_cur(Scenes cur){
 }
 
 void SceneControl::update(){
+    //TODO - Should handle scene change
+    
     //scene must change
     if (SceneControl::get_next() != Scenes::SCENE_NULL) {
 		GameVar::fpsCap = true; //FIXME - this line is for test, only, and should be removed

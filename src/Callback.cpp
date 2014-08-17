@@ -5,8 +5,6 @@
 #include <GameStructure.hpp>
 #include <SceneControl.hpp>
 
-using namespace std;
-
 Callback::Callback()
 {
     //ctor
@@ -31,7 +29,7 @@ void Callback::game_load(){
 }
 //Quit button
 void Callback::game_quit(){
-    cout << "game_quit works" << endl;
+    std::cout << "game_quit works" << std::endl;
     GameVar::gameState = State::QUIT; //TODO - Use methods in a class to set or get the QUIT state - maybe a GameStateController
 }
 //Battle

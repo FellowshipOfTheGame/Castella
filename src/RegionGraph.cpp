@@ -10,7 +10,7 @@ Region *& RegionGraph::operator[] (unsigned int i) {
 		return regions.at (i);
 	}
 	catch (const std::out_of_range& oor) {
-		throw;
+		throw oor;
 	}
 }
 
@@ -39,8 +39,7 @@ RegionGraph::RegionGraph () {
 
 
 RegionGraph::~RegionGraph () {
-	std::cout << "\tdestruindo o RegionGraph:\n";
-	for (Region *&R : regions)
+	for (Region *R : regions)
 		delete (R);
 }
 
@@ -165,5 +164,5 @@ const RegionGraphIterator& RegionGraphIterator::operator++ () {
 }
 
 Region *& RegionGraphIterator::operator* () const {
-	return (*graph)[pos];	// Ignore o warning que aparece aqui
+	return (*graph)[pos];
 }

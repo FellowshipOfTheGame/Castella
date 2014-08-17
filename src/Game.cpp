@@ -45,7 +45,6 @@ void Game::terminate(){
     Mix_CloseAudio();
     TTF_Quit();
     SDL_Quit();
-	delete (World::get_world ());
 }
 
 int Game::initialize(){
@@ -54,8 +53,7 @@ int Game::initialize(){
     //Set Game State
     GameVar::gameState = State::MAIN;
     //Sets the first game scene
-	SceneControl::set_next (Scenes::SCENE_START_MENU);
-	SceneControl::update ();
+    Scene::scene = new Scene_StartMenu();
     //Creates the game world
     World::get_world();
     //If all went right

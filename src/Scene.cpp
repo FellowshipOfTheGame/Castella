@@ -9,7 +9,7 @@ Scene::~Scene()
 {
     //dtor
     for(int i = windows.size()-1; i>=0; i--){
-        delete windows[i];
+        windows[i]->~Window();
     }
 }
 
