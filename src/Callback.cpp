@@ -21,13 +21,13 @@ Callback::~Callback()
 //Start button
 void Callback::game_start(){
     //add condition (is scene a StartMenu?)
-    cout << "game_start works" << endl;
-    SceneControl::set_next(SceneControl::SCENE_WORLD);
+    std::cout << "game_start works" << std::endl;
+    SceneControl::set_next(Scenes::SCENE_WORLD);
 }
 //Load button
 void Callback::game_load(){
-    cout << "game_load works" << endl;
-    SceneControl::set_next(SceneControl::SCENE_EDITOR);
+    std::cout << "game_load works" << std::endl;
+    SceneControl::set_next(Scenes::SCENE_EDITOR);
 }
 //Quit button
 void Callback::game_quit(){
@@ -36,8 +36,8 @@ void Callback::game_quit(){
 }
 //Battle
 void Callback::start_battle(){
-    cout << "start_battle works" << endl;
-    SceneControl::set_next(SceneControl::SCENE_BATTLE);
+    std::cout << "start_battle works" << std::endl;
+    SceneControl::set_next(Scenes::SCENE_BATTLE);
 }
 
 void Callback::registerCallbacks( lua_State *L ) {

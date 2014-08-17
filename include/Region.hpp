@@ -48,7 +48,7 @@ enum Region_Type {
  * 
  * @return nome do tipo da região
  */
-std::string typeName (Region_Type tipo);
+std::string regionTypeName (Region_Type tipo);
 
 
 /** @brief Regiões do @ref World "mundo"

@@ -3,7 +3,7 @@
 Scene_StartMenu::Scene_StartMenu()
 {
     //Let the SceneControl know that the current scene is now a Scene_StartMenu
-    SceneControl::set_cur(SceneControl::SCENE_START_MENU);
+    SceneControl::set_cur(Scenes::SCENE_START_MENU);
 
     //Build scene objects
     title = FileHandler::load_img("Castella2.png");

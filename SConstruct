@@ -3,7 +3,7 @@
 import sys
 
 Help ("""
-Para compilar o projeto, escreva 'scons' na linha de comando.
+Para compilar o projeto, escreva 'scons' na linha de comando. Rode o programa com o Castella.sh
 Para apagar os objetos criados, assim como o executavel, use o comando 'scons -c'
 """)
 

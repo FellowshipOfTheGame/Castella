@@ -2,7 +2,7 @@
 
 Scene_World::Scene_World()
 {
-    SceneControl::set_cur(SceneControl::SCENE_WORLD);
+    SceneControl::set_cur (Scenes::SCENE_WORLD);
     
     map = new Map_World ();
     //~ windows.push_back(new Window("newgame.lua"));
@@ -11,7 +11,6 @@ Scene_World::Scene_World()
 Scene_World::~Scene_World()
 {
 	delete (map);
-    //dtor
 }
 
 void Scene_World::update() {
@@ -32,13 +31,17 @@ void Scene_World::mouseclick (int x, int y) {
 	if (x < Map_World::map_width && y < Map_World::map_height) {
 		std::cout << "Clicou no mapa;		X: " << x << " ; Y: " << y << '\n';
 		Region *reg = map->getRegion (x, y);
-		if (reg != nullptr)
+		// se é uma região de fato, escreve as info no stdout e entra na scene dela
+		if (reg != nullptr) {
 			reg->print ();
+			SceneControl::set_next (Scenes::SCENE_REGION);
+			Scene::ptr = reg;
+		}
 	}
 }
 
 void Scene_World::escape () {
-	SceneControl::set_next (SceneControl::SCENE_START_MENU);
+	SceneControl::exitScene ();
 }
 
 void Scene_World::handle_scene_input (int input) {

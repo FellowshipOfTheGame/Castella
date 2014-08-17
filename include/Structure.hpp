@@ -20,7 +20,7 @@ enum Structure_Type {
 	blacksmith,
 	// naturais, pra retirada de materiais
 	woods,
-	mines
+	mines,
 };
 
 /** @brief As estruturas dentro das regiões

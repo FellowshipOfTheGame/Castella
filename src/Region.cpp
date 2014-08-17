@@ -1,6 +1,6 @@
 #include <Region.hpp>
 
-std::string typeName (Region_Type tipo) {
+std::string regionTypeName (Region_Type tipo) {
 	const std::string names[] = {
 		"castle",
 		"village",
@@ -24,7 +24,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y) {
 	// dependendo do tipo, precisamos das tais estruturas
 	std::vector<Structure_Type> aux;
 	StructureFactory factory;
-	switch ((int) type) {
+	switch (type) {
 		case castle:
 			aux.push_back (throne);
 			aux.push_back (tavern);
@@ -56,6 +56,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y) {
 
 
 Region::~Region () {
+	std::cout << "\t\tdestruindo Região " << ID << " (" << regionTypeName (type) << "):\n";
 	for (Structure *&S : inner_structures)
 		delete (S);
 }
@@ -98,7 +99,7 @@ int Region::getDistance (Region *region) {
 
 void Region::print () {
 	std::cout << "Região " << ID << ": " << x << "x" << y << '\n';
-	std::cout << "Tipo: " << typeName (type) << "; ";
+	std::cout << "Tipo: " << regionTypeName (type) << "; ";
 	std::cout << "Adjacentes: ";
 	for (Region *R : neighbourhood) {
 		std::cout << R->ID << ", ";
