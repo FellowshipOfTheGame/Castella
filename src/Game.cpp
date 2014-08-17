@@ -53,7 +53,8 @@ int Game::initialize(){
     //Set Game State
     GameVar::gameState = State::MAIN;
     //Sets the first game scene
-    Scene::scene = new Scene_StartMenu();
+	SceneControl::set_next (Scenes::SCENE_START_MENU);
+    SceneControl::update ();
     //Creates the game world
     World::get_world();
     //If all went right

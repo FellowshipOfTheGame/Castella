@@ -7,7 +7,8 @@ Scene_StartMenu::Scene_StartMenu()
 
     //Build scene objects
     title = FileHandler::load_img("Castella2.png");
-    std::cout << title->format->Rmask << "        -.-" << std::endl;
+	assert (title);
+    //std::cout << title->format->Rmask << "        -.-" << std::endl;
     //Set the windows
     windows.push_back(new Window("startMenu.lua") );
 }
