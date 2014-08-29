@@ -1,7 +1,13 @@
 #!/bin/bash
+if [ `uname -m` == 'x86_64' ]
+then
+	arch='x86_64'
+else
+	arch='x86'
+fi
 
 # link com as libs que tão na pasta libs xD
-export LD_LIBRARY_PATH=libs
+export LD_LIBRARY_PATH=libs/$arch
 
 exe="build/Castella"
 

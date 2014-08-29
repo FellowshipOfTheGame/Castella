@@ -14,7 +14,7 @@ if not GetOption ('help'):
 		CC = 'g++',
 		CCFLAGS = '-g -Wall -pipe -fpermissive -std=c++11',
 		LIBPATH = ['/usr/lib'],
-		LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx', 'luabindd'],
+		LIBS = ['lua5.2', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx', 'luabindd'],
 		CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/', '/usr/include/lua5.2'],
 	)
 
