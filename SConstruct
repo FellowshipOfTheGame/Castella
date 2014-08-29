@@ -12,7 +12,7 @@ if not GetOption ('help'):
 	# algumas opcoes de ambiente pra compilar os trem
 	env = Environment (
 		CC = 'g++',
-		CCFLAGS = '-g -Wall -pipe -fpermissive -std=c++0x',
+		CCFLAGS = '-g -Wall -pipe -fpermissive -std=c++11',
 		LIBPATH = ['/usr/lib'],
 		LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx', 'luabindd'],
 		CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/', '/usr/include/lua5.2'],

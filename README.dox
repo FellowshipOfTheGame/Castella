@@ -137,39 +137,52 @@
 
 /** @page Programação Programação
  * - Controle do jogo
- * 		+ @ref Game.h
- * 		+ @ref GameState.h
- * 		+ @ref GameStructure.h
+ * 		+ @ref Game.hpp
+ * 		+ @ref GameStructure.hpp
  *
  * - Controle de saída
  * 		+ @ref Screen.h
- * 		+ @ref Scene.h
- * 		+ @ref SceneControl.h
- * 		+ @ref Scene_MapEditor.h
- * 		+ @ref Scene_StartMenu.h
- * 		+ @ref Scene_World.h
- * 		+ @ref Window.h
- * 		+ @ref Window_StartMenu.h
+ * 		+ @ref Scene.hpp
+ * 		+ @ref SceneControl.hpp
+ * 		+ @ref Scene_Battle.hpp
+ * 		+ @ref Scene_MapEditor.hpp
+ * 		+ @ref Scene_StartMenu.hpp
+ * 		+ @ref Scene_World.hpp
+ * 		+ @ref Window.hpp
+ * 		+ @ref Window_StartMenu.hpp
  *
  * - Interatividade
- * 		+ @ref Input.h
- * 		+ @ref Button.h
+ * 		+ @ref Input.hpp
+ * 		+ @ref Button.hpp
  *
  * - Controle de arquivos
- * 		+ @ref FileHandler.h
- * 		+ @ref FileContainer.h
- * 		+ @ref ScriptHandler.h
+ * 		+ @ref FileHandler.hpp
+ * 		+ @ref FileContainer.hpp
+ * 		+ @ref ScriptHandler.hpp
  *
  * - Estrutura do Jogo
- * 		+ @ref World.h
+ *		+ @ref ActorBattler.hpp
+ *		+ @ref Item.hpp
+ *		+ @ref Item_Defensive.hpp
+ *		+ @ref Item_Weapon.hpp
+ *		+ @ref Weapon.hpp
+ *		+ @ref MapTile.hpp
+ *		+ @ref Map_Battle.hpp
+ *		+ @ref Map_World.hpp
+ * 		+ @ref World.hpp
  * 		+ @ref Region.hpp
+ * 		+ @ref RegionGraph.hpp
  * 		+ @ref Structure.hpp
- * 		+ @ref MapEditor.h
+ *
+ * - Integração com o Lua
+ *		+ @ref LuaTable.hpp
+ *		+ @ref LuaWBind.hpp
  *
  * - Outros
- * 		+ @ref Callback.h
+ * 		+ @ref Callback.hpp
  * 		+ @ref simpleSDLfunctions.h
- * 		+ @ref soundManager.hpp
+ * 		+ @ref SoundManager.hpp
+ * 		+ @ref Timer.hpp
  *
  * @ref index
  */
