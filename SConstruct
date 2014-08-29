@@ -1,6 +1,7 @@
 # SCons pra construir o jogo Castella!
 
 import sys
+import platform
 
 Help ("""
 Para compilar o projeto, escreva 'scons' na linha de comando. Rode o programa com o Castella.sh
@@ -11,10 +12,10 @@ if not GetOption ('help'):
 	# algumas opcoes de ambiente pra compilar os trem
 	env = Environment (
 		CC = 'g++',
-		CCFLAGS = '-g -Wall -pipe -fpermissive -std=c++11',
+		CCFLAGS = '-g -Wall -pipe -fpermissive -std=c++0x',
 		LIBPATH = ['/usr/lib'],
 		LIBS = ['lua', 'SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx', 'luabindd'],
-		CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/'],
+		CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/', '/usr/include/lua5.2'],
 	)
 
 	# define umas cores, pra ficar mais bonito hora de escrever mensagens no terminal
@@ -30,7 +31,13 @@ if not GetOption ('help'):
 		conf = Configure (env)
 		if not conf.CheckLib ('luabindd'):
 			print ('%sLuabindd nao encontrado no sistema; Usando versao dinamica no pacote%s' % (vermelho, normal))
-			conf.env.Append (LIBPATH = '#libs')
+			# Checa arquitetura do processador
+			arch = ''
+			if platform.machine () == 'x86_64':
+				arch = 'x86_64'
+			else:
+				arch = 'x86'
+			conf.env.Append (LIBPATH = ('#libs/' + arch))
 
 		env = conf.Finish ()
 
