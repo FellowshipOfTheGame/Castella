@@ -89,6 +89,11 @@ std::set<Region*> Region::getNeighbourhood () {
 }
 
 
+std::vector<Structure*> Region::getStructures () {
+	return inner_structures;
+}
+
+
 int Region::getDistance (Region *region) {
 	int x = this->x - region->x;
 	int y = this->y - region->y;

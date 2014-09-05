@@ -11,6 +11,7 @@
 #include <Scene.hpp>
 #include <Region.hpp>
 #include <FileContainer.hpp>
+#include <simpleSDLfunctions.h>
 
 class Scene_Region : public Scene {
 public:

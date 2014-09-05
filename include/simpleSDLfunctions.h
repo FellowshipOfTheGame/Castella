@@ -27,11 +27,8 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
 
 //--------------------------------- ESCREVER TEXTO --------------------------------------//
 //Escreve um texto na tela, na posição desejada
-//void write_text(int x, int y, char texto[])
-//{
-//    mensagem_texto = TTF_RenderText_Solid(fonte, texto, cortexto);
-//    aplicar_superficie(x, y, mensagem_texto, tela);
-//}
+void write_text(int x, int y, SDL_Surface *destino, std::string texto);
+void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor);
 //---------------------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED
 

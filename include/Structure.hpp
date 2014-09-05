@@ -9,7 +9,6 @@
 
 #include <iostream>
 
-
 /** Enum do tipo da estrutura */
 enum Structure_Type {
 	// lugar do dono da região (se tiver: aplica-se a castelo e vila)
@@ -22,6 +21,10 @@ enum Structure_Type {
 	woods,
 	mines
 };
+
+
+std::string Structure_TypeName (Structure_Type tipo);
+
 
 /** @brief As estruturas dentro das regiões
  *
@@ -38,6 +41,8 @@ protected:
 public:
 	Structure ();	///< Ctor
 	~Structure ();	///< Dtor
+
+	Structure_Type getType ();
 };
 
 

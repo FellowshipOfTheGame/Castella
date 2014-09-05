@@ -96,6 +96,7 @@ public:
 	Region_Type getType ();
 	int getX ();
 	int getY ();
+	std::vector<Structure*> getStructures ();
 	
 	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
 	std::set<Region*> getNeighbourhood ();	///< retorna o set de vizinhos

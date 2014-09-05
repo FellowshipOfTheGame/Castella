@@ -1,5 +1,19 @@
 #include <Structure.hpp>
 
+
+std::string Structure_TypeName (Structure_Type tipo) {
+	const std::string nomes[] = {
+		"throne",
+		"townhall",
+		"tavern",
+		"blacksmith",
+		"woods",
+		"cave"
+	};
+	
+	return nomes[tipo];
+}
+
 /* * * * * * * * * *
  * ESTRUTURA ctor  *
  * * * * * * * * * */
@@ -10,6 +24,11 @@ Structure::Structure () {
 
 Structure::~Structure () {
 	
+}
+
+
+Structure_Type Structure::getType () {
+	return type;
 }
 
 
