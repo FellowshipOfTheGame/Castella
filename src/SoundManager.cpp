@@ -11,8 +11,13 @@
 #define REMOVE
 #endif
 
-SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize){ init(frequency, format, superchannels, chunksize); }
-SoundManager::~SoundManager(){ this->terminate(); }
+SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize) { 
+	if ( SoundManager::smg == NULL ) {
+		init(frequency, format, superchannels, chunksize);
+		SoundManager::smg = this;
+	}
+}
+SoundManager::~SoundManager(){ terminate(); }
 
 void SoundManager::init(int frequency, Uint16 format, int channels, int chunksize) {
     bool isOpen = Mix_OpenAudio( frequency, format, channels, chunksize ) != -1;
@@ -26,6 +31,7 @@ void SoundManager::terminate() {
     int i,
         calls = Mix_QuerySpec( NULL, NULL, NULL );
     for ( i = calls; i > 0; i-- )  Mix_CloseAudio();
+    SoundManager::smg = NULL;
 }
 
 int SoundManager::getFormat(int *calls, int *frequency, Uint16 *format, int *channels) {
@@ -77,7 +83,7 @@ void SoundManager::setPos(int channel, Sint16 angle, Uint8 distance){
         REMOVE std::cout << "Mixer: Error setting channel " << channel << " position.\n";
 }
 
-void SoundManager::setDefaultPos(int channel){ this->setPos(channel, 0, 0); }
+void SoundManager::setDefaultPos(int channel){ SoundManager::setPos(channel, 0, 0); }
 
 void SoundManager::setPanning(int channel, Uint8 pos){
     if ( pos > 254 )   pos = 254;
@@ -138,7 +144,7 @@ void SoundManager::fadeIn(Mix_Music *music, int nTimes, int milisec){
     if ( Mix_FadeInMusic(music, nTimes, milisec) == -1 )    REMOVE std::cout << "Mixer: Error fading in music.\n";
 }
 
-void SoundManager::fadeInLoop(Mix_Music *music, int milisec){ this->fadeIn(music, -1, milisec); }
+void SoundManager::fadeInLoop(Mix_Music *music, int milisec){ SoundManager::fadeIn(music, -1, milisec); }
 
 void SoundManager::fadeOut(int milisec){
     if( Mix_FadeOutMusic(milisec) == 0 )    REMOVE std::cout << "Mixer: Error fading out music.\n";
@@ -178,3 +184,5 @@ int SoundManager::getDistance(int xL, int yL, int x2, int y2){
 
     return distance;
 }
+
+SoundManager SoundManager::smg = NULL;
