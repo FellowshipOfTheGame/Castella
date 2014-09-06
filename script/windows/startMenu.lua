@@ -9,7 +9,7 @@ janela = {
 
 --Botões { x, y, imagem, imagemAtivo, ação do botão }:
 b1 = {20, 20, "buttonStart.png", "buttonStartA.png", jogo_iniciar}
-b2 = {20, 120, "buttonLoad.png", "buttonLoadA.png", jogo_carregar}
+b2 = {20, 120, "buttonLoad.png", "buttonLoadA.png", batalha_iniciar}
 b3 = {20, 220, "buttonQuit.png", "buttonQuitA.png", jogo_sair}
 
 botoes = {b1, b2, b3}
