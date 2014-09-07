@@ -53,7 +53,13 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
 //Escreve um texto na tela, na posição desejada
 void write_text(int x, int y, SDL_Surface *destino, std::string texto)
 {
-	SDL_Color cor = {0, 0, 0};
+	write_text (x, y, destino, texto, 0, 0, 0);
+}
+
+
+void write_text(int x, int y, SDL_Surface *destino, std::string texto, unsigned char R, unsigned char G, unsigned char B)
+{
+	SDL_Color cor = {R, G, B};
 	write_text (x, y, destino, texto, cor);
 }
 

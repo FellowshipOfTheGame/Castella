@@ -1,4 +1,5 @@
 #include <Window.hpp>
+
 using std::cout;
 using std::endl;
 
@@ -24,11 +25,16 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
     rect.y = table.getInt("y");
     rect.w = table.getInt("c");
     rect.h = table.getInt("a");
+	string windowSkinPath = table.getString ("windowSkin");
 
     //Set window skin
-    SDL_Surface *windowSkin = NULL;
-    windowSkin = files.push("images/windowskin.png");
-    wSurface = ImageHandler::make_window(rect, windowSkin);
+	if (windowSkinPath == "")
+		windowSkinPath = "defaultWindowSkin.png";
+
+	SDL_Surface *windowSkin = NULL;
+	windowSkin = files.push ("images/" + windowSkinPath);
+	wSurface = ImageHandler::make_window(rect, windowSkin);
+
     //Setup elements
     cout << "start elements-setup()" << endl;
     elements_setup();

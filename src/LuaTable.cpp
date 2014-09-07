@@ -19,8 +19,26 @@ double LuaTable::getDouble(const char *key) { return object_cast<double>( table[
 const char *LuaTable::get_cString(int key) { return object_cast<const char *>( table[key] ); }
 const char *LuaTable::get_cString(const char *key) { return object_cast<const char *>( table[key] ); }
 
-std::string LuaTable::getString(int key) { return object_cast<const char *>( table[key] ); }
-std::string LuaTable::getString(const char *key) { return object_cast<const char *>( table[key] ); }
+std::string LuaTable::getString(int key) {
+	try {
+		std::string str = object_cast<const char *>( table[key] );
+		return str;
+	}
+	// se não tem a key, retorna uma string vazia
+	catch (...) {
+		return "";
+	}
+}
+std::string LuaTable::getString(const char *key) {
+	try {
+		std::string str = object_cast<const char *>( table[key] );
+		return str;
+	}
+	// se não tem a key, retorna uma string vazia
+	catch (...) {
+		return "";
+	}
+}
 
 LuaObject LuaTable::getLuaType(int key) { return table[key]; }
 LuaObject LuaTable::getLuaType(const char *key) { return table[key]; }

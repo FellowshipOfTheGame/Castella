@@ -19,22 +19,21 @@ if not GetOption ('help'):
 	)
 
 	# Configuracaozinha: serve pra achar as dependencias; so serve se pedir pra construir
-	if not GetOption ('clean'):
-		conf = Configure (env)
+	conf = Configure (env)
 
-		# Checa arquitetura do processador
-		arch = ''
-		if platform.machine () == 'x86_64':
-			arch = 'x86_64'
-		else:
-			arch = 'x86'
-		conf.env.Append (LIBPATH = ('#libs/' + arch))
+	# Checa arquitetura do processador
+	arch = ''
+	if platform.machine () == 'x86_64':
+		arch = 'x86_64'
+	else:
+		arch = 'x86'
+	conf.env.Append (LIBPATH = ('#libs/' + arch))
 
-		env = conf.Finish ()
+	env = conf.Finish ()
 
-		# so recompila se for mais novo e se o arquivo objeto mudaria
-		env.Decider ('MD5-timestamp')
+	# so recompila se for mais novo e se o arquivo objeto mudaria
+	env.Decider ('MD5-timestamp')
 
-		# constroi de 'src' pra 'build', sem duplicar os .cpp
-		VariantDir ('build', 'src', duplicate = 0)
-		SConscript ('build/SConscript', exports = 'env')	# script interno, que manda compilar na real o jogo
+	# constroi de 'src' pra 'build', sem duplicar os .cpp
+	VariantDir ('build', 'src', duplicate = 0)
+	SConscript ('build/SConscript', exports = 'env')	# script interno, que manda compilar na real o jogo

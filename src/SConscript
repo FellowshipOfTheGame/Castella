@@ -5,5 +5,3 @@ Import ('env')
 src = Glob ('*.cpp')
 # compila o programa Castella
 env.Program ('Castella', src)
-
-Move( 'build/Castella', '.' )

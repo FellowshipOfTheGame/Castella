@@ -185,4 +185,4 @@ int SoundManager::getDistance(int xL, int yL, int x2, int y2){
     return distance;
 }
 
-SoundManager SoundManager::smg = NULL;
+SoundManager *SoundManager::smg = NULL;

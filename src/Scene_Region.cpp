@@ -12,10 +12,20 @@ void Scene_Region::update () {
 }
 
 void Scene_Region::draw (SDL_Surface *screen) {	
-	SDL_Color cor = {0, 255, 0};
+	const int positions[][2] = {
+		{0, 0},
+		{Screen::WIDTH/2, 0},
+		{0, Screen::HEIGHT/2},
+		{Screen::WIDTH/2, Screen::HEIGHT/2}
+	};
+
 	int i = 0;
 	for (Structure *S : current->getStructures ()) {
-		write_text (0, i * 20, screen, Structure_TypeName (S->getType ()), cor);
+		boxRGBA (screen, 
+				positions[i][0], positions[i][1],
+				positions[i][0] + Screen::WIDTH/2, positions[i][1] + Screen::HEIGHT/2,
+				i * 40, i * 40, i * 40, 255);
+		write_text (positions[i][0], positions[i][1], screen, Structure_TypeName (S->getType ()), 0, 255, 0);
 		i++;
 	}
 

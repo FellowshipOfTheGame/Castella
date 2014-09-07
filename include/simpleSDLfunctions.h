@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_gfxPrimitives.h>
 
 #include <iostream>
 #include <memory>
@@ -27,7 +28,11 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
 
 //--------------------------------- ESCREVER TEXTO --------------------------------------//
 //Escreve um texto na tela, na posição desejada
+// padrão: cor preta
 void write_text(int x, int y, SDL_Surface *destino, std::string texto);
+// cor por RGB
+void write_text(int x, int y, SDL_Surface *destino, std::string texto, unsigned char R, unsigned char G, unsigned char B);
+// cor direto pelo SDL_Color
 void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor);
 //---------------------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED
