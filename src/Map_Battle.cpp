@@ -28,6 +28,10 @@ Map_Battle::Map_Battle(int width, int height)
             }
         }
     }
+
+    //testing battlers:
+    battlers[0] = new Actor_Battler();
+    battlers[0]->set_map_pos(14,6);
 }
 
 Map_Battle::Map_Battle(std::string filename){
@@ -45,4 +49,8 @@ void Map_Battle::draw(SDL_Surface *screen){
             tileMap[i*width+j].draw(screen);
         }
     }
+    int clip = 7; //deve ser escolhido de acordo com a orientação e com o movimento do actor
+    int x = battlers[0]->get_map_pos().x * MapTile::TILESIZE;
+    int y = battlers[0]->get_map_pos().y * MapTile::TILESIZE;
+    battlers[0]->draw(x+MapTile::TILESIZE/2, y-18, clip, screen);
 }
