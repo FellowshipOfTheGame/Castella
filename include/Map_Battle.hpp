@@ -3,6 +3,7 @@
 
 #include "MapTile.hpp"
 #include "FileContainer.hpp"
+#include "Actor_Battler.hpp"
 
 
 class Map_Battle
@@ -18,6 +19,7 @@ class Map_Battle
         int width, height;
         vector<MapTile> tileMap;
         FileContainer tiles;
+        Actor_Battler *battlers[6];
 
     private:
 };
