@@ -7,12 +7,14 @@
 #define degrees(a) ( (int)(a * 180.0/PI ) ) //Converte um ângulo em radianos para graus.
 #define REMOVE //
 
-#ifdef NDEBUG
+#ifndef NDEBUG
 #define REMOVE
 #endif
 
-SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize) { 
-	if ( SoundManager::smg == NULL ) {
+SoundManager *SoundManager::smg = nullptr;
+
+SoundManager::SoundManager(int frequency, Uint16 format, int superchannels, int chunksize) {
+	if ( SoundManager::smg == nullptr ) {
 		init(frequency, format, superchannels, chunksize);
 		SoundManager::smg = this;
 	}
@@ -31,12 +33,12 @@ void SoundManager::terminate() {
     int i,
         calls = Mix_QuerySpec( NULL, NULL, NULL );
     for ( i = calls; i > 0; i-- )  Mix_CloseAudio();
-    SoundManager::smg = NULL;
+    SoundManager::smg = nullptr;
 }
 
 int SoundManager::getFormat(int *calls, int *frequency, Uint16 *format, int *channels) {
     int nCalls = Mix_QuerySpec( frequency, format, channels );
-    if ( calls != NULL )    *calls = nCalls;
+    if ( calls != nullptr )    *calls = nCalls;
     return nCalls;
 }
 
@@ -184,5 +186,8 @@ int SoundManager::getDistance(int xL, int yL, int x2, int y2){
 
     return distance;
 }
+<<<<<<< HEAD
+=======
 
 SoundManager *SoundManager::smg = NULL;
+>>>>>>> 0dd04b5e80cf38a30694dd1acee6e74eb2cbeaeb
