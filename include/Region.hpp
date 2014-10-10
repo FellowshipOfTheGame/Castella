@@ -39,7 +39,7 @@ enum Region_Type {
 	 * Cavernas contêm mateis, como ouro e aço.
 	 * Cuidado com os _Zubats_! xP
 	 */
-	cave,
+	cave
 };
 
 /** @brief Nome do tipo da região
@@ -48,7 +48,7 @@ enum Region_Type {
  * 
  * @return nome do tipo da região
  */
-std::string typeName (Region_Type tipo);
+std::string RegionTypeName (Region_Type tipo);
 
 
 /** @brief Regiões do @ref World "mundo"

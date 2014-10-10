@@ -1,6 +1,6 @@
 #include <Region.hpp>
 
-std::string typeName (Region_Type tipo) {
+std::string RegionTypeName (Region_Type tipo) {
 	const std::string names[] = {
 		"castle",
 		"village",
@@ -103,7 +103,7 @@ int Region::getDistance (Region *region) {
 
 void Region::print () {
 	std::cout << "Região " << ID << ": " << x << "x" << y << '\n';
-	std::cout << "Tipo: " << typeName (type) << "; ";
+	std::cout << "Tipo: " << RegionTypeName (type) << "; ";
 	std::cout << "Adjacentes: ";
 	for (Region *R : neighbourhood) {
 		std::cout << R->ID << ", ";
