@@ -10,7 +10,7 @@ Scene_StartMenu::Scene_StartMenu()
 	assert (title);
     //std::cout << title->format->Rmask << "        -.-" << std::endl;
     //Set the windows
-    windows.push_back(new Window("startMenu.lua") );
+    windows.push_back(new Window_StartMenu("startMenu.lua") );
 }
 
 Scene_StartMenu::~Scene_StartMenu()

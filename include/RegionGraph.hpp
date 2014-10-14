@@ -65,7 +65,7 @@ public:
 /** @brief Um iterador para o RegionGraph
  * 
  * É útil para iterarmos por todos as Regiões do grafo
- * usando a notação nova do C++11
+ * usando a notação nova do C++11 (for ranged loops)
  */
 class RegionGraphIterator {
 private:

@@ -7,6 +7,11 @@
 
 #include <SDL/SDL.h>
 
+/** @brief Widgets são os elementos básicos da GUI, montados usando SDL.
+ *
+ * Note que Widget é uma classe abstrata, já que não faz sentido um widget
+ * não ser específico.
+ */
 class Widget {
 protected:
 	/// Caixa que contém o widget. Guarda sua posição e tamanho

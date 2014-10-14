@@ -44,6 +44,7 @@ Structure *StructureFactory::createStructure (Structure_Type structype) {
 		case tavern: new_structure = new Tavern (); break;
 		case woods: new_structure = new Woods (); break;
 		case mines: new_structure = new Mines (); break;
+		default: new_structure = nullptr;
 	}
 	
 	return new_structure;

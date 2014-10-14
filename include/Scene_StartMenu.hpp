@@ -2,6 +2,7 @@
 #define SCENE_STARTMENU_H
 
 #include "Scene.hpp"
+#include "Window_StartMenu.hpp"
 #include <cassert>
 
 class Scene_StartMenu : public Scene

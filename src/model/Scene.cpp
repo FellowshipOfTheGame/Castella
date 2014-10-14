@@ -8,27 +8,27 @@ Scene::Scene()
 Scene::~Scene()
 {
     //dtor
-    for(int i = windows.size()-1; i>=0; i--){
-        windows[i]->~Window();
+    for (auto & win : windows) {
+        delete win;
     }
 }
 
 void Scene::update(){
-    for(int i = windows.size()-1; i>=0; i--){
-        windows[i]->update();
+    for (auto & win : windows) {
+        win->update();
     }
 }
 
 void Scene::draw(SDL_Surface *screen){
-    for(int i = windows.size()-1; i>=0; i--){
-        windows[i]->draw(screen);
+    for (auto & win : windows) {
+        win->draw(screen);
     }
 }
 
 void Scene::mouseclick(int x, int y){
     //If the mouse click was on a window rect, call window->mouseclick()
-    for(int i = windows.size()-1; i>=0; i--){
-        windows[i]->mouseclick(x, y);
+	for (auto & win : windows) {
+        win->mouseclick(x, y);
     }
 }
 

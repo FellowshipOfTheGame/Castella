@@ -10,7 +10,7 @@ Window::Window(int x, int y)
 //    sHandler = NULL; //not to let methods call on unallocated script
 }
 
-Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scriptFile){
+Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scriptFile) {
 
     //Registers the needed variables and runs the code.
     //Warning if the Callbacks are already registered at that lua state bad things may happen.
@@ -34,51 +34,20 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
 
 	SDL_Surface *windowSkin = NULL;
 	windowSkin = files.push ("images/" + windowSkinPath);
-	wSurface = ImageHandler::make_window(rect, windowSkin);
+	wSurface = ImageHandler::make_window (rect, windowSkin);
 
-    //Setup elements
-    cout << "start elements-setup()" << endl;
-    elements_setup();
-    cout << "end elements-setup()" << endl;
+}
+
+void Window::elements_setup() {
 }
 
 Window::~Window(){
     SDL_FreeSurface(wSurface);
-    for ( auto it = widgetList.begin(); it != widgetList.end(); ++it ){
-        delete *it;
+    for (auto & widget : widgetList) {
+        delete widget;
     }
     cout << "dtor Window" << endl;
 }//dtor
-
-void Window::elements_setup(){
-    //Get button count from the script
-    int buttonCount = sHandler.get<int>("nBotoes");
-    cout << "count = " << buttonCount << endl;
-
-    //Build each button on the window
-    std::string imgIname, imgAname;
-    //Get the buttons table from lua.
-    LuaTable button, buttons = sHandler.getTable("botoes");
-    SDL_Surface *imgInactive = NULL, *imgActive = NULL;
-
-    cout << "beginning loop" << endl;
-    for(int i=0; i<buttonCount; i++) {
-        button = buttons.getLuaTable(i+1);
-        imgIname = imgAname = buttonImgPath;
-        //Definition of parameters to be passed to the button
-        //Get parameters from the window script
-        imgIname += button.getString(3);
-        imgAname += button.getString(4);
-
-        //Loads the images to SDL_Surface
-        imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
-        imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
-
-        widgetList.push_back(new Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive,
-                                                        button.getLuaType(5) ) );
-    }
-}
-
 
 void Window::set_position(int x, int y){
     rect.x = x;
@@ -101,7 +70,7 @@ void Window::mouseclick(int x, int y){
     //Return if the mouse isn't over the window
     if (!is_mouse_inside(x, y)) return;
     // Vê se clica em cada widget
-    for (auto *&widget : widgetList) {
+    for (auto & widget : widgetList) {
         widget->mouse_try_click (x,y);
     }
 }
@@ -111,13 +80,13 @@ void Window::draw(SDL_Surface *screen){
     apply_surface(rect.x, rect.y, wSurface, screen);
     //For each window element: draw
     //Draw each button
-    for (auto *&widget : widgetList) {
+    for (auto & widget : widgetList) {
         widget->draw(screen);
     }
 }
 
 void Window::update(){
-    for (auto *&widget : widgetList) {
+    for (auto & widget : widgetList) {
         widget->update();
     }
 }

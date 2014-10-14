@@ -49,6 +49,13 @@ public:
 /** @brief Fábrica de estruturas */
 class StructureFactory {
 public:
+	/** @brief Cria uma estrutura dependendo do tipo pedido.
+	 *
+	 * @param[in] structype Tipo da estrutura a ser criada
+	 *
+	 * @return Nova estrutura, se tipo válido
+	 * @return nullptr se tipo inválido
+	 */
 	Structure *createStructure (Structure_Type structype);
 };
 

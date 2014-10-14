@@ -10,7 +10,7 @@ Region *& RegionGraph::operator[] (unsigned int i) {
 		return regions.at (i);
 	}
 	catch (const std::out_of_range& oor) {
-		throw oor;
+		throw;
 	}
 }
 

@@ -10,7 +10,7 @@
 #include "ImageHandler.hpp"
 
 
-#include "Button.hpp"
+#include "Widget.hpp"
 #include "Screen.h"
 #include "GameStructure.hpp"
 #include "SceneControl.hpp"
