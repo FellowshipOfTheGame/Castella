@@ -28,8 +28,9 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
 	string windowSkinPath = table.getString ("windowSkin");
 
     //Set window skin
-	if (windowSkinPath == "")
+	if (windowSkinPath == "") {
 		windowSkinPath = "defaultWindowSkin.png";
+	}
 
 	SDL_Surface *windowSkin = NULL;
 	windowSkin = files.push ("images/" + windowSkinPath);
@@ -43,7 +44,7 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
 
 Window::~Window(){
     SDL_FreeSurface(wSurface);
-    for ( auto it = buttonList.begin(); it != buttonList.end(); ++it ){
+    for ( auto it = widgetList.begin(); it != widgetList.end(); ++it ){
         delete *it;
     }
     cout << "dtor Window" << endl;
@@ -51,7 +52,7 @@ Window::~Window(){
 
 void Window::elements_setup(){
     //Get button count from the script
-    buttonCount = sHandler.get<int>("nBotoes");
+    int buttonCount = sHandler.get<int>("nBotoes");
     cout << "count = " << buttonCount << endl;
 
     //Build each button on the window
@@ -73,7 +74,7 @@ void Window::elements_setup(){
         imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
         imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
 
-        buttonList.push_back(new Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive,
+        widgetList.push_back(new Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive,
                                                         button.getLuaType(5) ) );
     }
 }
@@ -99,9 +100,9 @@ bool Window::is_mouse_inside(int x, int y){
 void Window::mouseclick(int x, int y){
     //Return if the mouse isn't over the window
     if (!is_mouse_inside(x, y)) return;
-    //Try click on each button
-    for(int i = 0; i < buttonCount; i++){
-        buttonList[i]->mouse_try_click(x,y);
+    // Vê se clica em cada widget
+    for (auto *&widget : widgetList) {
+        widget->mouse_try_click (x,y);
     }
 }
 
@@ -110,17 +111,14 @@ void Window::draw(SDL_Surface *screen){
     apply_surface(rect.x, rect.y, wSurface, screen);
     //For each window element: draw
     //Draw each button
-    for(int i = 0; i < buttonCount; i++){
-        buttonList[i]->draw(screen);
+    for (auto *&widget : widgetList) {
+        widget->draw(screen);
     }
 }
 
 void Window::update(){
-//    for (int i=0; i< buttonCount; i++){
-//        buttonList[i].update();
-//    }
-    for(int i = 0; i < buttonCount; i++){
-        buttonList[i]->update();
+    for (auto *&widget : widgetList) {
+        widget->update();
     }
 }
 

@@ -36,8 +36,8 @@ void Scene_StartMenu::escape(){
 }
 
 void Scene_StartMenu::handle_scene_input(int input){
-    switch(input){
-        default:
-            break;
-    }
+    //switch(input){
+        //default:
+            //break;
+    //}
 }

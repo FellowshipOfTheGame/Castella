@@ -14,6 +14,8 @@ void Window_StartMenu::update(){
     Window::update();
     //Zuera
     rect.x+=3;
-    if(rect.x >= Screen::WIDTH - rect.w){rect.x = 0;}
+    if(rect.x >= Screen::WIDTH - rect.w){
+		rect.x = 0;
+	}
 }
 

@@ -21,6 +21,12 @@ case "$1" in
 	"fullcheck")
 		valgrind --leak-check=full $exe;;
 
+	# cria base de dados do cscope
+	"cscope")
+		cd src/
+		cscope -b -I../include/ -smodel/ -sview/ -scontroller/ -sgamedata/
+		;;
+
 	*)
 		$exe;;
 

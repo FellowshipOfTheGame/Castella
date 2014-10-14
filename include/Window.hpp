@@ -40,11 +40,10 @@ class Window
         virtual void update();
 
     protected:
-        std::vector<Button *> buttonList; //Button lsit
+        std::vector<Widget *> widgetList; //widget lsit
         //Button *buttonList; //a pointer to a list of buttons
         SDL_Rect rect; //the rectangle with coordinates and dimentions of the window
         SDL_Surface *wSurface; //the image surface for the window
-        short int buttonCount; //the number of buttons on the window
         bool visible; //visibility of the window - to implement
         static const std::string scriptPath;
         static const std::string buttonImgPath;
