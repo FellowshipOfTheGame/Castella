@@ -1,18 +1,32 @@
+--- Como escrever sua Window no lua
 
---Janela {x, y, w, h}:
+-- 1: Janela {
+--		x: posição horizontal em relação à Screen (canto esquerdo = 0, aumentando)
+--		y: posição vertical em relação à Screen (canto superior = 0, aumentando)
+--		c: comprimento
+--		a: altura
+-- }:
 janela = { 
-	x = (TelaComprimento/2 - 160), --Posição na horizontal (esquerda da tela: 0, aumentando p/ a direita)
-	y = 320, --Posição na vertical (no topo da tela: 0, aumentando p/ baixo)
-	c = 320, --Comprimento
-	a = 999  --Altura
+	x = (TelaComprimento/2 - 160),
+	y = 320,
+	c = 320,
+	a = 999
 }
 
---Botões { x, y, imagem, imagemAtivo, ação do botão }:
-b1 = {0, 0, "buttonStart.png", "buttonStartA.png", batalha_iniciar}
-b2 = {0, 100, "buttonLoad.png", "buttonLoadA.png", jogo_carregar}
-b3 = {0, 200, "buttonQuit.png", "buttonQuitA.png", jogo_sair}
-
-botoes = {b1, b2, b3}
-
---Contar botões
+-- Botões {
+--	{
+--		x: posição horizontal em relação à Window
+--		y: posição vertical em relação à Window
+--		imagem: nome da imagem (arquivo) do botão inativo
+--		imagemAtivo: nome da imagem (arquivo) do botão ativo
+--		ação do botão: função de callback a ser chamada
+--	},
+--	{}...
+-- }
+botoes = {
+	{0, 0, "buttonStart.png", "buttonStartA.png", batalha_iniciar},
+	{0, 100, "buttonLoad.png", "buttonLoadA.png", jogo_carregar},
+	{0, 200, "buttonQuit.png", "buttonQuitA.png", jogo_sair},
+}
+-- Contagem dos botões (necessário!)
 nBotoes = #botoes

@@ -1,7 +1,4 @@
-#include <cassert>
 #include <ScriptHandler.hpp>
-#include <string>
-#include <memory>
 
 #define checkState() ( assert( L != NULL ) )
 
@@ -27,7 +24,11 @@ ScriptHandler::~ScriptHandler(){
 
 LuaTable ScriptHandler::getTable(const char *tableName) const {
 	checkState();
-	return LuaTable( luabind::gettable( luabind::globals(L), tableName ) );
+	LuaObject obj = luabind::gettable ( luabind::globals(L), tableName);
+	//if (type (obj) != LUA_TTABLE) {
+		//throw -1;
+	//}
+	return LuaTable (obj);
 }
 
 LuaTable ScriptHandler::global() const {

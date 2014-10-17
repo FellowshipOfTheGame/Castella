@@ -10,7 +10,7 @@
 #include "ImageHandler.hpp"
 
 
-#include "Widget.hpp"
+#include "Widgets.hpp"
 #include "Screen.h"
 #include "GameStructure.hpp"
 #include "SceneControl.hpp"
@@ -39,7 +39,7 @@ class Window
         //Do an update on the window's and its elements' logic
         virtual void update();
 
-    protected:
+    private:
         std::vector<Widget *> widgetList; //widget lsit
         //Button *buttonList; //a pointer to a list of buttons
         SDL_Rect rect; //the rectangle with coordinates and dimentions of the window
@@ -51,14 +51,15 @@ class Window
 
         FileContainer files;
 
+		void buttons_setup ();
         //Setup elements - such as buttons
-        virtual void elements_setup();
+        void elements_setup();
         //virtual void elements_setup(lua_State *state);
         //Checks if the mouse is inside the window
         bool is_mouse_inside(int x, int y);
 
 
-    private:
+    protected:
 };
 
 #endif // WINDOW_H
