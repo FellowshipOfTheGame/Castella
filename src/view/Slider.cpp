@@ -81,4 +81,7 @@ void Slider::draw (SDL_Surface *target) {
 		y = box.h / 2 - desl_y ();
 	}
 	apply_surface (box.x + x, box.y + y, img_selector, target);
+
+	// escreve porcentagem em cima
+	write_text (box.x, box.y, target, to_string (percent) + "%");
 }
