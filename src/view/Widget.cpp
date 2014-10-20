@@ -17,6 +17,12 @@ Widget::Widget (SDL_Rect *window, int width, int height, int x, int y)
 }
 
 
+void Widget::update () {
+    box.x = windowRelativeOffset.x + window->x;
+    box.y = windowRelativeOffset.y + window->y;
+}
+
+
 bool Widget::mouse_try_click (int x, int y){
 	// se tá dentro, é true
 	if (x > box.x && x < box.x + box.w && 

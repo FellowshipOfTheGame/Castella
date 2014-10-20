@@ -3,6 +3,8 @@
 Scene_Region::Scene_Region () {
 	SceneControl::set_cur (Scenes::SCENE_REGION);
 	current = (Region*) Scene::ptr;
+	// window
+	windows.push_back (new Window ("region.lua"));
 }
 
 Scene_Region::~Scene_Region () {}

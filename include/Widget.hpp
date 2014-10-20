@@ -5,7 +5,7 @@
 #ifndef WIDGET_HPP
 #define WIDGET_HPP
 
-#include <SDL/SDL.h>
+#include <simpleSDLfunctions.h>
 
 /** @brief Widgets são os elementos básicos da GUI, montados usando SDL.
  *
@@ -32,7 +32,8 @@ public:
 	/// Verifica se clicou
 	virtual bool mouse_try_click (int x, int y);
 	/// Lógica a ser atualizada a cada frame
-	virtual void update () = 0;
+	/// por padrão, atualiza a posição global através da posição da window
+	virtual void update ();
 	/// Desenha!
 	virtual void draw (SDL_Surface *target) = 0;
 };

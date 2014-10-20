@@ -30,3 +30,18 @@ botoes = {
 }
 -- Contagem dos botões (necessário!)
 nBotoes = #botoes
+
+-- Sliders {
+--	{
+--		x: posição horizontal em relação à Window
+--		y: posição vertical em relação à Window
+--		imagemSlider: nome da imagem de fundo do slider
+--		imagemSeletor: nome da imagem do seletor do slider
+--	}
+--	{}...
+-- }
+sliders = {
+	{20, 20, "slider1.png", "selector1.png"}
+}
+-- Contagem dos sliders (necessário!)
+nSliders = #sliders

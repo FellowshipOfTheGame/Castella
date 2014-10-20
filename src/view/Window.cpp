@@ -60,16 +60,46 @@ void Window::buttons_setup () {
         imgAname += button.getString(4);
 
         //Loads the images to SDL_Surface
-        imgInactive = files.push( imgIname.c_str() ); //load_image(&imgInactive, (char*)imgIname.c_str());
-        imgActive = files.push( imgAname.c_str() ); //load_image(&imgActive, (char*)imgAname.c_str());
+        imgInactive = files.push( imgIname.c_str() );
+        imgActive = files.push( imgAname.c_str() );
 
-        widgetList.push_back(new Button(&rect, button.getInt(1), button.getInt(2), imgInactive, imgActive,
-                                                        button.getLuaType(5) ) );
+        widgetList.push_back (new Button(&rect, button.getInt(1), 
+				button.getInt(2), imgInactive, imgActive,
+				button.getLuaType(5) ) );
+    }
+}
+
+void Window::sliders_setup () {
+    std::string img_back_name, img_selector_name;
+    // Table dos botões, lá do lua
+    LuaTable slider, sliders = sHandler.getTable ("sliders");
+	// As imagens dos botões
+    SDL_Surface *img_back = NULL, *img_selector = NULL;
+
+    // Quantos botões são
+    int slider_count = sHandler.get<int>("nSliders");
+	// Contrói cada botão, com suas informações
+    for (int i = 0; i < slider_count; i++) {
+        slider = sliders.getLuaTable (i + 1);
+        img_back_name = img_selector_name = sliderImgPath;
+        //Definition of parameters to be passed to the button
+        //Get parameters from the window script
+        img_back_name += slider.getString(3);
+        img_selector_name += slider.getString(4);
+
+        //Loads the images to SDL_Surface
+        img_selector = files.push (img_selector_name.c_str());
+        img_back = files.push (img_back_name.c_str());
+
+        widgetList.push_back (new Slider (&rect,
+				slider.getInt(1), slider.getInt(2),
+				img_back, img_selector));
     }
 }
 
 void Window::elements_setup() {
 	buttons_setup ();
+	sliders_setup ();
 }
 
 Window::~Window(){
@@ -124,3 +154,4 @@ void Window::update(){
 
 const std::string Window::scriptPath("script/windows/");
 const std::string Window::buttonImgPath("images/buttons/");
+const std::string Window::sliderImgPath("images/sliders/");

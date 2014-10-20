@@ -1,5 +1,4 @@
 #include <Button.hpp>
-#include <simpleSDLfunctions.h>
 
 Button::Button() : Widget () {};
 
@@ -41,9 +40,7 @@ void Button::deactivate(){
 }
 
 void Button::update(){
-    //Refresh button position
-    box.x = windowRelativeOffset.x + window->x;
-    box.y = windowRelativeOffset.y + window->y;
+	Widget::update ();
     //Countdown on active time
     if (activated > 0) activated--;
     else deactivate();

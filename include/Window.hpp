@@ -47,13 +47,17 @@ class Window
         bool visible; //visibility of the window - to implement
         static const std::string scriptPath;
         static const std::string buttonImgPath;
+        static const std::string sliderImgPath;
         ScriptHandler sHandler;
 
         FileContainer files;
 
-		void buttons_setup ();
         //Setup elements - such as buttons
         void elements_setup();
+		/// Monta os botões especificados no script
+		void buttons_setup ();
+		/// Monta os sliders especificados no script
+		void sliders_setup ();
         //virtual void elements_setup(lua_State *state);
         //Checks if the mouse is inside the window
         bool is_mouse_inside(int x, int y);

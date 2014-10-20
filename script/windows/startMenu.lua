@@ -16,3 +16,8 @@ botoes = {
 	{20, 220, "buttonQuit.png", "buttonQuitA.png", jogo_sair}
 }
 nBotoes = #botoes
+
+-- Sliders
+sliders = {
+}
+nSliders = #sliders

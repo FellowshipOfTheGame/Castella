@@ -7,5 +7,7 @@
 
 #include "Widget.hpp"
 #include "Button.hpp"
+#include "Slider.hpp"
+#include "ContentTable.hpp"
 
 #endif
