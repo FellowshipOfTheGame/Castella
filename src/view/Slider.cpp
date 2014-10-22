@@ -47,15 +47,6 @@ bool Slider::mouse_try_click (int x, int y) {
 }
 
 
-// Funções auxiliares à draw
-inline int max (int a, int b) {
-	return (a > b) ? a : b;
-}
-inline int min (int a, int b) {
-	return (a < b) ? a : b;
-}
-
-
 void Slider::draw (SDL_Surface *target) {
 	apply_surface (box.x, box.y, img_back, target);
 	// calcula posição do seletor
@@ -65,8 +56,14 @@ void Slider::draw (SDL_Surface *target) {
 		y = box.h * (percent / 100.0);
 		// aplica deslocamento e verifica se não chegou no cantos
 		y -= desl_y ();
-		y = max (y, 0);
-		y = min (y, box.h - img_selector->h);
+		if (y < 0) {
+			y = 0;
+			percent = 0;
+		}
+		else if (y > box.h - img_selector->h) {
+			y = box.h - img_selector->h;
+			percent = 100;
+		}
 		// horizontal no meio do slider
 		x = box.w / 2 - desl_x ();
 	}
@@ -75,8 +72,14 @@ void Slider::draw (SDL_Surface *target) {
 		x = box.w * (percent / 100.0);
 		// aplica deslocamento e verifica se não chegou no cantos
 		x -= desl_x ();
-		x = max (x, 0);
-		x = min (x, box.w - img_selector->w);
+		if (x < 0) {
+			x = 0;
+			percent = 0;
+		}
+		else if (x > box.w - img_selector->w) {
+			x = box.w - img_selector->w;
+			percent = 100;
+		}
 		// vertical no meio do slider
 		y = box.h / 2 - desl_y ();
 	}
