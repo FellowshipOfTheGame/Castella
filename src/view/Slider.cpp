@@ -13,7 +13,7 @@ inline int Slider::desl_y () {
 
 Slider::Slider (SDL_Rect *window, int x, int y, SDL_Surface *img_back, SDL_Surface *img_selector) 
 		: Widget (window, img_back->w, img_back->h, x, y), // ctor pai
-		img_back (img_back), img_selector (img_selector), percent (0) {
+		img_back (img_back), img_selector (img_selector) {
 	// Se altura é maior que largura, tá na vertical
 	if (box.h > box.w) {
 		dir = Direction::VERTICAL;
@@ -21,6 +21,9 @@ Slider::Slider (SDL_Rect *window, int x, int y, SDL_Surface *img_back, SDL_Surfa
 	else {
 		dir = Direction::HORIZONTAL;
 	}
+	// desenha pela primeira vez o Slider, visto que ele 
+	// só é redesenhado hora que é clicado
+	updateChangesImage ();
 }
 
 
@@ -41,14 +44,17 @@ bool Slider::mouse_try_click (int x, int y) {
 		else {
 			percent = (x - box.x) * 100.0 / box.w;
 		}
+
+		updateChangesImage ();
 	}
 
 	return aux;
 }
 
 
-void Slider::draw (SDL_Surface *target) {
-	apply_surface (box.x, box.y, img_back, target);
+void Slider::updateChangesImage () {
+	// fundo
+	apply_surface (0, 0, img_back, image);
 	// calcula posição do seletor
 	int x, y;
 	if (dir == Direction::VERTICAL) {
@@ -83,8 +89,8 @@ void Slider::draw (SDL_Surface *target) {
 		// vertical no meio do slider
 		y = box.h / 2 - desl_y ();
 	}
-	apply_surface (box.x + x, box.y + y, img_selector, target);
+	apply_surface (x, y, img_selector, image);
 
 	// escreve porcentagem em cima
-	write_text (box.x, box.y, target, to_string (percent) + "%");
+	write_text (0, 0, image, to_string (percent) + "%");
 }

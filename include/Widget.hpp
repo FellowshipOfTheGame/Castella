@@ -1,5 +1,5 @@
 /** @file Widget.hpp
- * Widgets a serem usados nos scripts lua, montados usando o SDL.
+ * header do view/Widget.cpp
  */
 
 #ifndef WIDGET_HPP
@@ -19,9 +19,9 @@ protected:
 	/// Distância em relação à janela pai
 	SDL_Rect windowRelativeOffset;
 	/// Referência da janela pai, caso ela se desloque, widget desloca junto
-	SDL_Rect *window;
+	SDL_Rect *window {NULL};
 	/// Imagem, o que será efetivamente mostrado
-	SDL_Surface *image;
+	SDL_Surface *image {NULL};
 
 public:
 	Widget ();
@@ -34,8 +34,15 @@ public:
 	/// Lógica a ser atualizada a cada frame
 	/// por padrão, atualiza a posição global através da posição da window
 	virtual void update ();
-	/// Desenha!
-	virtual void draw (SDL_Surface *target) = 0;
+	/** @brief Desenha!
+	 *
+	 * Essa versão simplesmente aplica 'image' a 'target',
+	 * em sua posição correta.
+	 *
+	 * @note As classes filhas, aplicam o que quiserem à
+	 * image, que daí aqui a desenhamos na target.
+	 */ 
+	void draw (SDL_Surface *target);
 };
 
 #endif

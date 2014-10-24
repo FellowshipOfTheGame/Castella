@@ -1,13 +1,15 @@
 #include <Widget.hpp>
 
-Widget::Widget () : window (NULL), image (NULL) {};
+Widget::Widget () {};
 
 
-Widget::~Widget () {};
+Widget::~Widget () {
+	SDL_FreeSurface (image);
+};
 
 
 Widget::Widget (SDL_Rect *window, int width, int height, int x, int y) 
-		: window (window) {
+		: window (window), image (create_surface (width, height)) {
 	windowRelativeOffset.x = x;
 	windowRelativeOffset.y = y;
 	box.w = width;
@@ -18,8 +20,13 @@ Widget::Widget (SDL_Rect *window, int width, int height, int x, int y)
 
 
 void Widget::update () {
-    box.x = windowRelativeOffset.x + window->x;
-    box.y = windowRelativeOffset.y + window->y;
+	box.x = windowRelativeOffset.x + window->x;
+	box.y = windowRelativeOffset.y + window->y;
+}
+
+
+void Widget::draw (SDL_Surface *target) {
+	apply_surface(box.x, box.y, image, target);
 }
 
 

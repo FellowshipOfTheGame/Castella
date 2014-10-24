@@ -10,7 +10,7 @@ class Button : public Widget
 {
     private:
         SDL_Surface *imgInactive, *imgActive; //images when the button is active, inactive, and the logic image
-        int activated; //holds the number of frames for the button to stay active
+        unsigned char activated; //holds the number of frames for the button to stay active
         LuaFunction callback; //the method called back from the button when it is activated
 
     public:
@@ -26,8 +26,6 @@ class Button : public Widget
         void deactivate();
         //Does the update logic that must be called every frame
         virtual void update();
-        //Draws the button
-        virtual void draw(SDL_Surface* target);
 
         //Static method to allocate memory for an array of buttons
         static Button* create_button_list(int buttonCount);

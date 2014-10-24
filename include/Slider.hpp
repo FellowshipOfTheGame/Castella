@@ -1,5 +1,5 @@
 /** @file Slider.hpp
- * header do ../src/view/Slider.cpp
+ * header do view/Slider.cpp
  */
 
 #ifndef SLIDER_HPP
@@ -8,6 +8,8 @@
 #include "Widget.hpp"
 
 /** @brief Slider é um Widget daquele de arrastar.
+ *
+ * Slider tem um seletor, e valor funciona por porcentagem (um int de 0 a 100).
  */
 class Slider : public Widget {
 private:
@@ -17,7 +19,7 @@ private:
 	SDL_Surface *img_selector;
 
 	/// Posição do slider
-	int percent;
+	int percent {0};
 
 	/**
 	 * Deslocamento do centro do Slider em relação à suas imagens.
@@ -45,14 +47,16 @@ public:
 	 * @param[in] window Window
 	 * @param[in] x Posição horizontal em relação à Window
 	 * @param[in] y Posição vertical em relação à Window
-	 * @param[in] img_back Imagem de fundo Slider (afeta seu tamanho, use com sabedoria)
-	 * @param[in] img_selector Imagem do selecionador do Slider (a ser posto sobre o fundo)
+	 * @param[in] img_back Imagem de fundo Slider 
+	 * 	(afeta seu tamanho, use com sabedoria)
+	 * @param[in] img_selector Imagem do selecionador do Slider 
+	 * 	(a ser posto sobre o fundo)
 	 */
 	Slider (SDL_Rect *window, int x, int y, SDL_Surface *img_back, SDL_Surface *img_selector);
 	/// Clica lá
 	bool mouse_try_click (int x, int y);
-	/// Desenha esse trem
-	void draw (SDL_Surface *target);
+	/// Atualiza seletor na 'image', pra ser desenhada certinha, a partir 
+	void updateChangesImage ();
 	/// Getter da porcentagem: saída do slider (sua utilidade)
 	int getPercent () const;
 

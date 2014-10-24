@@ -33,6 +33,14 @@ SDL_Surface *load_image(const char *nome_do_arquivo)
 }
 //---------------------------------------------------------------------------------------//
 
+//--------------------------------- CRIAR SUPERFICIE --------------------------/
+// Função que cria uma superfície vazia
+SDL_Surface *create_surface (int width, int height) {
+	return SDL_CreateRGBSurface (SDL_SWSURFACE, width, height, 32,
+			RMASK, GMASK, BMASK, AMASK);
+}
+//
+
 //--------------------------------- APLICAR SUPERFICIE ----------------------------------//
 //Aplica uma superfície recebendo também suas coordenadas como parâmetros
 void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_Rect* corte, float empurrar)
@@ -47,15 +55,17 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
     //Transferir superfície para seu destino
     SDL_BlitSurface(fonte, corte, destino, &coordenada);
 }
+
+// Preenche o fundo de uma superfície: padrão = preto
+void fill_surface (SDL_Surface *target, SDL_Rect *dstrect, SDL_Color cor) {
+	// mapeia 'cor' em Uint32, pra ser usado no fill
+	Uint32 my_uint32 = SDL_MapRGB (target->format, cor.r, cor.g, cor.b);
+	SDL_FillRect (target, dstrect, my_uint32);
+}
 //---------------------------------------------------------------------------------------//
 
-//--------------------------------- ESCREVER TEXTO --------------------------------------//
+//--------------------------------- ESCREVER TEXTO --------------------------------//
 //Escreve um texto na tela, na posição desejada
-void write_text(int x, int y, SDL_Surface *destino, std::string texto)
-{
-	write_text (x, y, destino, texto, 0, 0, 0);
-}
-
 
 void write_text(int x, int y, SDL_Surface *destino, std::string texto, unsigned char R, unsigned char G, unsigned char B)
 {
@@ -69,7 +79,7 @@ void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color
 	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", 20);
 	SDL_Surface *mensagem = TTF_RenderText_Solid (fonte, texto.c_str (), cor);
 
-	apply_surface (x, y, mensagem, destino, NULL, 0);
+	apply_surface (x, y, mensagem, destino);
 
 	SDL_FreeSurface (mensagem);
 	TTF_CloseFont (fonte);

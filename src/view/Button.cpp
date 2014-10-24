@@ -23,7 +23,7 @@ bool Button::mouse_try_click (int x, int y){
 }
 
 void Button::activate(){
-    image = imgActive;
+    apply_surface (0, 0, imgActive, image);
     activated = 8;
     try{
 		callback();
@@ -35,7 +35,7 @@ void Button::activate(){
 }
 
 void Button::deactivate(){
-    image = imgInactive;
+    apply_surface (0, 0, imgInactive, image);
     activated = 0;
 }
 
@@ -44,10 +44,6 @@ void Button::update(){
     //Countdown on active time
     if (activated > 0) activated--;
     else deactivate();
-}
-
-void Button::draw(SDL_Surface* target){
-    apply_surface(box.x, box.y, image, target);
 }
 
 Button* Button::create_button_list (int buttonCount){
