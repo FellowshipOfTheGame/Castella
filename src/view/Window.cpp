@@ -2,6 +2,7 @@
 
 using std::cout;
 using std::endl;
+using namespace luabind;
 
 Window::Window(){cout << "-ctor Window()" << endl;} //ctor
 
@@ -10,14 +11,17 @@ Window::Window(int x, int y)
 //    sHandler = NULL; //not to let methods call on unallocated script
 }
 
-Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scriptFile) {
+Window::Window (const std::string scriptFile, std::function<void (lua_State*)> registerOnLua)
+		: sHandler (Window::scriptPath + scriptFile) {
 
     //Registers the needed variables and runs the code.
     //Warning if the Callbacks are already registered at that lua state bad things may happen.
-    Callback::registerCallbacks(sHandler.L);
+	registerWindow (sHandler.L);
+    registerOnLua (sHandler.L);
     sHandler.send<int>(Screen::WIDTH, "TelaComprimento");
     sHandler.send<int>(Screen::HEIGHT, "TelaAltura");
-    sHandler.run_lua();
+    sHandler.send<Window *> (this, "Win");
+    sHandler.run_lua ();
 
     //Creates a rect from the window table
     LuaTable table = sHandler.getTable("janela");
@@ -36,9 +40,19 @@ Window::Window(const std::string scriptFile) : sHandler(Window::scriptPath + scr
 	windowSkin = files.push ("images/" + windowSkinPath);
 	wSurface = ImageHandler::make_window (rect, windowSkin);
 
-    cout << "start elements-setup()" << endl;
-    elements_setup();
-    cout << "end elements-setup()" << endl;
+	buttons_setup ();
+}
+
+void Window::addWidget (Widget *W) {
+	widgetList.push_back (W);
+}
+
+void Window::registerWindow (lua_State *L) {
+	module (L) [
+		class_<Window> ("Window")
+			.def ("addSliders", &Window::addSliders)
+			.def ("addButtons", &Window::addButtons)
+	];
 }
 
 void Window::buttons_setup () {
@@ -69,18 +83,46 @@ void Window::buttons_setup () {
     }
 }
 
-void Window::sliders_setup () {
+void Window::addButtons (LuaObject luatable) {
+	LuaTable table (luatable);
+
+	// Nomes das imagens
+    std::string imgIname, imgAname;
+	// As imagens dos botões
+    SDL_Surface *imgInactive = NULL, *imgActive = NULL;
+
+	// Pra cada LuaTable, constrói um Button
+    for (LuaObject obj : table) {
+		LuaTable button (table);
+
+        imgIname = imgAname = buttonImgPath;
+        //Definition of parameters to be passed to the button
+        //Get parameters from the window script
+        imgIname += button.getString (3);
+        imgAname += button.getString (4);
+
+        //Loads the images to SDL_Surface
+        imgInactive = files.push ( imgIname );
+        imgActive = files.push ( imgAname );
+
+        widgetList.push_back (new Button (&rect, button.getInt(1), 
+				button.getInt(2), imgInactive, imgActive,
+				button.getLuaType(5) ) );
+    }
+}
+
+void Window::addSliders (LuaObject luatable) {
+	LuaTable table (luatable);
+
+	// Nomes das imagens
     std::string img_back_name, img_selector_name;
-    // Table dos botões, lá do lua
-    LuaTable slider, sliders = sHandler.getTable ("sliders");
 	// As imagens dos botões
     SDL_Surface *img_back = NULL, *img_selector = NULL;
 
-    // Quantos botões são
-    int slider_count = sHandler.get<int>("nSliders");
-	// Contrói cada botão, com suas informações
-    for (int i = 0; i < slider_count; i++) {
-        slider = sliders.getLuaTable (i + 1);
+	// Pra cada LuaTable, constrói um Slider
+	for (LuaObject obj : table) {
+		LuaTable slider (obj);
+
         img_back_name = img_selector_name = sliderImgPath;
         //Definition of parameters to be passed to the button
         //Get parameters from the window script
@@ -94,12 +136,7 @@ void Window::sliders_setup () {
         widgetList.push_back (new Slider (&rect,
 				slider.getInt(1), slider.getInt(2),
 				img_back, img_selector));
-    }
-}
-
-void Window::elements_setup() {
-	buttons_setup ();
-	sliders_setup ();
+	}
 }
 
 Window::~Window(){

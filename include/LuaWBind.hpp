@@ -27,6 +27,8 @@ extern "C" {
 
 typedef luabind::object LuaObject;
 
+typedef luabind::iterator LuaTableIterator;
+
 typedef luabind::object LuaFunction;
 
 #endif

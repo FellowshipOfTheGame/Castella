@@ -1,9 +1,11 @@
+/** @file Callback.hpp
+ * header do controller/Callback.cpp
+ */
+
 #ifndef CALLBACK_H
 #define CALLBACK_H
 
 #include "LuaWBind.hpp"
-
-typedef void (*funcPointer)();
 
 class Callback
 {
@@ -19,7 +21,8 @@ class Callback
 
         static void start_battle();
 
-        static funcPointer callback(int i);
+		template <class T>
+        static std::function<T> callback(int i);
 	
 	//static const std::string callbackPath;
 

@@ -1,5 +1,9 @@
 #include <Scene_StartMenu.hpp>
 
+void oi (lua_State *L) {
+	Callback::registerCallbacks (L);
+}
+
 Scene_StartMenu::Scene_StartMenu()
 {
     //Let the SceneControl know that the current scene is now a Scene_StartMenu
@@ -10,7 +14,7 @@ Scene_StartMenu::Scene_StartMenu()
 	assert (title);
     //std::cout << title->format->Rmask << "        -.-" << std::endl;
     //Set the windows
-    windows.push_back(new Window ("startMenu.lua") );
+    windows.push_back(new Window ("startMenu.lua", &oi) );
 }
 
 Scene_StartMenu::~Scene_StartMenu()
