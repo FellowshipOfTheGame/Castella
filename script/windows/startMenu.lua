@@ -13,6 +13,6 @@ janela = {
 botoes = {
 	{20, 20, "buttonStart.png", "buttonStartA.png", jogo_iniciar},
 	{20, 120, "buttonLoad.png", "buttonLoadA.png", batalha_iniciar},
-	{20, 220, "buttonQuit.png", "buttonQuitA.png", jogo_sair}
+	{20, 220, "buttonQuit.png", "buttonQuitA.png", jogo_sair},
 }
-nBotoes = #botoes
+Win:addButtons (botoes)

@@ -39,8 +39,6 @@ Window::Window (const std::string scriptFile, std::function<void (lua_State*)> r
 	SDL_Surface *windowSkin = NULL;
 	windowSkin = files.push ("images/" + windowSkinPath);
 	wSurface = ImageHandler::make_window (rect, windowSkin);
-
-	buttons_setup ();
 }
 
 void Window::addWidget (Widget *W) {
@@ -55,34 +53,6 @@ void Window::registerWindow (lua_State *L) {
 	];
 }
 
-void Window::buttons_setup () {
-    std::string imgIname, imgAname;
-    // Table dos botões, lá do lua
-    LuaTable button, buttons = sHandler.getTable ("botoes");
-	// As imagens dos botões
-    SDL_Surface *imgInactive = NULL, *imgActive = NULL;
-
-    // Quantos botões são
-    int buttonCount = sHandler.get<int>("nBotoes");
-	// Contrói cada botão, com suas informações
-    for (int i = 0; i < buttonCount; i++) {
-        button = buttons.getLuaTable(i+1);
-        imgIname = imgAname = buttonImgPath;
-        //Definition of parameters to be passed to the button
-        //Get parameters from the window script
-        imgIname += button.getString(3);
-        imgAname += button.getString(4);
-
-        //Loads the images to SDL_Surface
-        imgInactive = files.push( imgIname.c_str() );
-        imgActive = files.push( imgAname.c_str() );
-
-        widgetList.push_back (new Button(&rect, button.getInt(1), 
-				button.getInt(2), imgInactive, imgActive,
-				button.getLuaType(5) ) );
-    }
-}
-
 void Window::addButtons (LuaObject luatable) {
 	LuaTable table (luatable);
 
@@ -93,7 +63,7 @@ void Window::addButtons (LuaObject luatable) {
 
 	// Pra cada LuaTable, constrói um Button
     for (LuaObject obj : table) {
-		LuaTable button (table);
+		LuaTable button (obj);
 
         imgIname = imgAname = buttonImgPath;
         //Definition of parameters to be passed to the button
@@ -107,7 +77,7 @@ void Window::addButtons (LuaObject luatable) {
 
         widgetList.push_back (new Button (&rect, button.getInt(1), 
 				button.getInt(2), imgInactive, imgActive,
-				button.getLuaType(5) ) );
+				button.getLuaType (5) ) );
     }
 }
 

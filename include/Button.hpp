@@ -1,3 +1,7 @@
+/** @file Button.hpp
+ * header do view/Button.cpp
+ */
+
 #ifndef BUTTON_H
 #define BUTTON_H
 
