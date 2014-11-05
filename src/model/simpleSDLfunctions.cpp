@@ -6,14 +6,14 @@
 
 //---------------------------------- CARREGAR IMAGEM ------------------------------------//
 //Função de carregamento de imagem
-SDL_Surface *load_image(const char *nome_do_arquivo)
+SDL_Surface *load_image (std::string nome_do_arquivo)
 {
     //Ponteiro de armazenamento de imagem
     SDL_Surface *imagemAux = NULL;
     SDL_Surface *imagem = NULL;
 
     //Carregar imagem
-    imagemAux = IMG_Load(nome_do_arquivo);
+    imagemAux = IMG_Load (nome_do_arquivo.c_str ());
     //Se a imagem tiver sido carregada corretamente
     if (imagemAux != NULL)
     {

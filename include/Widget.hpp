@@ -7,6 +7,8 @@
 
 #include <simpleSDLfunctions.h>
 
+using namespace std;
+
 /** @brief Widgets são os elementos básicos da GUI, montados usando SDL.
  *
  * Note que Widget é uma classe abstrata, já que não faz sentido um widget

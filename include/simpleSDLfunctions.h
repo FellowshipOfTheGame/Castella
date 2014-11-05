@@ -10,11 +10,7 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_gfxPrimitives.h>
 
-#include <iostream>
-#include <memory>
-#include <stdlib.h>
-
-using namespace std;
+#include <string>
 
 /* Máscara de bits pra criação de superfície, dica do SDL */
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -35,7 +31,7 @@ using namespace std;
 
 //---------------------------------- CARREGAR IMAGEM ------------------------------------//
 //Função de carregamento de imagem
-SDL_Surface *load_image(const char *nome_do_arquivo);
+SDL_Surface *load_image (std::string nome_do_arquivo);
 //----------------------------------------------------------------------------//
 
 //--------------------------------- CRIAR SUPERFICIE -------------------------//
