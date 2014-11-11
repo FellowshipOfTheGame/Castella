@@ -5,7 +5,7 @@
 #ifndef WIDGET_HPP
 #define WIDGET_HPP
 
-#include <simpleSDLfunctions.h>
+#include "simpleSDLfunctions.h"
 
 using namespace std;
 

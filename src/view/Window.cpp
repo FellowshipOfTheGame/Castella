@@ -1,7 +1,6 @@
 #include <Window.hpp>
 
-using std::cout;
-using std::endl;
+using namespace std;
 using namespace luabind;
 
 Window::Window(){cout << "-ctor Window()" << endl;} //ctor
@@ -11,7 +10,13 @@ Window::Window(int x, int y)
 //    sHandler = NULL; //not to let methods call on unallocated script
 }
 
-Window::Window (const std::string scriptFile, std::function<void (lua_State*)> registerOnLua)
+
+Window::Window (const string scriptFile, function<void (SDL_Rect *, lua_State *)> registerOnLua)
+		: Window (scriptFile, bind (registerOnLua, &rect, placeholders::_1)) {
+};
+
+
+Window::Window (const string scriptFile, function<void (lua_State *)> registerOnLua)
 		: sHandler (Window::scriptPath + scriptFile) {
 
     //Registers the needed variables and runs the code.
@@ -122,13 +127,14 @@ void Window::set_position(int x, int y){
     rect.y = y;
 }
 
-SDL_Rect Window::get_position(){
+SDL_Rect & Window::get_position(){
     return rect;
 }
 
 bool Window::is_mouse_inside(int x, int y){
     //Check given coordinates against window
-    if (x >= rect.x && x <= rect.x+rect.w && y >= rect.y && y <= rect.y+rect.h){
+    if (x >= rect.x && x <= rect.x + rect.w && 
+			y >= rect.y && y <= rect.y + rect.h) {
         return true;
     }
     return false;
@@ -149,13 +155,13 @@ void Window::draw(SDL_Surface *screen){
     //For each window element: draw
     //Draw each button
     for (auto & widget : widgetList) {
-        widget->draw(screen);
+        widget->draw (screen);
     }
 }
 
 void Window::update(){
     for (auto & widget : widgetList) {
-        widget->update();
+        widget->update ();
     }
 }
 

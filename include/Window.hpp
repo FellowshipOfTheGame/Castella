@@ -35,7 +35,12 @@ class Window
 		 * @param[in] registerOnLua A função que registra o que o lua_State precisar
 		 * Por padrão, a função passada faz nada.
 		 */
-		Window (const std::string scriptFile, std::function<void (lua_State*)> registerOnLua = [] (lua_State *L) {});
+		Window (const std::string scriptFile, std::function<void (lua_State *)> registerOnLua = [] (lua_State *L) {});
+		/** @brief Ctor, chamando a função com o rect
+		 * 
+		 * Às vezes é preciso
+		 */
+		Window (const std::string scriptFile, std::function<void (SDL_Rect *, lua_State *)> registerOnLua);
 
         ~Window();
 
@@ -51,7 +56,7 @@ class Window
         //Sets the window position
         void set_position(int x, int y);
         //Gets the window rect
-        SDL_Rect get_position();
+        SDL_Rect & get_position();
         //Runs a mouseclick on the specified coordinates
         void mouseclick(int x, int y);
         //Draws the window

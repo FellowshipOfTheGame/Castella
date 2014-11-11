@@ -4,7 +4,13 @@ Scene_Region::Scene_Region () {
 	SceneControl::set_cur (Scenes::SCENE_REGION);
 	current = (Region*) Scene::ptr;
 	// window
-	windows.push_back (new Window ("region.lua"));
+	Window *win = new Window ("region.lua");
+	windows.push_back (win);
+	
+	Cont = new ContentTable<string> (&win->get_position (), 120, 120, 
+			80, 80, {"oi", "doido"});
+
+	win->addWidget (Cont);
 }
 
 Scene_Region::~Scene_Region () {}
@@ -38,6 +44,12 @@ void Scene_Region::draw (SDL_Surface *screen) {
 
 void Scene_Region::mouseclick (int x, int y) {
 	Scene::mouseclick (x, y);
+
+	string *oi = Cont->getContent ();
+
+	if (oi) {
+		cout << *oi << '\n';
+	}
 }
 
 void Scene_Region::escape () {

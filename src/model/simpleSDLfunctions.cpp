@@ -57,7 +57,7 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
 }
 
 // Preenche o fundo de uma superfície: padrão = preto
-void fill_surface (SDL_Surface *target, SDL_Rect *dstrect, SDL_Color cor) {
+void fill_surface (SDL_Surface *target, SDL_Color cor, SDL_Rect *dstrect) {
 	// mapeia 'cor' em Uint32, pra ser usado no fill
 	Uint32 my_uint32 = SDL_MapRGB (target->format, cor.r, cor.g, cor.b);
 	SDL_FillRect (target, dstrect, my_uint32);
@@ -76,7 +76,7 @@ void write_text(int x, int y, SDL_Surface *destino, std::string texto, unsigned 
 
 void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor)
 {
-	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", 20);
+	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", DEFAULT_FONT_SIZE);
 	SDL_Surface *mensagem = TTF_RenderText_Solid (fonte, texto.c_str (), cor);
 
 	apply_surface (x, y, mensagem, destino);

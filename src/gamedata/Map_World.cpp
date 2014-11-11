@@ -35,10 +35,15 @@ void Map_World::draw (SDL_Surface *screen) {
 	// desenha as linhas que mostram os caminhos entre as regiões
 	for (Region *reg : (*graph)) {
 		for (Region *neighbour : reg->getNeighbourhood ()) {
-			lineColor (screen, reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
-					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 
+			lineColor (screen,
+					// primeiro ponto
+					reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					// segundo ponto
 					neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
-					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2), 0x000000ff);
+					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					// joga aquele preto básico
+					0x000000ff);
 		}
 	}
 }
