@@ -32,6 +32,9 @@ bool ContentTable<Content>::mouse_try_click (int x, int y) {
 		// senão, nullptr neles!
 		ultimo_clicado = clicado < data.size () ? &data[clicado] : nullptr;
 	}
+	else {
+		ultimo_clicado = nullptr;
+	}
 
 	return aux;
 }
