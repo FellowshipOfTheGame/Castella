@@ -1,6 +1,8 @@
 /** @file Region.hpp
  * 
  * @brief Regiões do mundão
+ *
+ * Header do gamedata/Region.cpp
  */
 
 #ifndef REGION_HPP
@@ -8,12 +10,12 @@
 
 #include <Structure.hpp>
 
-#include <cmath>
 #include <cstdlib>
 #include <vector>
 #include <set>
 #include <iostream>
-#include <stdexcept>
+
+using namespace std;
 
 
 /** Enum do tipo da região */
@@ -42,14 +44,6 @@ enum Region_Type {
 	cave
 };
 
-/** @brief Nome do tipo da região
- * 
- * @param[in] tipo Tipo da região
- * 
- * @return nome do tipo da região
- */
-std::string RegionTypeName (Region_Type tipo);
-
 
 /** @brief Regiões do @ref World "mundo"
  *
@@ -66,11 +60,11 @@ class Region {
 private:
 	Region_Type type;	///< tipo do reino
 	int ID;	///< ID da região
-	std::string name;	///< nome da região
+	string name;	///< nome da região
 	int x,	///< coordenada _x_ do reino no mapa global
 		y;	///< coordenada _y_ do reino no mapa global
-	std::set<Region*> neighbourhood;	///< vetor de regiões vizinhas; É um set para não haver repetições
-	std::vector<Structure*> inner_structures;	///< estruturas encontradas na região: depende do @ref Region_Type "tipo"
+	set<Region *> neighbourhood;	///< vetor de regiões vizinhas; É um set para não haver repetições
+	vector<Structure *> inner_structures;	///< estruturas encontradas na região: depende do @ref Region_Type "tipo"
 	//Actor *owner;	///< personagem (ainda não sei o nome da classe) dono da região; se NULL, não há dono
 	
 	/** @brief Diplomacia é o recurso que simboliza a relação entre o jogador e o lorde/prefeito/dono da região.
@@ -96,10 +90,18 @@ public:
 	Region_Type getType ();
 	int getX ();
 	int getY ();
-	std::vector<Structure*> getStructures ();
+	vector<Structure *> getStructures ();
 	
 	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
-	std::set<Region*> getNeighbourhood ();	///< retorna o set de vizinhos
+	set<Region *> getNeighbourhood ();	///< Retorna o set de vizinhos
+
+	/** @brief Representação em string dos tipos de regiões
+	 * 
+	 * @param[in] tipo Tipo da região
+	 * 
+	 * @return Nome do tipo da região
+	 */
+	static string RegionTypeName (Region_Type tipo);
 	
 	/* Constantes */
 	/// Número máximo de vizinhos por região

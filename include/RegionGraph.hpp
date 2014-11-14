@@ -7,6 +7,7 @@
 #define REGION_GRAPH_HPP
 
 #include <Region.hpp>
+#include <stdexcept>
 
 // Só nome, pro RegionGraph saber que existe
 class RegionGraphIterator;

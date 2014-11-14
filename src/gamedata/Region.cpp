@@ -1,7 +1,7 @@
 #include <Region.hpp>
 
-std::string RegionTypeName (Region_Type tipo) {
-	const std::string names[] = {
+string Region::RegionTypeName (Region_Type tipo) {
+	const string names[] = {
 		"castle",
 		"village",
 		"forest",
@@ -22,7 +22,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y) {
 	diplomacy = 0;
 
 	// dependendo do tipo, precisamos das tais estruturas
-	std::vector<Structure_Type> aux;
+	vector<Structure_Type> aux;
 	StructureFactory factory;
 	switch ((int) type) {
 		case castle:
@@ -56,7 +56,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y) {
 
 
 Region::~Region () {
-	for (Structure *&S : inner_structures)
+	for (auto & S : inner_structures)
 		delete (S);
 }
 
@@ -84,12 +84,12 @@ unsigned int Region::getAdjQuantity () {
 }
 
 
-std::set<Region*> Region::getNeighbourhood () {
+set<Region *> Region::getNeighbourhood () {
 	return neighbourhood;
 }
 
 
-std::vector<Structure*> Region::getStructures () {
+vector<Structure *> Region::getStructures () {
 	return inner_structures;
 }
 
@@ -97,16 +97,16 @@ std::vector<Structure*> Region::getStructures () {
 int Region::getDistance (Region *region) {
 	int x = this->x - region->x;
 	int y = this->y - region->y;
-	return (pow (x, 2) + pow (y, 2));
+	return (x * x + y * y);
 }
 
 
 void Region::print () {
-	std::cout << "Região " << ID << ": " << x << "x" << y << '\n';
-	std::cout << "Tipo: " << RegionTypeName (type) << "; ";
-	std::cout << "Adjacentes: ";
-	for (Region *R : neighbourhood) {
-		std::cout << R->ID << ", ";
+	cout << "Região " << ID << ": " << x << "x" << y << '\n';
+	cout << "Tipo: " << RegionTypeName (type) << "; ";
+	cout << "Adjacentes: ";
+	for (auto R : neighbourhood) {
+		cout << R->ID << ", ";
 	}
-	std::cout << "\n\n";
+	cout << "\n\n";
 }

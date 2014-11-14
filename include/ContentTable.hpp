@@ -14,7 +14,7 @@ template <class Content>
 class ContentTable : public Widget {
 private:
 	/// Vector contendo ponteiros para os conteúdos, que pode ser qualquer coisa
-	vector<Content> data;
+	vector<Content *> data;
 	Content *ultimo_clicado {nullptr};
 
 public:
@@ -24,7 +24,7 @@ public:
 			SDL_Color background = {255, 255, 255});
 	/** Ctor com inicialização do vector data */
 	ContentTable (SDL_Rect *window, int width, int height, int x, int y,
-			initializer_list<Content> l,
+			initializer_list<Content *> l,
 			SDL_Color foreground = {0, 0, 0},
 			SDL_Color background = {255, 255, 255});
 
@@ -49,7 +49,7 @@ public:
 	 *
 	 * @param[in] cont Conteúdo a ser inserido
 	 */
-	void addContent (Content cont);
+	void addContent (Content *cont);
 
 	/** @brief Destrói os conteúdos
 	 *
@@ -57,7 +57,7 @@ public:
 	 * apontados no vector data, pois talvez não seja isso
 	 * que se quer
 	 */
-	//void destroyContent ();
+	void destroyContent ();
 
 protected:
 };
