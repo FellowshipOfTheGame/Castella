@@ -2,6 +2,7 @@
 #define ACTOR_BATTLER_H
 
 #include <FileHandler.hpp>
+#include "Actor.hpp"
 
 
 enum class Direction {
@@ -14,6 +15,8 @@ enum class Direction {
 class Actor_Battler
 {
     private:
+        static int id;
+        int allegiance; //id do Player ao qual ele é leal
         int hp;
         int mp;
         int stamina;
@@ -24,7 +27,12 @@ class Actor_Battler
 
     public:
         Actor_Battler(); // Deve receber um objeto Actor como parametro, para ajustar os valores base dos atributos, bem como a sptitesheet
+        Actor_Battler(Actor* actor);
         virtual ~Actor_Battler();
+
+        void set_allegiance(int allegiance);
+
+        int get_allegiance();
 
         bool use_skill(int skill_id);
 

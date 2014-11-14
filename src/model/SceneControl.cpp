@@ -1,5 +1,6 @@
 #include <SceneControl.hpp>
 #include <SceneHeaders.hpp>
+#include "Player.hpp"
 
 SceneControl::SceneControl()
 {
@@ -38,12 +39,14 @@ void SceneControl::set_cur(Scenes cur){
 
 void SceneControl::update(){
     //TODO - Should handle scene change
-    
+
     //scene must change
     if (SceneControl::get_next() != Scenes::SCENE_NULL) {
 		GameVar::fpsCap = true; //FIXME - this line is for test, only, and should be removed
-		
+
 		Scene *aux;
+		Player* a = new Player();
+		Player* b = new Player();
         switch(get_next()) {
             case Scenes::SCENE_WORLD:
                 aux = new Scene_World();
@@ -55,7 +58,7 @@ void SceneControl::update(){
                 aux = new Scene_MapEditor();
                 break;
             case Scenes::SCENE_BATTLE:
-                aux = new Scene_Battle();
+                aux = new Scene_Battle(a, b);
                 break;
 			case Scenes::SCENE_REGION:
 				aux = new Scene_Region ();
@@ -67,7 +70,7 @@ void SceneControl::update(){
 			default:	// nada interessante, só vaza
 				return;
         }
-        
+
         Scene::scenes.push (aux);
         Scene::scene = Scene::scenes.top ();
     }

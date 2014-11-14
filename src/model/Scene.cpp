@@ -5,6 +5,10 @@ Scene::Scene()
 
 }
 
+Scene::Scene(Player* player1, Player* player2){
+
+}
+
 Scene::~Scene()
 {
     //dtor

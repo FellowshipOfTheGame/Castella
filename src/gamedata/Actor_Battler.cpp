@@ -10,6 +10,17 @@ Actor_Battler::Actor_Battler()
     this->direction = Direction::DOWN;
 }
 
+Actor_Battler::Actor_Battler(Actor* actor)
+{
+    this->hp = actor->get_hp();
+    this->mp = actor->get_mp();
+    this->stamina = actor->get_stamina();
+    this->spritesheet = FileHandler::load_img("actors/actor1.png");
+    this->direction = Direction::DOWN;
+
+    //set_map_pos(14,6); //para teste
+}
+
 Actor_Battler::~Actor_Battler()
 {
     //dtor
@@ -28,6 +39,14 @@ void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
     apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index));
 }
 
+void Actor_Battler::set_allegiance(int allegiance){
+    this->allegiance = allegiance;
+}
+
+int Actor_Battler::get_allegiance(){
+    return allegiance;
+}
+
 void Actor_Battler::set_map_pos(int x, int y){
     map_pos.x = x;
     map_pos.y = y;
@@ -40,3 +59,5 @@ SDL_Rect Actor_Battler::get_map_pos(){
 bool Actor_Battler::is_passable(){
     return passable;
 }
+
+int Actor_Battler::id = 0;

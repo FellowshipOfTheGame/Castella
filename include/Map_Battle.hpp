@@ -13,13 +13,13 @@ class Map_Battle
         Map_Battle(std::string filename);
         virtual ~Map_Battle();
 
-        void draw(SDL_Surface *screen);
+        void draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersTeam1, std::vector<Actor_Battler*> battlersTeam2);
 
     protected:
         int width, height;
         vector<MapTile> tileMap;
         FileContainer tiles;
-        Actor_Battler *battlers[6];
+        //Actor_Battler *battlers[6];
 
     private:
 };

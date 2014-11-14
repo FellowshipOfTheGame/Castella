@@ -25,7 +25,7 @@ class SceneControl
         SceneControl();
         virtual ~SceneControl();
 
-		/** Sai da cena atual e a desempilha 
+		/** Sai da cena atual e a desempilha
 		 * (chama a popScene, que faz isso de verdade)
 		 */
 		static void exitScene ();
@@ -37,7 +37,7 @@ class SceneControl
         static void update();
 
     protected:
-    
+
     private:
 		static void popScene ();
         static Scenes nextScene;

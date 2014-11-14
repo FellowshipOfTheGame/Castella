@@ -3,11 +3,13 @@
 
 #include "Scene.hpp"
 #include "Map_Battle.hpp"
+#include "Player.hpp"
 
 class Scene_Battle : public Scene
 {
     public:
         Scene_Battle();
+        Scene_Battle(Player* player1, Player* player2);
         virtual ~Scene_Battle();
         virtual void draw(SDL_Surface *screen);
         virtual void update();
@@ -16,12 +18,15 @@ class Scene_Battle : public Scene
 
     protected:
         Map_Battle *battleMap;
+        std::vector<Actor_Battler*> battlersTeam1;
+        std::vector<Actor_Battler*> battlersTeam2;
 
         virtual void mouseclick(int x, int y);
         virtual void escape();
         virtual void handle_scene_input(int input);
 
     private:
+        virtual void load_battlers(Player* player1, Player* player2);
 };
 
 #endif // SCENE_BATTLE_HPP

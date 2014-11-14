@@ -8,12 +8,14 @@
 #include "Window.hpp"
 #include "Input.hpp"
 #include "ScriptHandler.hpp"
+#include <Player.hpp>
 
 //Virtual class parent to every game scene
 class Scene
 {
     public:
         Scene();
+        Scene(Player* player1, Player* player2);
         virtual ~Scene();
         //Runs the scene logic
         virtual void update();
@@ -21,10 +23,10 @@ class Scene
         virtual void draw(SDL_Surface *screen);
         //Handles the scene input - handles generic context inputs and calls specific context handler
         void handle_input();
-        
+
         static Scene *scene; //the logic game scene
         /** Pilha de Cenas
-		 * 
+		 *
 		 * É usada uma pilha pra, na hora de sair da cena,
 		 * voltar pra que tava antes.
 		 * @sa exitScene
@@ -45,7 +47,7 @@ class Scene
 		static void *ptr;
 
     private:
-    
+
 };
 
 // - TODO: base Scene must control mouse position aquisition and standard inputs like asking to quit on the X(close) button
