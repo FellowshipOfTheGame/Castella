@@ -45,8 +45,6 @@ void SceneControl::update(){
 		GameVar::fpsCap = true; //FIXME - this line is for test, only, and should be removed
 
 		Scene *aux;
-		Player* a = new Player();
-		Player* b = new Player();
         switch(get_next()) {
             case Scenes::SCENE_WORLD:
                 aux = new Scene_World();
@@ -58,7 +56,7 @@ void SceneControl::update(){
                 aux = new Scene_MapEditor();
                 break;
             case Scenes::SCENE_BATTLE:
-                aux = new Scene_Battle(a, b);
+                aux = new Scene_Battle();
                 break;
 			case Scenes::SCENE_REGION:
 				aux = new Scene_Region ();

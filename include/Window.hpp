@@ -4,22 +4,20 @@
 #include <list>
 #include <vector>
 
-
 #include "FileHandler.hpp"
 #include "FileContainer.hpp"
 #include "ImageHandler.hpp"
-
 
 #include "Widgets.hpp"
 #include "Screen.h"
 #include "GameStructure.hpp"
 #include "SceneControl.hpp"
 
-#include "Callback.hpp"
 #include "ScriptHandler.hpp"
 
 
-//Virtual class parent to each window; holds elements such as buttons and responds to input
+// Virtual class parent to each window; holds elements such as buttons and 
+// responds to input
 class Window
 {
     public:

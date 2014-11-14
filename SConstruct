@@ -41,7 +41,7 @@ if not GetOption ('help'):
     # -llua ou -llua5.2 ?
     # se o grep retornar 0, é pq achou 'lua5.2', então linka com tal;
     # se retornar 1, é pq não achou, então o lua5.2 linka diretão no -llua
-    if not os.system ('pkg-config --list-all | grep lua5.2'):
+    if not os.system ('pkg-config --list-all | grep lua5.2 > /dev/null'):
         lua = '-llua5.2'
     else:
         lua = '-llua'

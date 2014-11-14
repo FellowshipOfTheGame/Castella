@@ -15,7 +15,6 @@ class Scene
 {
     public:
         Scene();
-        Scene(Player* player1, Player* player2);
         virtual ~Scene();
         //Runs the scene logic
         virtual void update();
@@ -35,7 +34,7 @@ class Scene
 
     protected:
         int input; //stores the last input value returned
-        std::vector<Window*> windows;
+        std::vector<Window *> windows;
         //Handles scene-specific input - called from handle_input()
         virtual void handle_scene_input(int input) {cout << "to na scene normal";};
         //Handles a mouse click input on the scene

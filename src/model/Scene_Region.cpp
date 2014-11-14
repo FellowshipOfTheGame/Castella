@@ -2,11 +2,11 @@
 
 Scene_Region::Scene_Region () {
 	SceneControl::set_cur (Scenes::SCENE_REGION);
-	current = (Region*) Scene::ptr;
+	current = (Region *) Scene::ptr;
 	// window
 	Window *win = new Window ("region.lua");
 	windows.push_back (win);
-	
+
 	static string a = "oi";
 	static string b = "doido";
 

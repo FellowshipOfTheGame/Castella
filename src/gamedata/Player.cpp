@@ -16,7 +16,7 @@ std::vector<Actor*> Player::get_actors(){
     return this->actors;
 }
 
-Player::get_id(){
+int Player::get_id(){
     return id;
 }
 
