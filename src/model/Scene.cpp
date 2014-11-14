@@ -70,4 +70,4 @@ void Scene::handle_input(){
 // definindo as variáveis estáticas
 Scene *Scene::scene = nullptr;
 void *Scene::ptr = nullptr;
-std::stack<Scene*> Scene::scenes;
+std::stack<Scene *> Scene::scenes;

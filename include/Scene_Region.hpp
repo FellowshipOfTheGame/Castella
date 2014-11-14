@@ -11,7 +11,7 @@
 #include <Scene.hpp>
 #include <Region.hpp>
 #include <FileContainer.hpp>
-#include <simpleSDLfunctions.h>
+#include "Widgets.hpp"
 
 class Scene_Region : public Scene {
 public:
@@ -27,6 +27,8 @@ protected:
 
 private:
 	Region *current;
+
+	ContentTable<string> *Cont;
 };
 
 #endif

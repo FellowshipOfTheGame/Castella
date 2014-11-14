@@ -49,7 +49,8 @@ void Callback::registerCallbacks( lua_State *L ) {
     ];
 }
 
-funcPointer Callback::callback(int i){
+template <class T>
+std::function<T> Callback::callback (int i){
     switch(i){
         case 0:
             return game_quit;

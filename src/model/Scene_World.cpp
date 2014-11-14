@@ -31,7 +31,7 @@ void Scene_World::mouseclick (int x, int y) {
 	if (x < Map_World::map_width && y < Map_World::map_height) {
 		std::cout << "Clicou no mapa;		X: " << x << " ; Y: " << y << '\n';
 		Region *reg = map->getRegion (x, y);
-		// se é uma região de fato, escreve as info no stdout e entra na scene dela
+		// se é uma região de fato, escreve info no stdout e entra na scene dela
 		if (reg != nullptr) {
 			reg->print ();
 			SceneControl::set_next (Scenes::SCENE_REGION);

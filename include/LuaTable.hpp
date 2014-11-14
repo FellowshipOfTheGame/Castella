@@ -29,6 +29,9 @@ class LuaTable
         const char *get_cString(int key);
         const char *get_cString(const char *key);
 
+		template <class T>
+		std::function<T> getFunction (int key);
+
         std::string getString(int key);
         std::string getString(const char *key);
 
@@ -50,6 +53,10 @@ class LuaTable
         template<typename T>
         T get(const char *key){ return luabind::object_cast<T>( table[key] ); }
 
+		/// Iterador pro começo da LuaTable (pra iterar por índices)
+		LuaTableIterator begin () const;
+		/// Iterador pro fim da LuaTable (pra iterar por índices)
+		LuaTableIterator end () const;
 };
 
 #endif

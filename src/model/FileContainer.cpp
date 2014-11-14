@@ -14,7 +14,7 @@ FileContainer::~FileContainer()
 //Pushes a pointer to a SDL_Surface into the surfaces vector, from a filename
 SDL_Surface* FileContainer::push(std::string filename){
     SDL_Surface* surface = NULL;
-    surface = load_image(filename.c_str());
+    surface = load_image (filename);
     surfaces.push_back(surface);
     return surface;
 }

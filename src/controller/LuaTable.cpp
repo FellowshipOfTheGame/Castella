@@ -60,3 +60,10 @@ const LuaTable& LuaTable::operator=(const LuaTable &rhs) {
 
 LuaObject LuaTable::operator[](int key) { return table[key]; }
 LuaObject LuaTable::operator[](const char *key) { return table[key]; }
+
+LuaTableIterator LuaTable::begin () const {
+	return LuaTableIterator (table);
+}
+LuaTableIterator LuaTable::end () const {
+	return LuaTableIterator ();
+}

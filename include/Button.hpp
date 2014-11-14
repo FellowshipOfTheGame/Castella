@@ -1,3 +1,7 @@
+/** @file Button.hpp
+ * header do view/Button.cpp
+ */
+
 #ifndef BUTTON_H
 #define BUTTON_H
 
@@ -11,7 +15,8 @@ class Button : public Widget
     private:
         SDL_Surface *imgInactive, *imgActive; //images when the button is active, inactive, and the logic image
         unsigned char activated; //holds the number of frames for the button to stay active
-        LuaFunction callback; //the method called back from the button when it is activated
+        //LuaFunction callback; //the method called back from the button when it is activated
+		LuaFunction callback;
 
     public:
         Button();

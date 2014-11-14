@@ -10,15 +10,16 @@
 #include <vector>
 #include <list>
 
+using namespace std;
 
 class FileHandler
 {
     public:
         FileHandler();
-        static SDL_Surface* load_img(std::string filename);
+        static SDL_Surface* load_img (string filename);
 
     private:
-        static const std::string imagePath;
+        static const string imagePath;
 
 };
 

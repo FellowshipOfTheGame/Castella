@@ -1,7 +1,7 @@
 #include <Structure.hpp>
 
 
-std::string Structure_TypeName (Structure_Type tipo) {
+std::string Structure::Structure_TypeName (Structure_Type tipo) {
 	const std::string nomes[] = {
 		"throne",
 		"townhall",
@@ -37,6 +37,7 @@ Structure_Type Structure::getType () {
  * * * * * */
 Structure *StructureFactory::createStructure (Structure_Type structype) {
 	Structure *new_structure;
+
 	switch (structype) {
 		case throne: new_structure = new Throne (); break;
 		case townhall: new_structure = new Townhall (); break;

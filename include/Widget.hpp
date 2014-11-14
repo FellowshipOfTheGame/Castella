@@ -5,7 +5,9 @@
 #ifndef WIDGET_HPP
 #define WIDGET_HPP
 
-#include <simpleSDLfunctions.h>
+#include "simpleSDLfunctions.h"
+
+using namespace std;
 
 /** @brief Widgets são os elementos básicos da GUI, montados usando SDL.
  *

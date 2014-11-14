@@ -25,19 +25,44 @@ class Window
     public:
         Window();
         Window(int x, int y); //ctor with window position as parameter
-        Window(const std::string scriptFile);
-        virtual ~Window();
+		/** @brief Window Ctor
+		 *
+		 * Ao construir uma Window, é passado um script lua para uma
+		 * inicialização apropriada, e uma função que registra o que
+		 * quer que seja que lua_State precise saber.
+		 *
+		 * @param[in] scriptFile Nome do script lua
+		 * @param[in] registerOnLua A função que registra o que o lua_State precisar
+		 * Por padrão, a função passada faz nada.
+		 */
+		Window (const std::string scriptFile, std::function<void (lua_State *)> registerOnLua = [] (lua_State *L) {});
+		/** @brief Ctor, chamando a função com o rect
+		 * 
+		 * Às vezes é preciso
+		 */
+		Window (const std::string scriptFile, std::function<void (SDL_Rect *, lua_State *)> registerOnLua);
+
+        ~Window();
+
+		/// Adiciona um Widget na Window, o adicionando no vector widgetList
+		void addWidget (Widget *W);
+		/// Adiciona Sliders a partir de uma Table do lua
+		void addSliders (LuaObject luatable);
+		/// Adiciona Buttons a partir de uma Table do lua
+		void addButtons (LuaObject luatable);
+
+		void buttons_setup ();
 
         //Sets the window position
-        virtual void set_position(int x, int y);
+        void set_position(int x, int y);
         //Gets the window rect
-        virtual SDL_Rect get_position();
+        SDL_Rect & get_position();
         //Runs a mouseclick on the specified coordinates
-        virtual void mouseclick(int x, int y);
+        void mouseclick(int x, int y);
         //Draws the window
-        virtual void draw(SDL_Surface *screen);
+        void draw(SDL_Surface *screen);
         //Do an update on the window's and its elements' logic
-        virtual void update();
+        void update();
 
     private:
         std::vector<Widget *> widgetList; //widget lsit
@@ -52,13 +77,8 @@ class Window
 
         FileContainer files;
 
-        //Setup elements - such as buttons
-        void elements_setup();
-		/// Monta os botões especificados no script
-		void buttons_setup ();
-		/// Monta os sliders especificados no script
-		void sliders_setup ();
-        //virtual void elements_setup(lua_State *state);
+		/// Registra Window no estado: função auxiliar ao Ctor
+		void registerWindow (lua_State *L);
         //Checks if the mouse is inside the window
         bool is_mouse_inside(int x, int y);
 

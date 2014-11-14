@@ -15,7 +15,7 @@ if not GetOption ('help'):
     # algumas opcoes de ambiente pra compilar os trem
     env = Environment (
         CC = 'g++',
-        CCFLAGS = '-O2 -Wall -pipe -fpermissive -std=c++11',
+        CCFLAGS = '-Wall -g -fpermissive -std=c++11 -O2 -pipe',
         LIBPATH = ['/usr/lib'],
         LIBS = ['SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx',
                 'luabindd'],
@@ -23,9 +23,9 @@ if not GetOption ('help'):
                 '/usr/include/lua5.2'],
     )
     # se for passado debug=1, adiciona flag de debug no compilador
-    debug = ARGUMENTS.get ('debug', 0)
-    if int (debug):
-        env.Append (CCFLAGS = ' -g')
+    #debug = ARGUMENTS.get ('debug', 0)
+    #if int (debug):
+        #env.Append (CCFLAGS = ' -g')
 
     # Configuracaozinha: bibliotecas dinâmicas!
     conf = Configure (env)

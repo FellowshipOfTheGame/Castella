@@ -4,7 +4,7 @@ Import ('env')
 
 # Os arquivos fonte são os .cpp dentro das pastas e a main
 src = Glob ('*/*.cpp')
-src += ['main.cpp']
+src += ['main.cpp']#, '#include/ContentTable.hpp']
 
 # compila o programa Castella
 env.Program ('Castella', src)
