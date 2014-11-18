@@ -14,7 +14,8 @@ class Player //Possivelmente diferenciar Human e Computer player por subclasses
     protected:
 
     private:
-        static int id;
+        static int idCount;
+        int id;
         std::vector<Actor*> actors;
 };
 

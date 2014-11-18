@@ -6,10 +6,10 @@
 
 
 enum class Direction {
-    RIGHT,
-    LEFT,
-    UP,
-    DOWN
+    DOWN    = 0,
+    LEFT    = 1,
+    RIGHT   = 2,
+    UP      = 3
 };
 
 class Actor_Battler
@@ -20,6 +20,7 @@ class Actor_Battler
         int hp;
         int mp;
         int stamina;
+        int AI; //fazer enum (ou usar string do script, puxada do actor): none, preset1, preset2, ..., custom - usar scripts (por enquanto IA=false é player)
         SDL_Surface* spritesheet;
         Direction direction;
         SDL_Rect spriteclip[12];
@@ -41,6 +42,12 @@ class Actor_Battler
         void draw(int x, int y, int index, SDL_Surface *screen);
 
         void set_map_pos(int x, int y);
+
+        void look(Direction direction);
+
+        void set_ai(int ai);
+
+        bool is_player_controlled();
 
         SDL_Rect get_map_pos();
 

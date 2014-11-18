@@ -4,9 +4,15 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
 {
     SceneControl::set_cur (Scenes::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
 
-	Player *players = (Player *) Scene::ptr;
+	//Player *players = (Player *) Scene::ptr; //Recebe os players do ponteiro estático da scene
 
-	load_battlers (players[0], players[1]);
+    //Código provisório nesta classe para inicializar os players
+    Player players[2];
+	players[0] = Player();
+	players[1] = Player();
+
+    std::cout << "loading battlers... ";
+	load_battlers (&players[0], &players[1]);
 }
 
 Scene_Battle::~Scene_Battle()
@@ -40,14 +46,29 @@ void Scene_Battle::handle_scene_input(int input){
 }
 
 void Scene_Battle::load_battlers(Player* player1, Player* player2){
+
+    player1 = new Player();
+    player2 = new Player();
+
+    std::cout << "loading battlers";
+
     std::vector <Actor*> actors1 = player1->get_actors();
     std::vector <Actor*> actors2 = player2->get_actors();
 
+    int i=0;
     for (auto actor : actors1) {
-        battlersTeam1.push_back(new Actor_Battler(actor));
+        Actor_Battler *battler = new Actor_Battler(actor);
+        battler->set_map_pos(3, 2*i++ +4);
+        battler->set_allegiance(1);
+        battler->look(Direction::RIGHT);
+        battlersTeam1.push_back(battler);
     }
-
+    i=0;
     for (auto actor : actors2) {
-        battlersTeam2.push_back(new Actor_Battler(actor));
+        Actor_Battler *battler = new Actor_Battler(actor);
+        battler->set_map_pos(16, 2*i++ +4);
+        battler->set_allegiance(2);
+        battler->look(Direction::LEFT);
+        battlersTeam2.push_back(battler);
     }
 }

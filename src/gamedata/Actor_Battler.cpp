@@ -17,8 +17,7 @@ Actor_Battler::Actor_Battler(Actor* actor)
     this->stamina = actor->get_stamina();
     this->spritesheet = FileHandler::load_img("actors/actor1.png");
     this->direction = Direction::DOWN;
-
-    //set_map_pos(14,6); //para teste
+    //setar IA, de acordo com atributo do actor
 }
 
 Actor_Battler::~Actor_Battler()
@@ -36,6 +35,7 @@ SDL_Rect Actor_Battler::clip(int index){
 }
 
 void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
+    index = (int)direction*3 + 1;
     apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index));
 }
 
@@ -54,6 +54,18 @@ void Actor_Battler::set_map_pos(int x, int y){
 
 SDL_Rect Actor_Battler::get_map_pos(){
     return map_pos;
+}
+
+void Actor_Battler::look(Direction direction){
+    this->direction = direction;
+}
+
+void Actor_Battler::set_ai(int ai){
+    this->AI = ai;
+}
+
+bool Actor_Battler::is_player_controlled(){
+    return !AI;
 }
 
 bool Actor_Battler::is_passable(){

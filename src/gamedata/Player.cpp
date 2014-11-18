@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+    id = idCount;
     for (int i=0; i<3; i++){
         actors.push_back(new Actor());
     }
@@ -20,4 +21,4 @@ int Player::get_id(){
     return id;
 }
 
-int Player::id = 0;
+int Player::idCount = 0;

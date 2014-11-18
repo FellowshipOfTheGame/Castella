@@ -2,6 +2,7 @@
 
 Actor::Actor()
 {
+    id = idCount;
     hp = 50;
     mp = 50;
     stamina = 100;
@@ -24,4 +25,4 @@ int Actor::get_stamina(){
     return stamina;
 }
 
-int Actor::id = 0;
+int Actor::idCount = 0;

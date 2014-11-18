@@ -12,7 +12,8 @@ class Actor
 
     protected:
     private:
-        static int id;
+        static int idCount;
+        int id;
         int hp;
         int mp;
         int stamina;

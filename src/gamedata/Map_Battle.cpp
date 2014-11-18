@@ -53,12 +53,11 @@ void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersT
     //Draws battlers
     std::vector<Actor_Battler*> battlers = battlersTeam1;
     battlers.insert(battlers.end(), battlersTeam2.begin(), battlersTeam2.end());
-    std::vector<Actor_Battler*>::iterator battlersIt;
-    for (battlersIt = battlersTeam1.begin(); battlersIt != battlersTeam1.end(); battlersIt++){
+    for (auto battlersIt : battlers){
         int clip = 7; //deve ser escolhido de acordo com a orientação e com o movimento do actor
-        int x = (*battlersIt)->get_map_pos().x * MapTile::TILESIZE;
-        int y = (*battlersIt)->get_map_pos().y * MapTile::TILESIZE;
-        (*battlersIt)->draw(x+MapTile::TILESIZE/2, y-18, clip, screen);
+        int x = (battlersIt)->get_map_pos().x * MapTile::TILESIZE;
+        int y = (battlersIt)->get_map_pos().y * MapTile::TILESIZE;
+        (battlersIt)->draw(x+MapTile::TILESIZE/2, y-18, clip, screen);
     }
 
 }
