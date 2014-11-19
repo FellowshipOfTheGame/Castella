@@ -1,15 +1,18 @@
 /** @file Map_World.hpp
  * Mapa mundi, com as regiões
+ *
+ * Header do gamedata/Map_World.cpp
  */
 
 #ifndef MAP_WORLD_HPP
 #define MAP_WORLD_HPP
 
-#include <MapTile.hpp>
-#include <FileContainer.hpp>
-#include <RegionGraph.hpp>
-#include <World.hpp>
 #include <SDL/SDL_gfxPrimitives.h>
+
+#include "MapTile.hpp"
+#include "FileContainer.hpp"
+#include "RegionGraph.hpp"
+#include "World.hpp"
 
 /** @brief Mapa Mundi
  * 

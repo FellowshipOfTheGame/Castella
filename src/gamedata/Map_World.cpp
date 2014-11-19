@@ -4,7 +4,7 @@ Map_World::Map_World () {
 	graph = World::get_world ()->getRegionGraph ();
 
 	SDL_Surface *background = tiles.push ("images/tiles/world_background.png");
-	SDL_Surface *region = tiles.push ("images/tiles/world_region.png");
+	//SDL_Surface *region = tiles.push ("images/tiles/world_region.png");
 
 	for (int i = 0; i < map_height; i++) {
 		for (int j = 0; j < map_width; j++) {
@@ -13,14 +13,14 @@ Map_World::Map_World () {
 		}
 	}
 
-	for (Region *reg : (*graph)) {
-		int y = reg->getY ();
-		int x = reg->getX ();
-		// tem uma região aqui
-		tileMap[y][x].setPtr (reg);
-		tileMap[y][x].setTile (x, y, WRLD_RGN);
-		tileMap[y][x].set_terrain_image (region);
-	}
+	//for (auto & reg : (*graph)) {
+		//int y = reg->getY ();
+		//int x = reg->getX ();
+		//// tem uma região aqui
+		//tileMap[y][x].setPtr (reg);
+		//tileMap[y][x].setTile (x, y, WRLD_RGN);
+		//tileMap[y][x].set_terrain_image (region);
+	//}
 }
 
 
@@ -33,22 +33,22 @@ void Map_World::draw (SDL_Surface *screen) {
 	}
 	
 	// desenha as linhas que mostram os caminhos entre as regiões
-	for (Region *reg : (*graph)) {
-		for (Region *neighbour : reg->getNeighbourhood ()) {
-			lineColor (screen,
-					// primeiro ponto
-					reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
-					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
-					// segundo ponto
-					neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
-					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
-					// joga aquele preto básico
-					0x000000ff);
-		}
-	}
+	//for (auto & reg : (*graph)) {
+		//for (Region *neighbour : reg->getNeighbourhood ()) {
+			//lineColor (screen,
+					//// primeiro ponto
+					//reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					//reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					//// segundo ponto
+					//neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					//neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					//// joga aquele preto básico
+					//0x000000ff);
+		//}
+	//}
 }
 
 
-Region *Map_World::getRegion (int x, int y) {
-	return (Region*) tileMap[y][x].getPtr ();
+Region * Map_World::getRegion (int x, int y) {
+	return (Region *) tileMap[y][x].getPtr ();
 }

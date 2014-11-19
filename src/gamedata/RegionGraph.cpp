@@ -1,4 +1,4 @@
-#include <RegionGraph.hpp>
+#include "RegionGraph.hpp"
 
 /* * * * * * * * * * * *
  *                     *
@@ -17,21 +17,21 @@ Region *& RegionGraph::operator[] (unsigned int i) {
 
 RegionGraph::RegionGraph () {
 	// auxiliares pra criar o grafo com distâncias legais
-	int x, y, id = 0;
-	unsigned int i, j;
-	srand (time (NULL));
+	//int x, y, id = 0;
+	//unsigned int i, j;
+	//srand (time (NULL));
 	
-	for (i = 0; i < graph_height; i ++) {
-		for (j = 0; j < graph_width; j ++) {
-			y = (i * block_size) + (rand () % block_size);
-			x = (j * block_size) + (rand () % block_size);
-			newRegion (id++, (Region_Type) (rand () % 4), x, y);
-		}
-	}
+	//for (i = 0; i < graph_height; i ++) {
+		//for (j = 0; j < graph_width; j ++) {
+			//y = (i * block_size) + (rand () % block_size);
+			//x = (j * block_size) + (rand () % block_size);
+			//newRegion (id++, (Region_Type) (rand () % 4), x, y);
+		//}
+	//}
 
-	for (Region *R : regions) {
-		checkNeighbourhood (R);
-	}
+	//for (auto R : regions) {
+		//checkNeighbourhood (R);
+	//}
 
 	// printGraph ();
 	// printGraphInfo ();
@@ -39,14 +39,16 @@ RegionGraph::RegionGraph () {
 
 
 RegionGraph::~RegionGraph () {
-	for (Region *R : regions)
+	for (auto R : regions) {
 		delete (R);
+	}
 }
 
 
 int RegionGraph::newRegion (int ID, Region_Type new_type, int x, int y) {
 	// mais uma região!
 	Region* aux = new Region (ID, new_type, x, y);
+
 	// e guarda ela lá no grafo
 	regions.push_back (aux);
 	
@@ -95,16 +97,24 @@ bool RegionGraph::liga (Region *A, Region *B) {
 	int x = (A->x / RegionGraph::block_size) - (B->x / RegionGraph::block_size);
 	int y = (A->y / RegionGraph::block_size) - (B->y / RegionGraph::block_size);
 	
-	if (std::abs (x) > 1 || std::abs (y) > 1)
+	if (std::abs (x) > 1 || std::abs (y) > 1) {
 		return false;
-	else
+	}
+	else {
 		return true;
+	}
+}
+
+
+unsigned int RegionGraph::size () {
+	return regions.size ();
 }
 
 
 void RegionGraph::printGraphInfo () {
-	for (Region *R : regions)
+	for (auto R : regions) {
 		R->print ();
+	}
 }
 
 
@@ -125,7 +135,7 @@ void RegionGraph::printGraph () {
 	to_print[0][j] = '\\';
 	to_print[i + 1][j] = '/';
 	
-	for (Region *R : regions) {
+	for (auto R : regions) {
 		to_print[R->y + 1][R->x] = R->getAdjQuantity () + '0';
 	}
 	

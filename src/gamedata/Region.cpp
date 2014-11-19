@@ -1,4 +1,4 @@
-#include <Region.hpp>
+#include "Region.hpp"
 
 string Region::RegionTypeName (Region_Type tipo) {
 	const string names[] = {
@@ -14,11 +14,8 @@ string Region::RegionTypeName (Region_Type tipo) {
 /* * * * * * * * * * * *
  * REGIÃO ctor e dtor  *
  * * * * * * * * * * * */
-Region::Region (int ID, Region_Type new_type, int x, int y) {
-	this->ID = ID;
-	this->x = x;
-	this->y = y;
-	type = new_type;
+Region::Region (int ID, Region_Type new_type, int x, int y) 
+		: ID (ID), type (new_type), x (x), y (y) {
 	diplomacy = 0;
 
 	// dependendo do tipo, precisamos das tais estruturas
@@ -46,7 +43,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y) {
 			break;
 	}
 	// e põe as tais dentro da região
-	for (Structure_Type structype : aux) {
+	for (auto structype : aux) {
 		// a nova estrutura
 		// pra cada uma que tiver que criar, faça-o		
 		// e joga lá dentro do vetor

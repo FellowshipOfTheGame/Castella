@@ -2,7 +2,7 @@
 
 Button::Button() : Widget () {};
 
-Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk) 
+Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk)
 		: Widget (window, imgInactive->w, imgInactive->h, x, y), // ctor pai
 		imgInactive (imgInactive), imgActive (imgActive), // imgs
 		callback (cbk) { // e o callback
@@ -10,7 +10,7 @@ Button::Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Sur
 }
 
 Button::~Button(){
-    std::cout << "Buttton dtor" << std::endl;
+    //std::cout << "Buttton dtor" << std::endl;
     //dtor
 }
 

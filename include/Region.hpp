@@ -58,8 +58,8 @@ class Region {
 	friend class RegionGraph;
 
 private:
-	Region_Type type;	///< tipo do reino
 	int ID;	///< ID da região
+	Region_Type type;	///< tipo do reino
 	string name;	///< nome da região
 	int x,	///< coordenada _x_ do reino no mapa global
 		y;	///< coordenada _y_ do reino no mapa global
@@ -73,7 +73,6 @@ private:
 	 */
 	int diplomacy;
 	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
-	bool liga (Region *region);		///< Verifica se essa região pode se ligar a outra
 
 protected:
 

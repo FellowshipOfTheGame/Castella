@@ -51,3 +51,4 @@ sliders = {
 }
 -- Adiciona nossos sliders na Window
 Win:addSliders (sliders)
+
