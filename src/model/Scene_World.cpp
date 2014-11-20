@@ -43,6 +43,21 @@ void Scene_World::draw (SDL_Surface *screen) {
 	fill_surface (screen, {0, 100, 0});
 	Scene::draw (screen);
 	//map->draw (screen);
+	// desenha as linhas que mostram os caminhos entre as regiões
+	for (auto & reg : (*World::get_world ()->getRegionGraph ())) {
+		for (auto neighbour : reg->getNeighbourhood ()) {
+			lineColor (screen,
+					// primeiro ponto
+					reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					// segundo ponto
+					neighbour->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					neighbour->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
+					// joga aquele preto básico
+					0x000000ff);
+		}
+	}
+	
 }
 
 
