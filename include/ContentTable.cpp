@@ -12,12 +12,9 @@ template <class Content>
 ContentTable<Content>::ContentTable (SDL_Rect *window, int width, int height,
 		int x, int y, initializer_list<Content *> l,
 		SDL_Color foreground, SDL_Color background)
-		: Widget (window, width, height, x, y) {
-	fill_surface (image, background);
-
-	for (auto cont : l) {
-		addContent (cont);
-	}
+		: Widget (window, width, height, x, y), data (l),
+		foreground (foreground), background (background) {
+	redraw ();
 }
 
 
@@ -31,7 +28,7 @@ bool ContentTable<Content>::mouse_try_click (int x, int y) {
 
 		// se clicou em algo válido, salva como o último clicado;
 		// senão, nullptr neles!
-		ultimo_clicado = clicado < data.size () ? data[clicado] : nullptr;
+		ultimo_clicado = (clicado < data.size ()) ? data[clicado] : nullptr;
 	}
 	else {
 		ultimo_clicado = nullptr;
@@ -47,21 +44,30 @@ Content * ContentTable<Content>::getContent () {
 }
 
 
-
 template <class Content>
 void ContentTable<Content>::addContent (Content *cont) {
 	// Adiciona cont no vector de conteúdos
 	data.push_back (cont);
 
-	/* Escreve o novo content na SDL_Surface
-	 *
-	 * pra isso, usamos a definição de transformar objeto em string
-	 * usando ostream (que nem se faz pra poder escrever o trem no cout)
-	 */
-	ostringstream str;
-	str << *cont;
-	write_text (0, (data.size () - 1) * DEFAULT_FONT_SIZE, image, str.str ());
-	// linha separadora entre cada conteúdo
-	lineColor (image, 0, data.size () * DEFAULT_FONT_SIZE,
-			box.w, data.size () * DEFAULT_FONT_SIZE, 0x000000ff);
+	redraw ();
+}
+
+
+template <class Content>
+void ContentTable<Content>::redraw () {
+	fill_surface (image, background);
+
+	for (unsigned int i = 0; i < data.size (); i++) {
+		/* Escreve o content na SDL_Surface
+		 *
+		 * pra isso, usamos a definição de transformar objeto em string
+		 * usando ostream (que nem se faz pra poder escrever o trem no cout)
+		 */
+		ostringstream str;
+		str << *data[i];
+		write_text (0, i * DEFAULT_FONT_SIZE, image, str.str (), foreground);
+		// linha separadora entre cada conteúdo
+		hlineRGBA (image, 0, box.w, (i + 1) * DEFAULT_FONT_SIZE,
+				foreground.r, foreground.g, foreground.b, 0xff);
+	}
 }

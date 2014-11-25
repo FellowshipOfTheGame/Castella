@@ -9,5 +9,6 @@
 #include "Button.hpp"
 #include "Slider.hpp"
 #include "ContentTable.hpp"
+#include "Checklist.hpp"
 
 #endif

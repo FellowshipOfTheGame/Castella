@@ -23,8 +23,8 @@ Scene_World::Scene_World()
 
 void Scene_World::goToRegion (Region *reg) {
 	reg->print ();
-	SceneControl::set_next (Scenes::SCENE_REGION);
 	Scene::ptr = reg;
+	SceneControl::set_next (Scenes::SCENE_REGION);
 }
 
 

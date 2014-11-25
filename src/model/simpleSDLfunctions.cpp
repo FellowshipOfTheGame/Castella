@@ -1,4 +1,4 @@
-#include <simpleSDLfunctions.h>
+#include "simpleSDLfunctions.h"
 
 //################################## FUNÇÔES DE ATALHO ##################################OO
 //Funções para facilitar a aplicação de outras funções, otimizando suas utilizações,
@@ -56,24 +56,18 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino, SDL_R
     SDL_BlitSurface(fonte, corte, destino, &coordenada);
 }
 
+Uint32 getRGBAMap (SDL_Surface *target, SDL_Color cor, Uint8 alpha) {
+	return SDL_MapRGBA (target->format, cor.r, cor.g, cor.b, alpha);
+}
+
 // Preenche o fundo de uma superfície: padrão = preto
 void fill_surface (SDL_Surface *target, SDL_Color cor, SDL_Rect *dstrect) {
-	// mapeia 'cor' em Uint32, pra ser usado no fill
-	Uint32 my_uint32 = SDL_MapRGB (target->format, cor.r, cor.g, cor.b);
-	SDL_FillRect (target, dstrect, my_uint32);
+	SDL_FillRect (target, dstrect, getRGBAMap (target, cor));
 }
 //---------------------------------------------------------------------------------------//
 
 //--------------------------------- ESCREVER TEXTO --------------------------------//
 //Escreve um texto na tela, na posição desejada
-
-void write_text(int x, int y, SDL_Surface *destino, std::string texto, unsigned char R, unsigned char G, unsigned char B)
-{
-	SDL_Color cor = {R, G, B};
-	write_text (x, y, destino, texto, cor);
-}
-
-
 void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor)
 {
 	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", DEFAULT_FONT_SIZE);

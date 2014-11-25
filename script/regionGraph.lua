@@ -13,6 +13,8 @@
 -- CONSTANTES: RegionGraph.altura, RegionGraph.largura, RegionGraph.tamanho_bloco
 --
 -- regiao:print ()
+-- regiao:getX ()
+-- regiao:getY ()
 --
 -- Nota: faça botões com as regiões, por favor, usando a função pula abaixo ;]
 --]]

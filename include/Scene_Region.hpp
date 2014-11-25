@@ -28,7 +28,7 @@ protected:
 private:
 	Region *current;
 
-	ContentTable<string> *Cont;
+	Checklist<string> *Cont;
 };
 
 #endif

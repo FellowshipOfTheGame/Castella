@@ -45,6 +45,8 @@ SDL_Surface *create_surface (int width, int height);
 //Aplica uma superfície recebendo também suas coordenadas como parâmetros
 void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino,
 		SDL_Rect* corte = NULL, float empurrar = 0);
+/// Transforma um SDL_Color em Uint32, pras funções que o precisam
+Uint32 getRGBAMap (SDL_Surface *target, SDL_Color cor, Uint8 alpha = 0xff);
 /** @brief Preenche o fundo de uma superfície
  * 
  * @param[in] target Superfície a ser 'pintada'
@@ -57,12 +59,9 @@ void fill_surface (SDL_Surface *target, SDL_Color cor = {0, 0, 0},
 
 //-------------------------------- ESCREVER TEXTO ----------------------------//
 //Escreve um texto na tela, na posição desejada
-// cor por RGB: padrão = preto
+// cor pelo SDL_Color: padrão = preto
 void write_text(int x, int y, SDL_Surface *destino, std::string texto,
-		unsigned char R = 0, unsigned char G = 0, unsigned char B = 0);
-// cor direto pelo SDL_Color
-void write_text(int x, int y, SDL_Surface *destino, std::string texto,
-		SDL_Color cor);
+		SDL_Color cor = {0, 0, 0});
 //----------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED
 
