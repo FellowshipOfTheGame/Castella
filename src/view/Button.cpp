@@ -1,4 +1,4 @@
-#include <Button.hpp>
+#include "Button.hpp"
 
 Button::Button() : Widget () {};
 
@@ -31,7 +31,6 @@ void Button::activate(){
     catch(luabind::error& e){
 		std::cout << "Error calling Luafunction: " << lua_tostring(e.state(), -1) << std::endl;
     }
-
 }
 
 void Button::deactivate(){

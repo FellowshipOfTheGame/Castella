@@ -1,8 +1,5 @@
 #include "Scene_Region.hpp"
 
-void oi (Checklist<string> *Cont, lua_State *L) {
-}
-
 Scene_Region::Scene_Region () {
 	SceneControl::set_cur (Scenes::SCENE_REGION);
 	current = (Region *) Scene::ptr;
@@ -15,7 +12,7 @@ Scene_Region::Scene_Region () {
 	static string b = "doido";
 	static string c = "mais um xD";
 
-	Cont = new Checklist<string> (&win->get_position (), 220, 120,
+	Cont = new Checklist<string> (&win->get_position (), 220, 80,
 			80, 80, {&a, &b, &c});
 
 	win->addWidget (Cont);
@@ -23,6 +20,7 @@ Scene_Region::Scene_Region () {
 
 
 Scene_Region::~Scene_Region () {}
+
 
 void Scene_Region::update () {
 	Scene::update ();

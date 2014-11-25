@@ -6,7 +6,6 @@
 #define BUTTON_H
 
 #include <iostream>
-#include <functional>
 
 #include "LuaWBind.hpp"
 #include "Widget.hpp"

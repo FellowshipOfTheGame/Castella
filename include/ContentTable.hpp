@@ -18,9 +18,17 @@ protected:
 	vector<Content *> data;
 	/// Último conteúdo clicado: nullptr se clicou fora
 	Content *ultimo_clicado {nullptr};
+	/// Em qual página está a ContentTable
+	unsigned int pagina {0};
 
 	SDL_Color foreground;	///< Cor do escrito
 	SDL_Color background;	///< Cor do fundo
+
+	/// Altura da Setinha de página próxima/anterior
+	static const int arrowHeight = 20;
+
+	/// Quantos conteúdos cabem numa página
+	unsigned int maxPagina ();
 
 public:
 	/** Ctor, fundo padrão = branco */

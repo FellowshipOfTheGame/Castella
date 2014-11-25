@@ -19,16 +19,39 @@ ContentTable<Content>::ContentTable (SDL_Rect *window, int width, int height,
 
 
 template <class Content>
+unsigned int ContentTable<Content>::maxPagina () {
+	return (box.h - arrowHeight) / DEFAULT_FONT_SIZE;
+}
+
+
+template <class Content>
 bool ContentTable<Content>::mouse_try_click (int x, int y) {
 	bool aux = Widget::mouse_try_click (x, y);
 	// tá dentro da zona clicável
 	if (aux) {
-		// verifica a linha clicada
-		unsigned int clicado = (y - box.y) / DEFAULT_FONT_SIZE;
+		// na altura da setinha
+		if (y - box.y < box.h - arrowHeight) {
+			// seta pra esquerda, e dá pra voltar página
+			if (x - box.x < box.w/2 && pagina > 0) {
+				pagina--;
+			}
+			// pra direita
+			else if (pagina < maxPagina ()) {
+				pagina++;
+			}
 
-		// se clicou em algo válido, salva como o último clicado;
-		// senão, nullptr neles!
-		ultimo_clicado = (clicado < data.size ()) ? data[clicado] : nullptr;
+			redraw ();
+		}
+		// ou não, então conteúdo
+		else {
+			// verifica a linha clicada
+			unsigned int clicado = (y - box.y) / DEFAULT_FONT_SIZE;
+
+			// se clicou em algo válido, salva como o último clicado;
+			// senão, nullptr neles!
+			ultimo_clicado = (clicado < data.size ()) ?
+					data[maxPagina () * pagina + clicado] : nullptr;
+		}
 	}
 	else {
 		ultimo_clicado = nullptr;
@@ -57,14 +80,17 @@ template <class Content>
 void ContentTable<Content>::redraw () {
 	fill_surface (image, background);
 
-	for (unsigned int i = 0; i < data.size (); i++) {
+	unsigned int parada = data.size () < maxPagina () ?
+			data.size () : maxPagina ();
+
+	for (unsigned int i = 0; i < parada; i++) {
 		/* Escreve o content na SDL_Surface
 		 *
 		 * pra isso, usamos a definição de transformar objeto em string
 		 * usando ostream (que nem se faz pra poder escrever o trem no cout)
 		 */
 		ostringstream str;
-		str << *data[i];
+		str << *data[maxPagina () * pagina + i];
 		write_text (0, i * DEFAULT_FONT_SIZE, image, str.str (), foreground);
 		// linha separadora entre cada conteúdo
 		hlineRGBA (image, 0, box.w, (i + 1) * DEFAULT_FONT_SIZE,
