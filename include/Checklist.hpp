@@ -6,16 +6,40 @@
 #define CHECKLIST_HPP
 
 #include <vector>
+#include <ostream>
 
 #include "ContentTable.hpp"
 
 template <class Content>
-class Checklist : public ContentTable<Content> {
+class check_item {
+	friend ostream& operator<< (ostream& os, const check_item & i) {
+		return os << *(i.item.first);
+	}
+public:
+	pair<Content *, bool> item;
+	check_item (Content *cont) : item (cont, false) {}
+	void flip () {
+		item.second = !item.second;
+	}
+	Content *first () { return item.first; }
+	bool second () { return item.second; }
+};
+
+
+/** @brief Checklist: uma ContentTable marcável.
+ *
+ * Checklist é uma ContentTable onde os conteúdos podem ser marcados,
+ * sendo então destacados.
+ *
+ * Uma Checklist guarda Contents, mas põe na ContentTable um
+ * `pair<Content, bool>`, que tem o conteúdo em si, e se ele está ou não
+ * marcado.
+ */
+template <class Content>
+class Checklist : public ContentTable<check_item<Content> > {
 private:
 	/// Número de valores marcados
 	int num_checked {0};
-	/// Valores marcados
-	vector<bool> checked;
 	/// Cor do marcado
 	SDL_Color checked_foreground;
 
@@ -31,6 +55,9 @@ public:
 			SDL_Color foreground = {0, 0, 0},
 			SDL_Color checked_foreground = {255, 0, 0},
 			SDL_Color background = {255, 255, 255});
+
+	/// Dtor: destrói os pairs dentro da ContentTable
+	~Checklist ();
 
 	/** @brief Clicou lá
 	 *
@@ -52,6 +79,9 @@ public:
 	void addContent (Content *cont);
 
 	/** @brief Redesenha todo o Checklist, mostrando os conteúdos marcados
+	 *
+	 * @note Essa função desenha encima da ContentTable::redraw (),
+	 * somente reescrevendo os itens marcados.
 	 */
 	void redraw ();
 

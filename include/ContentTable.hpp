@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 #include "Widget.hpp"
 
@@ -25,10 +26,16 @@ protected:
 	SDL_Color background;	///< Cor do fundo
 
 	/// Altura da Setinha de página próxima/anterior
-	static const int arrowHeight = 20;
+	static const int arrowHeight = 26;
 
 	/// Quantos conteúdos cabem numa página
 	unsigned int maxPagina ();
+	/// Qual o deslocamento atual, em relação à página atual
+	unsigned int deslocamento ();
+	/// A altura das setinhas, Y inicial
+	unsigned int setinhas_Y ();
+	/// Quantas páginas há nessa Checklist
+	unsigned int numPags ();
 
 public:
 	/** Ctor, fundo padrão = branco */

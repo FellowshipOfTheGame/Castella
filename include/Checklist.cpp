@@ -15,41 +15,34 @@ Checklist<Content>::Checklist (SDL_Rect *window, int width, int height,
 		int x, int y, initializer_list<Content *> l,
 		SDL_Color foreground, SDL_Color checked_foreground,
 		SDL_Color background)
-		: ContentTable<Content> (window, width, height, x, y, l,
-				foreground, background),
-		checked (this->data.size (), false), checked_foreground (checked_foreground)
+		: ContentTable<check_item<Content> > (window, width, height, x, y,
+				foreground, background), checked_foreground (checked_foreground)
 		{
+	for (auto cont : l) {
+		addContent (cont);
+	}
+}
+
+
+template <class Content>
+Checklist<Content>::~Checklist () {
+	ContentTable<check_item<Content> >::destroyContent ();
 }
 
 
 template <class Content>
 void Checklist<Content>::addContent (Content *cont) {
-	ContentTable<Content>::addContent (cont);
-	checked.push_back (false);
+	ContentTable<check_item<Content> >::addContent (new check_item<Content> (cont));
 }
 
 
 template <class Content>
 bool Checklist<Content>::mouse_try_click (int x, int y) {
-	bool aux = Widget::mouse_try_click (x, y);
-	// tá dentro da zona clicável
-	if (aux) {
-		// verifica a linha clicada
-		unsigned int clicado = (y - this->box.y) / DEFAULT_FONT_SIZE;
+	bool aux = ContentTable<check_item<Content> >::mouse_try_click (x, y);
 
-		// se clicou em algo válido, salva como o último clicado e toggla seu
-		// estado;  senão, nullptr neles!
-		if (clicado < this->data.size ()) {
-			this->ultimo_clicado = this->data[clicado];
-			checked[clicado] = !checked[clicado];
-			redraw ();
-		}
-		else {
-			this->ultimo_clicado = nullptr;
-		}
-	}
-	else {
-		this->ultimo_clicado = nullptr;
+	if (this->ultimo_clicado) {
+		this->ultimo_clicado->flip ();
+		redraw ();
 	}
 
 	return aux;
@@ -61,9 +54,9 @@ vector<Content *> Checklist<Content>::getChecked () {
 	// vector de retorno
 	vector<Content *> aux;
 	// se tá marcado, bota pra retornar
-	for (unsigned int i = 0; i < this->data.size (); i++) {
-		if (checked[i]) {
-			aux.push_back (this->data[i]);
+	for (auto & item : this->data) {
+		if (item->second ()) {
+			aux.push_back (item->first ());
 		}
 	}
 
@@ -73,21 +66,18 @@ vector<Content *> Checklist<Content>::getChecked () {
 
 template <class Content>
 void Checklist<Content>::redraw () {
-	fill_surface (this->image, this->background);
+	ContentTable<check_item<Content> >::redraw ();
 
-	for (unsigned int i = 0; i < this->data.size (); i++) {
-		// Escolhe a cor, depende se tá marcado ou não
-		SDL_Color *cor = checked[i] ? &checked_foreground : &this->foreground;
-		/* Escreve o content na SDL_Surface
-		 *
-		 * pra isso, usamos a definição de transformar objeto em string
-		 * usando ostream (que nem se faz pra poder escrever o trem no cout)
-		 */
-		ostringstream str;
-		str << *(this->data[i]);
-		write_text (0, i * DEFAULT_FONT_SIZE, this->image, str.str (), *cor);
-		// linha separadora entre cada conteúdo
-		hlineRGBA (this->image, 0, this->box.w, (i + 1) * DEFAULT_FONT_SIZE,
-				this->foreground.r, this->foreground.g, this->foreground.b, 0xff);
+	// min entre data.size() e maxPagina()
+	const unsigned int parada = this->data.size () - this->deslocamento () < this->maxPagina () ?
+			this->data.size () - this->deslocamento () : this->maxPagina ();
+
+	for (unsigned int i = 0; i < parada; i++) {
+		check_item<Content> *cont = this->data[this->deslocamento () + i];
+		if (cont->second ()) {
+			ostringstream str;
+			str << *cont;
+			write_text (0, i * DEFAULT_FONT_SIZE, this->image, str.str (), checked_foreground);
+		}
 	}
 }
