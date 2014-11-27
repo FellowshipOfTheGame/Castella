@@ -4,8 +4,9 @@
 #include <iostream>
 
 #include "Scene.hpp"
-#include "Map_World.hpp"
 #include "FileContainer.hpp"
+#include "MapTile.hpp"
+#include "World.hpp"
 
 class Scene_World : public Scene
 {
@@ -27,8 +28,6 @@ class Scene_World : public Scene
 
     protected:
     private:
-		Map_World *map;
-
 		FileContainer image_container;
 };
 

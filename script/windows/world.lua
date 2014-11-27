@@ -12,10 +12,13 @@ janela = {
 botoes = {}
 
 for i, reg in regioes (grafo) do
+	-- Ícone da região de acordo com seu tipo
+	local img = regionTypeName (reg:getType ()) .. ".png"
+
 	botoes[i] = {
 		reg:getX () * tilesize,
 		reg:getY () * tilesize,
-		"region.png", "region.png",
+		img, img,
 		pula (reg)
 	}
 

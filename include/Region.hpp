@@ -51,8 +51,6 @@ enum Region_Type {
  *
  *	Há vários tipos de regiões, cada qual com suas
  *	@ref Structure "estruturas" internas e funcionalidades
- * 
- * @todo Dtor
  */
 class Region {
 	friend class RegionGraph;

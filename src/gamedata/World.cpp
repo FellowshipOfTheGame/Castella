@@ -44,6 +44,7 @@ void World::registerOnLua (lua_State *L) {
 			.def ("print", &Region::print)
 			.def ("getX", &Region::getX)
 			.def ("getY", &Region::getY)
+			.def ("getType", &Region::getType)
 	];
 
 	ScriptHandler::send_to_lua<RegionGraph *> (L, 

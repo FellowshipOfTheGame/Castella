@@ -15,29 +15,6 @@ Region *& RegionGraph::operator[] (unsigned int i) {
 }
 
 
-RegionGraph::RegionGraph () {
-	// auxiliares pra criar o grafo com distâncias legais
-	//int x, y, id = 0;
-	//unsigned int i, j;
-	//srand (time (NULL));
-	
-	//for (i = 0; i < graph_height; i ++) {
-		//for (j = 0; j < graph_width; j ++) {
-			//y = (i * block_size) + (rand () % block_size);
-			//x = (j * block_size) + (rand () % block_size);
-			//newRegion (id++, (Region_Type) (rand () % 4), x, y);
-		//}
-	//}
-
-	//for (auto R : regions) {
-		//checkNeighbourhood (R);
-	//}
-
-	// printGraph ();
-	// printGraphInfo ();
-}
-
-
 RegionGraph::~RegionGraph () {
 	for (auto R : regions) {
 		delete (R);

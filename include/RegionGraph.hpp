@@ -43,7 +43,6 @@ private:
 protected:
 
 public:
-	RegionGraph ();		///< Ctor: constrói vértices baseado no tamanho do mapa
 	~RegionGraph ();
 	/** @brief Cria uma região
 	 *

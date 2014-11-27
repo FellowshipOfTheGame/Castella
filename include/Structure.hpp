@@ -83,7 +83,7 @@ public:
 };
 
 
-/** @brief Taverna! Ahoy!
+/** @brief Prefeitura, um lugar de duras políticas.
  *
  * __Prefeitura__ é o lugar na @ref Village "vila" para se conseguir missões oficiais e exercitar relações diplomáticas.
  */

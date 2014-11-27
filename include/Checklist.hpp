@@ -69,8 +69,8 @@ public:
 
 	/** @brief Adiciona um Content no vector data
 	 *
-	 * Além do conteúdo em data, esse método adiciona um _false_ em
-	 * checked, mostrando que conteúdo ainda não está marcado.
+	 * Além do conteúdo em data, esse método adiciona um check_item 
+	 * com _false_, mostrando que conteúdo ainda não está marcado.
 	 *
 	 * @note A superfície image é atualizada a cada inserção
 	 *
@@ -80,7 +80,7 @@ public:
 
 	/** @brief Redesenha todo o Checklist, mostrando os conteúdos marcados
 	 *
-	 * @note Essa função desenha encima da ContentTable::redraw (),
+	 * @note Essa função desenha encima da ContentTable::redraw,
 	 * somente reescrevendo os itens marcados.
 	 */
 	void redraw ();

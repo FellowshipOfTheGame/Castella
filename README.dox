@@ -154,8 +154,9 @@
  * - Interatividade
  * 		+ @ref Input.hpp
  * 		+ @ref Button.hpp
- *  	+ @ref Slider.hpp
- *  	+ @ref ContentTable.hpp
+ * 		+ @ref Slider.hpp
+ * 		+ @ref ContentTable.hpp
+ * 		+ @ref Checklist.hpp
  *
  * - Controle de arquivos
  * 		+ @ref FileHandler.hpp
