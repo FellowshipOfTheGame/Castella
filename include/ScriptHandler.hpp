@@ -1,13 +1,11 @@
 #ifndef SCRIPTHANDLER_H
 #define SCRIPTHANDLER_H
 
-#include <stdlib.h>
 #include <iostream>
-#include <memory>
 #include <string>
 #include <SDL/SDL_image.h>
 
-#include <Callback.hpp>
+#include "Callback.hpp"
 #include "LuaTable.hpp"
 
 class ScriptHandler
@@ -22,6 +20,9 @@ class ScriptHandler
 
         template <typename T> ///<Sends a variable or object to the global table, with the name "luaName".
         void send(T element, const char *luaName) { luabind::globals(L)[luaName] = element; }
+
+		template <typename T>
+		static void send_to_lua (lua_State *L, T element, const char *luaName) { luabind::globals(L)[luaName] = element; }
 
         template <typename T> ///<Retrieves a variable from a lua table, inside the global table.
         T get(const char *tableName, const char *key) {

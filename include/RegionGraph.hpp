@@ -1,16 +1,21 @@
 /** @file RegionGraph.hpp
- * 
- * @brief Grafo das regiões do mundão
+ * @brief Grafo das regiões do mundão.
+ *
+ * Header do gamedata/RegionGraph.cpp
  */
 
 #ifndef REGION_GRAPH_HPP
 #define REGION_GRAPH_HPP
 
-#include <Region.hpp>
 #include <stdexcept>
+
+#include "Region.hpp"
+
 
 // Só nome, pro RegionGraph saber que existe
 class RegionGraphIterator;
+
+
 
 /** @brief Grafo das @ref Region "regiões" propriamente dito.
  * 
@@ -25,8 +30,30 @@ private:
 	static const int cave_ratio = 20;
 	static const int village_ratio = 20;
 
-	std::vector<Region*> regions;	///< Vetor de todas as regiões do mundo
+	std::vector<Region *> regions;	///< Vetor de todas as regiões do mundo
 	
+	/** @brief Verifica se duas Regiões se ligam e as ligam
+	 * 
+	 * @param[in] A Região A
+	 * @param[in] B Região B
+	 */
+	bool liga (Region *A, Region *B);
+	
+	
+protected:
+
+public:
+	~RegionGraph ();
+	/** @brief Cria uma região
+	 *
+	 * @return Tamanho atual do vector de regiões
+	 */
+	int newRegion (int ID, Region_Type new_type, int x, int y);
+	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
+	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
+
+	unsigned int size ();	///< Tamanho do grafo (número de nós)
+
 	/** @brief Acha quantos e quais são os vizinhos da região, os guardando em neighbours e neighbourhood
 	 *
 	 * São possíveis vizinhos a região que estiver a uma distância absoluta máxima de @ref NEIGHBOUR_MAX_DISTANCE
@@ -34,22 +61,7 @@ private:
 	 * @param R Região a ser checada
 	 */
 	void checkNeighbourhood (Region *R);
-	/** @brief Verifica se duas Regiões se ligam
-	 * 
-	 * @param[in] A Região A
-	 * @param[in] B Região B
-	 */
-	bool liga (Region *A, Region *B);
-	
-protected:
 
-public:
-	RegionGraph ();		///< Ctor: constrói vértices baseado no tamanho do mapa
-	~RegionGraph ();
-	int newRegion (int ID, Region_Type new_type, int x, int y);
-	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
-	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
-	
 	Region *& operator[] (unsigned int i);	///< Acesso ao Vector de regiões; @throws std::out_of_range
 	
 	/* Iterador */

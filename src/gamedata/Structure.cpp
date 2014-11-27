@@ -1,4 +1,4 @@
-#include <Structure.hpp>
+#include "Structure.hpp"
 
 
 std::string Structure::Structure_TypeName (Structure_Type tipo) {

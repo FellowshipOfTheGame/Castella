@@ -5,8 +5,6 @@ MapTile::MapTile() : MapTile (0, 0, NONE) {}
 MapTile::MapTile(int x, int y, TERRAIN type)
 {
 	setTile (x, y, type);
-    unit = NULL;
-    ptr = nullptr;
     if(type >= 0) passability = 0b11111111;
 }
 

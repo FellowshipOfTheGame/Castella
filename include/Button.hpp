@@ -5,10 +5,10 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <Widget.hpp>
 #include <iostream>
 
 #include "LuaWBind.hpp"
+#include "Widget.hpp"
 
 class Button : public Widget
 {
@@ -22,6 +22,7 @@ class Button : public Widget
         Button();
         //Creates a button bound to a window, at a relative position (x,y), that calls a method when activated
         Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, LuaFunction cbk);
+        Button(SDL_Rect *window, int x, int y, SDL_Surface *imgInactive, SDL_Surface *imgActive, std::function<void ()> cbk);
         virtual ~Button();
 		// Se clicar, activate ()
 		virtual bool mouse_try_click (int x, int y);

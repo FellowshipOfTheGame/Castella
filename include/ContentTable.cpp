@@ -12,12 +12,33 @@ template <class Content>
 ContentTable<Content>::ContentTable (SDL_Rect *window, int width, int height,
 		int x, int y, initializer_list<Content *> l,
 		SDL_Color foreground, SDL_Color background)
-		: Widget (window, width, height, x, y) {
-	fill_surface (image, background);
+		: Widget (window, width, height, x, y), data (l),
+		foreground (foreground), background (background) {
+	redraw ();
+}
 
-	for (auto cont : l) {
-		addContent (cont);
-	}
+
+template <class Content>
+unsigned int ContentTable<Content>::maxPagina () {
+	return (box.h - arrowHeight) / DEFAULT_FONT_SIZE;
+}
+
+
+template <class Content>
+unsigned int ContentTable<Content>::deslocamento () {
+	return pagina * maxPagina ();
+}
+
+
+template <class Content>
+unsigned int ContentTable<Content>::setinhas_Y () {
+	return box.h - arrowHeight;
+}
+
+
+template <class Content>
+unsigned int ContentTable<Content>::numPags () {
+	return data.size () / maxPagina ();
 }
 
 
@@ -26,12 +47,34 @@ bool ContentTable<Content>::mouse_try_click (int x, int y) {
 	bool aux = Widget::mouse_try_click (x, y);
 	// tá dentro da zona clicável
 	if (aux) {
-		// verifica a linha clicada
-		unsigned int clicado = (y - box.y) / DEFAULT_FONT_SIZE;
+		// na altura da setinha
+		if (y - box.y > (int) setinhas_Y ()) {
+			// seta pra esquerda, e dá pra voltar página
+			if (x - box.x < box.w/2) {
+				if (pagina > 0) {
+					pagina--;
+				}
+			}
+			// pra direita
+			else if (pagina < data.size () && pagina < data.size () - maxPagina ()) {
+				pagina++;
+			}
 
-		// se clicou em algo válido, salva como o último clicado;
-		// senão, nullptr neles!
-		ultimo_clicado = clicado < data.size () ? data[clicado] : nullptr;
+			// não clicou em conteúdo, né
+			ultimo_clicado = nullptr;
+
+			redraw ();
+		}
+		// ou não, então conteúdo
+		else {
+			// verifica a linha clicada
+			unsigned int clicado = (y - box.y) / DEFAULT_FONT_SIZE;
+
+			// se clicou em algo válido, salva como o último clicado;
+			// senão, nullptr neles!
+			ultimo_clicado = (clicado < data.size () - deslocamento ()) ?
+					data[deslocamento () + clicado] : nullptr;
+		}
 	}
 	else {
 		ultimo_clicado = nullptr;
@@ -47,21 +90,54 @@ Content * ContentTable<Content>::getContent () {
 }
 
 
-
 template <class Content>
 void ContentTable<Content>::addContent (Content *cont) {
 	// Adiciona cont no vector de conteúdos
 	data.push_back (cont);
 
-	/* Escreve o novo content na SDL_Surface
-	 *
-	 * pra isso, usamos a definição de transformar objeto em string
-	 * usando ostream (que nem se faz pra poder escrever o trem no cout)
-	 */
+	redraw ();
+}
+
+
+template <class Content>
+void ContentTable<Content>::redraw () {
+	fill_surface (image, background);
+
+	unsigned int parada = data.size () - deslocamento () < maxPagina () ?
+			data.size () - deslocamento () : maxPagina ();
+
 	ostringstream str;
-	str << *cont;
-	write_text (0, (data.size () - 1) * DEFAULT_FONT_SIZE, image, str.str ());
-	// linha separadora entre cada conteúdo
-	lineColor (image, 0, data.size () * DEFAULT_FONT_SIZE,
-			box.w, data.size () * DEFAULT_FONT_SIZE, 0x000000ff);
+
+	for (unsigned int i = 0; i < parada; ) {
+		/* Escreve o content na SDL_Surface
+		 *
+		 * pra isso, usamos a definição de transformar objeto em string
+		 * usando ostream (que nem se faz pra poder escrever o trem no cout)
+		 */
+		str.str ("");
+		str << *data[deslocamento () + i];
+		write_text (0, i * DEFAULT_FONT_SIZE, image, str.str (), foreground);
+		// linha separadora entre cada conteúdo
+		hlineRGBA (image, 0, box.w, (++i) * DEFAULT_FONT_SIZE,
+				foreground.r, foreground.g, foreground.b, 0xff);
+	}
+
+	// linhazinha separando, ...
+	hlineRGBA (image, 0, box.w, setinhas_Y (),
+			foreground.r, foreground.g, foreground.b, 0xff);
+	// ...setinhas...
+	write_text (arrowHeight, setinhas_Y (), image, "<-", foreground);
+	write_text (box.w - (2 * arrowHeight), setinhas_Y (), image, "->", foreground);
+	// ...e número da página (a partir de 1)
+	str.str ("");
+	str << pagina + 1 << '/' << numPags () + 1;
+	write_text (box.w/2 - arrowHeight, setinhas_Y (), image, str.str (), foreground);
+}
+
+
+template <class Content>
+void ContentTable<Content>::destroyContent () {
+	for (auto & cont : data) {
+		delete cont;
+	}
 }

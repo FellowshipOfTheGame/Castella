@@ -3,8 +3,7 @@
 #include <iostream>
 #include <cstdio>
 
-#include <string.h>
-#include <math.h>
+#include <cstring>
 
 #include <Screen.h>
 #include <GameStructure.hpp>

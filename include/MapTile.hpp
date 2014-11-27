@@ -42,8 +42,8 @@ class MapTile
         int type;
         SDL_Surface *terrain; //the terrain image
         list<SDL_Surface*> objects; //opitional objects to be put onto the tile
-        void *ptr;	///< Ponteiro opcional (e de qualquer tipo), para por qualquer coisa num tile!
-        Actor_Battler *unit;
+        void *ptr {nullptr};	///< Ponteiro opcional (e de qualquer tipo), para por qualquer coisa num tile!
+        Actor_Battler *unit {NULL};
         int passability; //make it a 8-value mask
 };
 

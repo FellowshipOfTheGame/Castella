@@ -1,9 +1,12 @@
 #ifndef SCENE_WORLD_H
 #define SCENE_WORLD_H
 
-#include "Scene.hpp"
-#include <Map_World.hpp>
 #include <iostream>
+
+#include "Scene.hpp"
+#include "FileContainer.hpp"
+#include "MapTile.hpp"
+#include "World.hpp"
 
 class Scene_World : public Scene
 {
@@ -21,9 +24,11 @@ class Scene_World : public Scene
 
         virtual void handle_scene_input(int input);
 
+		static void goToRegion (Region *reg);
+
     protected:
     private:
-		Map_World *map;
+		FileContainer image_container;
 };
 
 #endif // SCENE_WORLD_H
