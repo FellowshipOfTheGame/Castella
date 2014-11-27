@@ -4,7 +4,7 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
 {
     SceneControl::set_cur (Scenes::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
 
-	Player **players = (Player **) Scene::ptr;
+	//Player **players = (Player **) Scene::ptr;
 
     //Código provisório nesta classe para inicializar os players
     Player players[2];
