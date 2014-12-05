@@ -15,16 +15,16 @@ class Weapon : public Item
         double damage;
         double fatigue;
         double range;
-		
+
 	protected:
 		static const std::string scriptPath;
 
     public:
         Weapon(const std::string scriptFile);
-        Weapon(const std::string name = "none", const std::string imgFile = "none", 
-				const double baseCost = 0.0, const double damage = 0.0, 
+        Weapon(const std::string name, const std::string imgFile,
+				const double baseCost = 0.0, const double damage = 0.0,
 				const double fatigue = 0.0, const double range = 0.0);
-		
+
 		void buildWeapon(LuaTable &weapon);
 };
 

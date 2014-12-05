@@ -1,21 +1,12 @@
 #include <Actor_Battler.hpp>
 
-Actor_Battler::Actor_Battler()
-{
-    //ctor
-    this->hp = 50; // puxa do actor
-    this->mp = 30;
-    this->stamina = 100;
-    this->spritesheet = FileHandler::load_img("actors/actor1.png");
-    this->direction = Direction::DOWN;
-}
-
 Actor_Battler::Actor_Battler(Actor* actor)
 {
-    this->hp = actor->get_hp();
-    this->mp = actor->get_mp();
-    this->stamina = actor->get_stamina();
-    this->spritesheet = FileHandler::load_img("actors/actor1.png");
+    Actor_Battler *battler = this;
+    *battler = *( (Actor_Battler*)actor );
+    this->hp = get_max_hp();
+    this->stamina = 0;
+    //this->spritesheet = FileHandler::load_img("actors/actor1.png");
     this->direction = Direction::DOWN;
     //setar IA, de acordo com atributo do actor
 }
@@ -71,5 +62,3 @@ bool Actor_Battler::is_player_controlled(){
 bool Actor_Battler::is_passable(){
     return passable;
 }
-
-int Actor_Battler::id = 0;

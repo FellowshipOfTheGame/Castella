@@ -6,10 +6,12 @@
 class Player //Possivelmente diferenciar Human e Computer player por subclasses
 {
     public:
-        Player();
+        Player(Actor* actor);
         virtual ~Player();
         int get_id();
         std::vector<Actor*> get_actors();
+        void add_actor(Actor *actor);
+        void remove_actor(Actor *actor);
 
     protected:
 

@@ -7,7 +7,10 @@ World* World::get_world(){
         world = new World();
 		// Cria grafo a partir do Lua
 		world->criaGrafo ();
+		// Cria os players
+		world->create_players();
     }
+
     return world;
 }
 
@@ -33,7 +36,7 @@ void World::registerOnLua (lua_State *L) {
 			.def ("novaRegiao", &RegionGraph::newRegion)
 			.def ("criaConexoes", &RegionGraph::checkNeighbourhood)
 			.def ("get", &RegionGraph::operator[])
-			.def ("size", &RegionGraph::size) 
+			.def ("size", &RegionGraph::size)
 			.enum_("constantes") [
 				value ("altura", RegionGraph::graph_height),
 				value ("largura", RegionGraph::graph_width),
@@ -47,8 +50,26 @@ void World::registerOnLua (lua_State *L) {
 			.def ("getType", &Region::getType)
 	];
 
-	ScriptHandler::send_to_lua<RegionGraph *> (L, 
+	ScriptHandler::send_to_lua<RegionGraph *> (L,
 			get_world ()->getRegionGraph (), "grafo");
+}
+
+void World::create_players(){
+    players.push_back(Player ( new Actor("actor2.png") )); //player 0 e seu líder
+    players.push_back(Player ( new Actor("actor1.png") )); //player 1 e seu líder
+    //Insere mais dois actors para cada um dos dois primeiros players
+    for (int i=0; i < 2; i++){
+        players[0].add_actor( new Actor("actor1.png"));
+        players[1].add_actor( new Actor("actor1.png"));
+    }
+
+    for (int n=0; n<10; n++){
+        players.push_back(Player( new Actor("actor1.png") ));
+    }
+}
+
+Player* World::get_player(int pos){ // utilizar a ID, em vez de posição ou verificar consistência
+    return &players[pos];
 }
 
 World * World::world = nullptr;

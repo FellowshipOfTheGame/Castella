@@ -12,22 +12,18 @@ enum class Direction {
     UP      = 3
 };
 
-class Actor_Battler
+class Actor_Battler : public Actor
 {
     private:
-        static int id;
         int allegiance; //id do Player ao qual ele é leal
         int hp;
-        int mp;
         int stamina;
         int AI; //fazer enum (ou usar string do script, puxada do actor): none, preset1, preset2, ..., custom - usar scripts (por enquanto IA=false é player)
-        SDL_Surface* spritesheet;
         Direction direction;
         SDL_Rect spriteclip[12];
-        SDL_Rect map_pos; //battler position on the battler map
+        SDL_Rect map_pos; //battler position on the battle map
 
     public:
-        Actor_Battler(); // Deve receber um objeto Actor como parametro, para ajustar os valores base dos atributos, bem como a sptitesheet
         Actor_Battler(Actor* actor);
         virtual ~Actor_Battler();
 
@@ -54,8 +50,6 @@ class Actor_Battler
     protected:
         bool passable;
         SDL_Rect clip(int index);
-
-    private:
 };
 
 #endif // ACTOR_BATTLER_H

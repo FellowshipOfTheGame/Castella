@@ -4,6 +4,7 @@
 #include "Scene.hpp"
 #include "Map_Battle.hpp"
 #include "Player.hpp"
+#include "World.hpp"
 
 class Scene_Battle : public Scene
 {
