@@ -48,6 +48,8 @@ class Window
 		void addSliders (LuaObject luatable);
 		/// Adiciona Buttons a partir de uma Table do lua
 		void addButtons (LuaObject luatable);
+		/// Adiciona TextAreas a partir de uma Table do lua
+		void addTextAreas (LuaObject luatable);
 
 		void buttons_setup ();
 

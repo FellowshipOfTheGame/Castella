@@ -52,3 +52,22 @@ sliders = {
 -- Adiciona nossos sliders na Window
 Win:addSliders (sliders)
 
+-- TextArea {
+--	{
+--		largura: largura da caixa de texto
+--		altura: altura da caixa de texto
+--		x: posição horizontal em relação à Window
+--		y: posição vertical em relação à Window
+--		cor_escrito (table com {R,G,B}): cor do escrito
+--		cor_fundo (mesma table): cor do fundo
+--	},
+--	{}...
+-- }
+-- LEMBRANDO que pra se usar esses macros de cores, basta rodar o cores.lua
+-- `require ('cores')`
+textAreas = {
+	{100, 30, 50, 50, PRETO, BRANCO}
+}
+-- Adiciona nossos sliders na Window
+Win:addTextAreas (textAreas)
+

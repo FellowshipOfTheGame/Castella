@@ -47,8 +47,8 @@ void Scene_Region::draw (SDL_Surface *screen) {
 		i++;
 	}
 
-	write_text (200, 400, screen, "Enter pra pegar os conteudos da checklist (na stdout)",
-			{255, 255, 255});
+	write_text (200, 400, screen,
+			"Enter pra pegar os conteudos da checklist (na stdout)", PRETO);
 
 	Scene::draw (screen);
 }
@@ -65,6 +65,7 @@ void Scene_Region::escape () {
 
 
 void Scene_Region::handle_scene_input (int input) {
+	// teste da checklist
 	if (input == SDLK_RETURN) {
 		cout << "marcados:\n";
 		for (auto i : Cont->getChecked ()) {
@@ -72,4 +73,8 @@ void Scene_Region::handle_scene_input (int input) {
 		}
 		cout << '\n';
 	}
+	// teste do textarea
+	//else {
+		//for (auto w : 
+	//}
 }

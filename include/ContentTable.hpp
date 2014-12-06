@@ -40,13 +40,13 @@ protected:
 public:
 	/** Ctor, fundo padrão = branco */
 	ContentTable (SDL_Rect *window, int width, int height, int x, int y,
-			SDL_Color foreground = {0, 0, 0},
-			SDL_Color background = {255, 255, 255});
+			SDL_Color foreground = PRETO,
+			SDL_Color background = BRANCO);
 	/** Ctor com inicialização do vector data */
 	ContentTable (SDL_Rect *window, int width, int height, int x, int y,
 			initializer_list<Content *> l,
-			SDL_Color foreground = {0, 0, 0},
-			SDL_Color background = {255, 255, 255});
+			SDL_Color foreground = PRETO,
+			SDL_Color background = BRANCO);
 
 	/** @brief Clica lá
 	 *

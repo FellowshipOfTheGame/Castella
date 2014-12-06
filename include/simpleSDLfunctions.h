@@ -27,6 +27,17 @@
 #	define AMASK 0xff000000
 #endif
 
+/* Cores básicas, em SDL_Color */
+#define PRETO		{0, 0, 0}
+#define BRANCO		{255, 255, 255}
+#define VERMELHO	{255, 0, 0}
+#define VERDE		{0, 255, 0}
+#define AZUL		{0, 0, 255}
+#define AMARELO		{255, 255, 0}
+#define MAGENTA		{255, 0, 255}
+#define CIANO		{0, 255, 255}
+
+
 //############################# FUNÇÔES DE ATALHO ##############################
 // Funções para facilitar a aplicação de outras funções, otimizando suas 
 // utilizações, em termos de organização e linhas de código
@@ -53,7 +64,7 @@ Uint32 getRGBAMap (SDL_Surface *target, SDL_Color cor, Uint8 alpha = 0xff);
  * @param[in] cor Cor de fundo; padrão = preto
  * @param[in] dstrect Retângulo a ser preenchido; padrão = em toda a superfície
  */
-void fill_surface (SDL_Surface *target, SDL_Color cor = {0, 0, 0},
+void fill_surface (SDL_Surface *target, SDL_Color cor = PRETO,
 		SDL_Rect *dstrect = NULL);
 //----------------------------------------------------------------------------//
 
@@ -61,7 +72,7 @@ void fill_surface (SDL_Surface *target, SDL_Color cor = {0, 0, 0},
 //Escreve um texto na tela, na posição desejada
 // cor pelo SDL_Color: padrão = preto
 void write_text(int x, int y, SDL_Surface *destino, std::string texto,
-		SDL_Color cor = {0, 0, 0});
+		SDL_Color cor = PRETO);
 //----------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED
 

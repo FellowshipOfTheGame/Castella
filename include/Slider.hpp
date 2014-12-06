@@ -56,7 +56,7 @@ public:
 	/// Clica lá
 	bool mouse_try_click (int x, int y);
 	/// Atualiza seletor na 'image', pra ser desenhada certinha, a partir 
-	void updateChangesImage ();
+	void redraw ();
 	/// Getter da porcentagem: saída do slider (sua utilidade)
 	int getPercent () const;
 

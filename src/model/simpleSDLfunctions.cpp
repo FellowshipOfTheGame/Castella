@@ -71,7 +71,7 @@ void fill_surface (SDL_Surface *target, SDL_Color cor, SDL_Rect *dstrect) {
 void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor)
 {
 	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", DEFAULT_FONT_SIZE);
-	SDL_Surface *mensagem = TTF_RenderText_Solid (fonte, texto.c_str (), cor);
+	SDL_Surface *mensagem = TTF_RenderUTF8_Solid (fonte, texto.c_str (), cor);
 
 	apply_surface (x, y, mensagem, destino);
 

@@ -23,7 +23,7 @@ Slider::Slider (SDL_Rect *window, int x, int y, SDL_Surface *img_back, SDL_Surfa
 	}
 	// desenha pela primeira vez o Slider, visto que ele 
 	// só é redesenhado hora que é clicado
-	updateChangesImage ();
+	redraw ();
 }
 
 
@@ -45,14 +45,14 @@ bool Slider::mouse_try_click (int x, int y) {
 			percent = (x - box.x) * 100.0 / box.w;
 		}
 
-		updateChangesImage ();
+		redraw ();
 	}
 
 	return aux;
 }
 
 
-void Slider::updateChangesImage () {
+void Slider::redraw () {
 	// fundo
 	apply_surface (0, 0, img_back, image);
 	// calcula posição do seletor

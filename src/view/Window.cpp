@@ -1,4 +1,4 @@
-#include <Window.hpp>
+#include "Window.hpp"
 
 using namespace std;
 using namespace luabind;
@@ -55,6 +55,7 @@ void Window::registerWindow (lua_State *L) {
 		class_<Window> ("Window")
 			.def ("addSliders", &Window::addSliders)
 			.def ("addButtons", &Window::addButtons)
+			.def ("addTextAreas", &Window::addTextAreas)
 	];
 }
 
@@ -91,7 +92,7 @@ void Window::addSliders (LuaObject luatable) {
 
 	// Nomes das imagens
     std::string img_back_name, img_selector_name;
-	// As imagens dos botões
+	// As imagens, do fundo e do seletor
     SDL_Surface *img_back = NULL, *img_selector = NULL;
 
 	// Pra cada LuaTable, constrói um Slider
@@ -111,6 +112,30 @@ void Window::addSliders (LuaObject luatable) {
         widgetList.push_back (new Slider (&rect,
 				slider.getInt(1), slider.getInt(2),
 				img_back, img_selector));
+	}
+}
+
+void Window::addTextAreas (LuaObject luatable) {
+	LuaTable table (luatable);
+
+	// Pra cada LuaTable, constrói um TextArea
+	for (LuaObject obj : table) {
+		LuaTable text_area (obj);
+
+		// pega as tables das cores
+		LuaTable fore_table (text_area.getLuaTable (5));
+		LuaTable back_table (text_area.getLuaTable (6));
+		// e as transforma em SDL_Color, pra usar no construtor
+		SDL_Color foreground = {fore_table.get<Uint8> (1),
+				fore_table.get<Uint8> (2), fore_table.get<Uint8>  (3)};
+
+		SDL_Color background = {back_table.get<Uint8> (1),
+				back_table.get<Uint8> (2), back_table.get<Uint8>  (3)};
+
+        widgetList.push_back (new TextArea (&rect,
+				text_area.getInt(1), text_area.getInt(2),
+				text_area.getInt(3), text_area.getInt(4),
+				foreground, background));
 	}
 }
 

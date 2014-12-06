@@ -40,10 +40,10 @@ RegionGraph.largura = 6
 RegionGraph.tamanho_bloco = 3
 
 -- Chances de criar uma tal Região
-RegionGraph.castle_ratio = 30
+RegionGraph.castle_ratio = 10
 RegionGraph.village_ratio = 20
 RegionGraph.cave_ratio = 20
-RegionGraph.forest_ratio = 20
+RegionGraph.forest_ratio = 30
 
 local ratios = {
 	RegionGraph.castle_ratio,

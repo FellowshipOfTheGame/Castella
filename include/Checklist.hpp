@@ -46,15 +46,15 @@ private:
 public:
 	/** Ctor, agora com o checked_foreground: padrão = vermelho */
 	Checklist (SDL_Rect *window, int width, int height, int x, int y,
-			SDL_Color foreground = {0, 0, 0},
-			SDL_Color checked_foreground = {255, 0, 0},
-			SDL_Color background = {255, 255, 255});
+			SDL_Color foreground = PRETO,
+			SDL_Color checked_foreground = VERMELHO,
+			SDL_Color background = BRANCO);
 	/** Ctor, agora com o checked_foreground: padrão = vermelho */
 	Checklist (SDL_Rect *window, int width, int height, int x, int y,
 			initializer_list<Content *> l,
-			SDL_Color foreground = {0, 0, 0},
-			SDL_Color checked_foreground = {255, 0, 0},
-			SDL_Color background = {255, 255, 255});
+			SDL_Color foreground = PRETO,
+			SDL_Color checked_foreground = VERMELHO,
+			SDL_Color background = BRANCO);
 
 	/// Dtor: destrói os pairs dentro da ContentTable
 	~Checklist ();

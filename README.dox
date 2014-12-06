@@ -52,7 +52,8 @@
  * etapa de refinamento.
  *
  *  @section Engine
- * A princípio, será feito em C++, com algumas possibilidades de mudanças e complementações.
+ * A engine é feita em c++ e complementada com scripts Lua, com o auxílio
+ * da biblioteca Luabind. A parte gráfica é toda feita usando SDL.
  *
  * @ref index
  */
@@ -106,6 +107,9 @@
  *
  * Pontos de estamina são utilizados quando o personagem se movimenta e quando ataca ou
  * usa uma habilidade.
+ *
+ *  @section Personagens
+ *
  *
  *  @section Administração
  * A administração dos recursos do jogador será feita em sua tela de região e em suas telas de
