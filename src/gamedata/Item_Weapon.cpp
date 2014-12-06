@@ -1,14 +1,15 @@
 #include <Item_Weapon.hpp>
 
 Weapon::Weapon(const std::string scriptFile) {
-	ScriptHandler sH(scriptFile);
-	LuaTable weapon = sH.getTable("arma");	
+	ScriptHandler sH (Weapon::scriptPath + scriptFile);
+	sH.run_lua ();
+	LuaTable weapon = sH.getTable("arma");
 	buildItem(weapon);
 	buildWeapon(weapon);
 }
 
 Weapon::Weapon(const std::string name, const std::string imgFile, const double baseCost,
-                const double damage, const double fatigue, const double range)
+        const double damage, const double fatigue, const double range)
         : Item(name, imgFile, baseCost) {
     this->damage = damage;
     this->fatigue = fatigue;

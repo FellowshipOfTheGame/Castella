@@ -21,7 +21,7 @@ Actor::Actor(std::string spritesheetName, int str, int intel, int agi, int vit)
     agility = agi;
     vitality = vit;
     //Equipamentos iniciais:
-    //mainHand = new Weapon("espadinha"); //código provisório: ela deve ser criada no player e o actor só deve pegar o endereço
+	mainHand = new Weapon("espadinha"); //código provisório: ela deve ser criada no player e o actor só deve pegar o endereço
 
     // Spritesheet
     this->spritesheet = FileHandler::load_img("actors/" + spritesheetName);

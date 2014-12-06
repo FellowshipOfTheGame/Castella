@@ -1,8 +1,6 @@
-/**
-* @brief Base para os itens do jogo.
-* Um esboço dos ítens, todos os ítens tem em comum: nome, preço e um sprite.
-*/
-
+/** @file Item.hpp
+ * header do gamedata/Item.cpp
+ */
 #ifndef ITEM_HPP
 #define ITEM_HPP
 
@@ -14,6 +12,10 @@
 
 #include "ScriptHandler.hpp"
 
+/**
+* @brief Base para os itens do jogo.
+* Um esboço dos ítens, todos os ítens tem em comum: nome, preço e um sprite.
+*/
 class Item
 {
 
