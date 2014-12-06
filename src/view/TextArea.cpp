@@ -17,10 +17,17 @@ void TextArea::redraw () {
 }
 
 
-void TextArea::input (int c) {
+void TextArea::handle_input (int input) {
+	enterInput (input);
+}
+
+
+void TextArea::enterInput (int c) {
 	switch (c) {
 		case SDLK_BACKSPACE:
-			texto.pop_back ();
+			if (!texto.empty ()) {
+				texto.pop_back ();
+			}
 			break;
 
 		default:
@@ -29,4 +36,5 @@ void TextArea::input (int c) {
 			}
 			break;
 	}
+	redraw ();
 }

@@ -13,7 +13,7 @@ private:
 	SDL_Color foreground;	///< Cor do escrito
 	SDL_Color background;	///< Cor do fundo
 
-	string texto {"Essa é uma textArea"};
+	string texto;
 
 public:
 	/** @brief Ctor do TextArea */
@@ -23,13 +23,16 @@ public:
 	/// Redesenha o escrito dentro da TextArea
 	void redraw ();
 
+	/// Gerencia input de teclado
+	void handle_input (int input);
+
 	/** @brief Trabalha o texto, a partir dum clique
 	 * 
 	 * Se 'c' der pra ser escrito, escreve. aceita backspace também.
 	 *
 	 * @param[in] c Caractere de entrada
 	 */
-	void input (int c);
+	void enterInput (int c);
 };
 
 #endif

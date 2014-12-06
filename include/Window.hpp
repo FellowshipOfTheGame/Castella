@@ -59,6 +59,8 @@ class Window
         SDL_Rect & get_position();
         //Runs a mouseclick on the specified coordinates
         void mouseclick(int x, int y);
+		/// Gerencia input de teclado
+		void handle_input (int input);
         //Draws the window
         void draw(SDL_Surface *screen);
         //Do an update on the window's and its elements' logic
@@ -82,6 +84,7 @@ class Window
         //Checks if the mouse is inside the window
         bool is_mouse_inside(int x, int y);
 
+		Widget *on_focus {nullptr};
 
     protected:
 };

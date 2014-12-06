@@ -73,8 +73,5 @@ void Scene_Region::handle_scene_input (int input) {
 		}
 		cout << '\n';
 	}
-	// teste do textarea
-	//else {
-		//for (auto w : 
-	//}
+	Scene::handle_scene_input (input);
 }

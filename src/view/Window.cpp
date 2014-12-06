@@ -5,6 +5,7 @@ using namespace luabind;
 
 Window::Window(){cout << "-ctor Window()" << endl;} //ctor
 
+
 Window::Window(int x, int y)
 {
 //    sHandler = NULL; //not to let methods call on unallocated script
@@ -46,9 +47,11 @@ Window::Window (const string scriptFile, function<void (lua_State *)> registerOn
 	wSurface = ImageHandler::make_window (rect, windowSkin);
 }
 
+
 void Window::addWidget (Widget *W) {
 	widgetList.push_back (W);
 }
+
 
 void Window::registerWindow (lua_State *L) {
 	module (L) [
@@ -58,6 +61,7 @@ void Window::registerWindow (lua_State *L) {
 			.def ("addTextAreas", &Window::addTextAreas)
 	];
 }
+
 
 void Window::addButtons (LuaObject luatable) {
 	LuaTable table (luatable);
@@ -87,6 +91,7 @@ void Window::addButtons (LuaObject luatable) {
     }
 }
 
+
 void Window::addSliders (LuaObject luatable) {
 	LuaTable table (luatable);
 
@@ -115,6 +120,7 @@ void Window::addSliders (LuaObject luatable) {
 	}
 }
 
+
 void Window::addTextAreas (LuaObject luatable) {
 	LuaTable table (luatable);
 
@@ -139,6 +145,7 @@ void Window::addTextAreas (LuaObject luatable) {
 	}
 }
 
+
 Window::~Window(){
     SDL_FreeSurface(wSurface);
     for (auto & widget : widgetList) {
@@ -147,14 +154,17 @@ Window::~Window(){
     cout << "dtor Window" << endl;
 }//dtor
 
+
 void Window::set_position(int x, int y){
     rect.x = x;
     rect.y = y;
 }
 
+
 SDL_Rect & Window::get_position(){
     return rect;
 }
+
 
 bool Window::is_mouse_inside(int x, int y){
     //Check given coordinates against window
@@ -165,14 +175,29 @@ bool Window::is_mouse_inside(int x, int y){
     return false;
 }
 
+
 void Window::mouseclick(int x, int y){
-    //Return if the mouse isn't over the window
-    if (!is_mouse_inside(x, y)) return;
-    // Vê se clica em cada widget
-    for (auto & widget : widgetList) {
-        widget->mouse_try_click (x,y);
-    }
+	// só roda se tiver dentro da tela, né
+    if (is_mouse_inside(x, y)) {
+		// assume que clicou em ninguém
+		on_focus = nullptr;
+
+		for (auto & widget : widgetList) {
+			if (widget->mouse_try_click (x, y)) {
+				on_focus = widget;
+			}
+		}
+	}
 }
+
+
+void Window::handle_input (int input) {
+	// só 
+	if (on_focus) {
+		on_focus->handle_input (input);
+	}
+}
+
 
 void Window::draw(SDL_Surface *screen){
     //Draw windowskin
@@ -184,11 +209,13 @@ void Window::draw(SDL_Surface *screen){
     }
 }
 
+
 void Window::update(){
     for (auto & widget : widgetList) {
         widget->update ();
     }
 }
+
 
 const std::string Window::scriptPath("script/windows/");
 const std::string Window::buttonImgPath("images/buttons/");

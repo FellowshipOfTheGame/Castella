@@ -2,6 +2,7 @@
 
 Widget::Widget () {}
 
+
 Widget::Widget (SDL_Rect *window, int width, int height, int x, int y) 
 		: window (window), image (create_surface (width, height)) {
 	windowRelativeOffset.x = x;
@@ -40,3 +41,6 @@ bool Widget::mouse_try_click (int x, int y){
 		return false;
 	}
 }
+
+
+void Widget::handle_input (int input) {}
