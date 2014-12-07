@@ -49,6 +49,4 @@ class Scene
 
 };
 
-// - TODO: base Scene must control mouse position aquisition and standard inputs like asking to quit on the X(close) button
-
 #endif // SCENE_H

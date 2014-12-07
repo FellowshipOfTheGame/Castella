@@ -39,7 +39,7 @@
 
 
 //############################# FUNÇÔES DE ATALHO ##############################
-// Funções para facilitar a aplicação de outras funções, otimizando suas 
+// Funções para facilitar a aplicação de outras funções, otimizando suas
 // utilizações, em termos de organização e linhas de código
 
 //------------------------------ CARREGAR IMAGEM -----------------------------//
@@ -59,7 +59,7 @@ void apply_surface(int x, int y, SDL_Surface* fonte, SDL_Surface* destino,
 /// Transforma um SDL_Color em Uint32, pras funções que o precisam
 Uint32 getRGBAMap (SDL_Surface *target, SDL_Color cor, Uint8 alpha = 0xff);
 /** @brief Preenche o fundo de uma superfície
- * 
+ *
  * @param[in] target Superfície a ser 'pintada'
  * @param[in] cor Cor de fundo; padrão = preto
  * @param[in] dstrect Retângulo a ser preenchido; padrão = em toda a superfície
@@ -72,7 +72,7 @@ void fill_surface (SDL_Surface *target, SDL_Color cor = PRETO,
 //Escreve um texto na tela, na posição desejada
 // cor pelo SDL_Color: padrão = preto
 void write_text(int x, int y, SDL_Surface *destino, std::string texto,
-		SDL_Color cor = PRETO);
+		SDL_Color cor = PRETO, float alinhamento = 0);
 //----------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED
 

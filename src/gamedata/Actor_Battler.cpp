@@ -28,6 +28,8 @@ SDL_Rect Actor_Battler::clip(int index){
 void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
     index = (int)direction*3 + 1;
     apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index));
+    //Código provisório para simular uma HUD em texto:
+    write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", {0,0,0}, 0.5);
 }
 
 void Actor_Battler::set_allegiance(int allegiance){
@@ -51,6 +53,34 @@ void Actor_Battler::look(Direction direction){
     this->direction = direction;
 }
 
+void Actor_Battler::walk(Direction direction){
+    // Adicionar verificação de passabilidade do tile...
+    //Caso seja passável, verificar custo e tentar executar a movimentação
+    int cost = (30)/3; // estabelecer custo em função do peso e da força
+    if (use_stamina(cost)){ //se tiver estamina suficiente, gasta e executa
+        look(direction);
+        int x = map_pos.x;
+        int y = map_pos.y;
+        switch (direction){
+            case Direction::DOWN:
+                y++;
+                break;
+            case Direction::UP:
+                y--;
+                break;
+            case Direction::LEFT:
+                x--;
+                break;
+            case Direction::RIGHT:
+                x++;
+                break;
+            default:
+                break;
+        }
+        set_map_pos(x, y);
+    }
+}
+
 void Actor_Battler::set_ai(int ai){
     this->AI = ai;
 }
@@ -61,4 +91,23 @@ bool Actor_Battler::is_player_controlled(){
 
 bool Actor_Battler::is_passable(){
     return passable;
+}
+
+void Actor_Battler::update(){
+    stamina += get_stamina_recovery();
+    if (stamina >= get_max_stamina()){
+        stamina = get_max_stamina();
+    }
+}
+
+float Actor_Battler::get_stamina_percent(){
+    return (stamina/get_max_stamina())*100;
+}
+
+bool Actor_Battler::use_stamina(int cost){
+    if (stamina >= cost){
+        stamina -= cost;
+        return true;
+    }
+    else return false;
 }

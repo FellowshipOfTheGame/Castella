@@ -5,6 +5,7 @@
 #include "FileContainer.hpp"
 #include "Actor_Battler.hpp"
 
+bool compare_battler_y(const void* b1, const void* b2); //compares battlers y position
 
 class Map_Battle
 {

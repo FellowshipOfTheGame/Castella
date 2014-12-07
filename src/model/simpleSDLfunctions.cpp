@@ -68,12 +68,12 @@ void fill_surface (SDL_Surface *target, SDL_Color cor, SDL_Rect *dstrect) {
 
 //--------------------------------- ESCREVER TEXTO --------------------------------//
 //Escreve um texto na tela, na posição desejada
-void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor)
+void write_text(int x, int y, SDL_Surface *destino, std::string texto, SDL_Color cor, float alinhamento)
 {
 	TTF_Font *fonte = TTF_OpenFont ("DejaVuSansMono.ttf", DEFAULT_FONT_SIZE);
 	SDL_Surface *mensagem = TTF_RenderUTF8_Solid (fonte, texto.c_str (), cor);
 
-	apply_surface (x, y, mensagem, destino);
+	apply_surface (x, y, mensagem, destino, NULL, alinhamento);
 
 	SDL_FreeSurface (mensagem);
 	TTF_CloseFont (fonte);

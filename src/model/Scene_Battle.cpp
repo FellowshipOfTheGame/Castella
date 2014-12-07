@@ -1,8 +1,11 @@
 #include <Scene_Battle.hpp>
+#include <cstdlib>
 
 Scene_Battle::Scene_Battle() : battleMap (20, 12)
 {
     SceneControl::set_cur (Scenes::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
+
+    cursor = FileHandler::load_img("battle_cursor.png");
 
 	//Player **players = (Player **) Scene::ptr;
 
@@ -13,6 +16,7 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
 
     std::cout << "loading battlers... ";
 	load_battlers (players[0], players[1]);
+	active_battler = NULL;
 }
 
 Scene_Battle::~Scene_Battle()
@@ -20,12 +24,51 @@ Scene_Battle::~Scene_Battle()
     //dtor
 }
 
-void Scene_Battle::update(){Scene::update();}
+void Scene_Battle::update(){
+    Scene::update();
+    //Se não houver um battler ativo, atualiza a estamina
+    if (active_battler == NULL){
+        update_stamina();
+    }
+    else { //há um battler ativo
+        //Recebe input para o battler
+        //Quando finalizar suas ações, passa o active_battler para NULL
+    }
+}
+
+void Scene_Battle::update_stamina(){
+    //Concatena os times de battlers
+    std::vector<Actor_Battler*> battlers = battlersTeam1;
+    battlers.insert(battlers.end(), battlersTeam2.begin(), battlersTeam2.end());
+    //Verifica os battlers que chegaram a 100% da estamina e os marca como prontos
+    std::vector<Actor_Battler*> ready_battlers;
+    for (auto btlr : battlers){
+        if (btlr->get_stamina_percent() >= 100){
+            ready_battlers.push_back(btlr);
+        }
+    }
+    //Se não houver mais battlers prontos, volta a fazer update da estamina
+    if (ready_battlers.size() == 0){
+        for (auto btlr : battlers){
+            btlr->update();
+        }
+    }
+    else {
+        //Sorteia um entre os ready_battlers para selecionar como battler_active
+        active_battler = ready_battlers[rand()%ready_battlers.size()];
+    }
+}
 
 void Scene_Battle::draw(SDL_Surface *screen){
     //Super
     Scene::draw(screen);
     battleMap.draw(screen, battlersTeam1, battlersTeam2);
+    //Desenha o cursor
+    if (active_battler != NULL){
+        int x = active_battler->get_map_pos().x;
+        int y = active_battler->get_map_pos().y;
+        apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40, cursor, screen, NULL, 0.5);
+    }
 }
 
 void Scene_Battle::mouseclick(int x, int y){
@@ -39,6 +82,33 @@ void Scene_Battle::escape(){
 }
 
 void Scene_Battle::handle_scene_input(int input){
+    //Se um battler estiver ativo - (e não for controlado por IA)
+    if (active_battler != NULL){
+        switch(input){
+            //Mover
+            case SDLK_DOWN:
+                active_battler->walk(Direction::DOWN);
+                break;
+            case SDLK_RIGHT:
+                active_battler->walk(Direction::RIGHT);
+                break;
+            case SDLK_LEFT:
+                active_battler->walk(Direction::LEFT);
+                break;
+            case SDLK_UP:
+                active_battler->walk(Direction::UP);
+                break;
+            //Encerrar turno
+            case SDLK_END:
+                if ( (int)(active_battler->get_stamina_percent()) == 100 ){
+                    active_battler->use_stamina(10); //gasta 10 de estamina
+                }
+                active_battler = NULL;
+            default:
+                break;
+        }
+    }
+    //Other input:
     switch(input){
         default:
             break;

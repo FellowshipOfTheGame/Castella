@@ -9,6 +9,7 @@
 #include <GameStructure.hpp>
 
 #include <Timer.hpp>
+#include <ctime>
 
 #include <Input.hpp>
 
@@ -47,6 +48,8 @@ void Game::terminate(){
 }
 
 int Game::initialize(){
+    //Random seed
+    std::srand(std::time(0));
     //Setup the SDL system
     setupSDL();
     //Set Game State

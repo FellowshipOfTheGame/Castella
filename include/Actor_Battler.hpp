@@ -17,7 +17,7 @@ class Actor_Battler : public Actor
     private:
         int allegiance; //id do Player ao qual ele é leal
         int hp;
-        int stamina;
+        float stamina;
         int AI; //fazer enum (ou usar string do script, puxada do actor): none, preset1, preset2, ..., custom - usar scripts (por enquanto IA=false é player)
         Direction direction;
         SDL_Rect spriteclip[12];
@@ -41,11 +41,19 @@ class Actor_Battler : public Actor
 
         void look(Direction direction);
 
+        void walk(Direction direction);
+
         void set_ai(int ai);
 
         bool is_player_controlled();
 
         SDL_Rect get_map_pos();
+
+        void update();
+
+        float get_stamina_percent();
+
+        bool use_stamina(int cost);
 
     protected:
         bool passable;

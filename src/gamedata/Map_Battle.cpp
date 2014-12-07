@@ -1,4 +1,5 @@
 #include <Map_Battle.hpp>
+#include <algorithm>
 
 Map_Battle::Map_Battle(int width, int height)
 {
@@ -28,10 +29,6 @@ Map_Battle::Map_Battle(int width, int height)
             }
         }
     }
-
-    //testing battlers:
-//    battlers[0] = new Actor_Battler();
-//    battlers[0]->set_map_pos(14,6);
 }
 
 Map_Battle::Map_Battle(std::string filename){
@@ -50,9 +47,12 @@ void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersT
             tileMap[i*width+j].draw(screen);
         }
     }
-    //Draws battlers
+    //Concatena os vetores dos times
     std::vector<Actor_Battler*> battlers = battlersTeam1;
     battlers.insert(battlers.end(), battlersTeam2.begin(), battlersTeam2.end());
+    //Ordena os battlers da menor posição em y para a maior, para desenhá-los com a sobreposição correta
+    sort(battlers.begin(), battlers.end(), compare_battler_y);
+    //Draws battlers
     for (auto battlersIt : battlers){
         int clip = 7; //deve ser escolhido de acordo com a orientação e com o movimento do actor
         int x = (battlersIt)->get_map_pos().x * MapTile::TILESIZE;
@@ -60,4 +60,11 @@ void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersT
         (battlersIt)->draw(x+MapTile::TILESIZE/2, y-18, clip, screen);
     }
 
+}
+
+bool compare_battler_y(const void* b1, const void* b2){
+    if ( ((Actor_Battler*)b1)->get_map_pos().y < ((Actor_Battler*)b2)->get_map_pos().y){
+        return true;
+    }
+    return false;
 }

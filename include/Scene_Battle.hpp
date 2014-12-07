@@ -25,8 +25,13 @@ class Scene_Battle : public Scene
         virtual void escape();
         virtual void handle_scene_input(int input);
 
+        SDL_Surface* cursor;
+
     private:
+        Actor_Battler *active_battler;
+
         virtual void load_battlers(Player* player1, Player* player2);
+        void update_stamina();
 };
 
 #endif // SCENE_BATTLE_HPP

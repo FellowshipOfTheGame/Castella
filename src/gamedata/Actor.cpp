@@ -4,7 +4,7 @@
 const int Actor::BASE_HP                = 40;
 const int Actor::BASE_PRECISION         = 80;
 const int Actor::BASE_STAMINA           = 100;
-const float Actor::BASE_STAMINA_REGEN   = 1;
+const float Actor::BASE_STAMINA_REGEN   = 0.01;
 
 Actor::Actor(){
     //default ctor
