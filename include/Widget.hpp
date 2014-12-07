@@ -33,8 +33,12 @@ public:
 	virtual ~Widget () = 0;
 	/// Verifica se clicou
 	virtual bool mouse_try_click (int x, int y);
-	/// Lógica a ser atualizada a cada frame
-	/// por padrão, atualiza a posição global através da posição da window
+	/// Gerencia input de teclado
+	virtual void handle_input (int input);
+	/** @brief Lógica a ser atualizada a cada frame
+	 *
+	 * Por padrão, atualiza a posição global através da posição da window
+	 */
 	virtual void update ();
 	/** @brief Desenha!
 	 *

@@ -36,9 +36,8 @@ void Scene::escape(){}
 
 //Default generic inputs should be handled here
 void Scene::handle_input(){
-    do {
-        //Gets next input
-        input = Input::get_input();
+	do {
+		input = Input::get_input();
         switch(input) {
             //Quit
             case Input::QUIT:
@@ -56,12 +55,19 @@ void Scene::handle_input(){
             case Input::MOUSE_LEFTCLICK:
                 mouseclick(Input::get_mouse_offset().x, Input::get_mouse_offset().y);
                 break;
+
             default:
                 //Calls scene-specific input handler
                 handle_scene_input(input);
         }
     }
-    while(input); // returns 0 when there's no input
+	while(input); // returns 0 when there's no input
+}
+
+void Scene::handle_scene_input (int input) {
+	for (auto & win : windows) {
+		win->handle_input (input);
+	}
 }
 // definindo as variáveis estáticas
 Scene *Scene::scene = nullptr;

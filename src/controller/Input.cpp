@@ -8,18 +8,26 @@ int Input::get_input(){
             return QUIT;
         }
         //Key down
-        if(event.type == SDL_KEYDOWN){
-                if((int)event.key.keysym.sym != (int)NO_INPUT){
-                    return (int)event.key.keysym.sym;
-                }
+		else if(event.type == SDL_KEYDOWN){
+			// código da tecla
+			int c = event.key.keysym.sym;
+
+			if(c != NO_INPUT){
+				// checa shift e caps lock, pra mandar maiúsculo
+				int mod = event.key.keysym.mod;
+				if (mod & (KMOD_SHIFT | KMOD_CAPS)) {
+					c = toupper (c);
+				}
+				return c;
+			}
         }
         //Get mouse offsets
-        if (event.type == SDL_MOUSEMOTION){
+		else if (event.type == SDL_MOUSEMOTION){
             mouseX = event.motion.x;
             mouseY = event.motion.y;
         }
         //If a mouse button was pressed
-        if(event.type == SDL_MOUSEBUTTONDOWN){
+		else if(event.type == SDL_MOUSEBUTTONDOWN){
             //Left button
             if(event.button.button == SDL_BUTTON_LMASK){
                 return MOUSE_LEFTCLICK;
