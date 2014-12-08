@@ -11,7 +11,7 @@ World* World::get_world(){
 		world->create_players();
 		// Pega as funções de batalha do Lua pro actor
 		// ATENÇÃO: se deixar num lugar que roda duas vezes, ele segfaulta
-		Actor::getFunctionsFromLua ("script/actor_funcs.lua");
+		Actor_Battler::getFunctionsFromLua ("script/actor_funcs.lua");
     }
 
     return world;
@@ -53,8 +53,8 @@ void World::registerOnLua (lua_State *L) {
 			.def ("getType", &Region::getType)
 	];
 
-	ScriptHandler::send_to_lua<RegionGraph *> (L,
-			get_world ()->getRegionGraph (), "grafo");
+	ScriptHandler::send_to_lua<RegionGraph *> (L, "grafo",
+			get_world ()->getRegionGraph ());
 }
 
 void World::create_players(){

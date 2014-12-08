@@ -17,12 +17,16 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
     std::cout << "loading battlers... ";
 	load_battlers (players[0], players[1]);
 	active_battler = NULL;
-
 }
 
 Scene_Battle::~Scene_Battle()
 {
-    //dtor
+	for (auto act : battlersTeam1) {
+		delete (act);
+	}
+	for (auto act : battlersTeam2) {
+		delete (act);
+	}
 }
 
 void Scene_Battle::update(){

@@ -12,6 +12,9 @@ for i = 0, RegionGraph.altura - 1 do
 		local x = j * RegionGraph.tamanho_bloco + math.random (RegionGraph.tamanho_bloco - 1) - 1
 		-- cria regiões
 		grafo:novaRegiao (id, sorteiaRegiao (), x, y)
+
+		grafo:criaConexoes (grafo:get (id))
+
 		id = id + 1
 	end
 end

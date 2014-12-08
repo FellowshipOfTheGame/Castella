@@ -21,8 +21,6 @@ for i, reg in regioes (grafo) do
 		img, img,
 		pula (reg)
 	}
-
-	grafo:criaConexoes (reg)
 	--reg:print ()
 end
 

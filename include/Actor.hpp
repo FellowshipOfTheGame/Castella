@@ -36,11 +36,6 @@ class Actor
         static LuaFunction *Lua_get_magic_dmg_amplifier;
         static LuaFunction *Lua_get_phys_dmg_attenuation;
         static LuaFunction *Lua_get_magic_dmg_attenuation;
-		/** @brief Pega funções de controle de batalha do Lua
-		 *
-		 * Porque xupa hardcoding!
-		 */
-		static void getFunctionsFromLua (const string script_name);
 		/// Registra Actor no Lua
 		static void registerOnLua (lua_State *L);
 

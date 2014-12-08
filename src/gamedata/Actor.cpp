@@ -83,34 +83,12 @@ void Actor::registerOnLua (lua_State *L) {
 			.def_readonly ("inteligence", &Actor::inteligence)
 			.def_readonly ("agility", &Actor::agility)
 			.def_readonly ("vitality", &Actor::vitality)
-			.enum_("constantes") [
-				value ("BASE_PRECISION", BASE_PRECISION),
-				value ("BASE_HP", BASE_HP),
-				value ("BASE_STAMINA", BASE_STAMINA),
-				value ("BASE_STAMINA_REGEN", BASE_STAMINA_REGEN)
-			]
 	];
+	ScriptHandler::send_to_lua<int> (L, "BASE_PRECISION", BASE_PRECISION);
+	ScriptHandler::send_to_lua<int> (L, "BASE_HP", BASE_HP);
+	ScriptHandler::send_to_lua<int> (L, "BASE_STAMINA", BASE_STAMINA);
+	ScriptHandler::send_to_lua<float> (L, "BASE_STAMINA_REGEN", Actor::BASE_STAMINA_REGEN);
 }
-/// GET pega uma função do lua, a partir do seu nome
-#define GET(func) (*Actor::Lua_get_##func = _G[#func])
-void Actor::getFunctionsFromLua (const string script_name) {
-	ScriptHandler sH (script_name);
-	sH.run_lua ();
-
-	registerOnLua (sH.state ());
-
-	LuaTable _G = sH.global ();
-	GET (max_hp);
-	GET (max_stamina);
-	GET (precision);
-	GET (evasion);
-	GET (stamina_recovery);
-	GET (phys_dmg_amplifier);
-	GET (magic_dmg_amplifier);
-	GET (phys_dmg_attenuation);
-	GET (magic_dmg_attenuation);
-}
-#undef GET
 LuaFunction *Actor::Lua_get_max_hp = new LuaFunction;
 LuaFunction *Actor::Lua_get_max_stamina = new LuaFunction;
 LuaFunction *Actor::Lua_get_precision = new LuaFunction;

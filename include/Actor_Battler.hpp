@@ -55,9 +55,19 @@ class Actor_Battler : public Actor
 
         bool use_stamina(int cost);
 
+		/** @brief Pega funções de controle de batalha do Lua
+		 *
+		 * Porque xupa hardcoding!
+		 */
+		static void getFunctionsFromLua (const string script_name);
+		/// Registra classe no Lua
+		static void registerOnLua (lua_State *L);
+
     protected:
         bool passable;
         SDL_Rect clip(int index);
+
+		static ScriptHandler sH;
 };
 
 #endif // ACTOR_BATTLER_H

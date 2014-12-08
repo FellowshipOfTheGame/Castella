@@ -94,9 +94,11 @@ bool Actor_Battler::is_passable(){
 }
 
 void Actor_Battler::update(){
-    stamina += get_stamina_recovery();
-    if (stamina >= get_max_stamina()){
-        stamina = get_max_stamina();
+	using namespace luabind;
+
+    stamina += call_function<float> (*Lua_get_stamina_recovery, this);
+    if (stamina >= call_function<float> (*Lua_get_max_stamina, this)){
+        stamina = call_function<float> (*Lua_get_max_stamina, this);
     }
 }
 
@@ -110,4 +112,36 @@ bool Actor_Battler::use_stamina(int cost){
         return true;
     }
     else return false;
+}
+
+/// GET pega uma função do lua, a partir do seu nome
+#define GET(func) (*Actor::Lua_get_##func = _G[#func])
+void Actor_Battler::getFunctionsFromLua (const string script_name) {
+	sH.load (script_name);
+	sH.run_lua ();
+
+	registerOnLua (sH.state ());
+
+	LuaTable _G = sH.global ();
+	GET (max_hp);
+	GET (max_stamina);
+	GET (precision);
+	GET (evasion);
+	GET (stamina_recovery);
+	GET (phys_dmg_amplifier);
+	GET (magic_dmg_amplifier);
+	GET (phys_dmg_attenuation);
+	GET (magic_dmg_attenuation);
+}
+#undef GET
+ScriptHandler Actor_Battler::sH;
+
+void Actor_Battler::registerOnLua (lua_State *L) {
+	using namespace luabind;
+
+	Actor::registerOnLua (L);
+
+	module (L) [
+		class_<Actor_Battler, Actor> ("Actor_Battler")
+	];
 }

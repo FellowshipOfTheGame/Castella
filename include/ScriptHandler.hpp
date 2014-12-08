@@ -22,7 +22,7 @@ class ScriptHandler
         void send(T element, const char *luaName) { luabind::globals(L)[luaName] = element; }
 
 		template <typename T>
-		static void send_to_lua (lua_State *L, T element, const char *luaName) { luabind::globals(L)[luaName] = element; }
+		static void send_to_lua (lua_State *L, const char *luaName, T element) { luabind::globals(L)[luaName] = element; }
 
         template <typename T> ///<Retrieves a variable from a lua table, inside the global table.
         T get(const char *tableName, const char *key) {

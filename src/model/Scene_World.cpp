@@ -10,7 +10,7 @@ Scene_World::Scene_World()
 			[] (lua_State *L) {
 				World::registerOnLua (L);
 
-				ScriptHandler::send_to_lua<int> (L, MapTile::TILESIZE, "tilesize");
+				ScriptHandler::send_to_lua<int> (L, "tilesize", MapTile::TILESIZE);
 
 				module (L) [
 					def ("vaiPraRegiao", &Scene_World::goToRegion),

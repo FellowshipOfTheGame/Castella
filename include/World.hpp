@@ -7,6 +7,7 @@
 #include "RegionGraph.hpp"
 #include "ScriptHandler.hpp"
 #include "Player.hpp"
+#include "Actor_Battler.hpp"
 
 /** @brief Mundo do Castella!
  *
