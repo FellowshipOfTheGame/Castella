@@ -1,7 +1,11 @@
 #include <Actor_Battler.hpp>
 
-Actor_Battler::Actor_Battler(Actor* actor)
-{
+class Scene_Battle{
+    public:
+        static int frame;
+};
+
+Actor_Battler::Actor_Battler(Actor* actor){
     Actor_Battler *battler = this;
     *battler = *( (Actor_Battler*)actor );
     this->hp = get_max_hp();
@@ -9,6 +13,12 @@ Actor_Battler::Actor_Battler(Actor* actor)
     //this->spritesheet = FileHandler::load_img("actors/actor1.png");
     this->direction = Direction::DOWN;
     //setar IA, de acordo com atributo do actor
+}
+
+Actor_Battler::~Actor_Battler()
+{
+    //dtor
+    walking = 0;
 }
 
 Actor_Battler::~Actor_Battler()
@@ -27,7 +37,7 @@ SDL_Rect Actor_Battler::clip(int index){
 
 void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
     index = (int)direction*3 + 1;
-    apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index));
+    apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index+(bool)walking*Scene_Battle::frame%18/6-1));
     //Código provisório para simular uma HUD em texto:
     write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", {0,0,0}, 0.5);
 }
@@ -54,11 +64,12 @@ void Actor_Battler::look(Direction direction){
 }
 
 void Actor_Battler::walk(Direction direction){
+    look(direction);
     // Adicionar verificação de passabilidade do tile...
     //Caso seja passável, verificar custo e tentar executar a movimentação
     int cost = (30)/3; // estabelecer custo em função do peso e da força
     if (use_stamina(cost)){ //se tiver estamina suficiente, gasta e executa
-        look(direction);
+        walking = 9;
         int x = map_pos.x;
         int y = map_pos.y;
         switch (direction){

@@ -8,6 +8,8 @@
 #include "ScriptHandler.hpp"
 #include "Player.hpp"
 #include "Actor_Battler.hpp"
+#include "Skill.hpp"
+
 
 /** @brief Mundo do Castella!
  *
@@ -39,6 +41,8 @@ class World
 		vector<Player> players;
 
 		void create_players();
+
+		void load_skills();
 };
 
 #endif // WORLD_H

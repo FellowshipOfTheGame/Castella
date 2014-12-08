@@ -31,6 +31,7 @@ Scene_Battle::~Scene_Battle()
 
 void Scene_Battle::update(){
     Scene::update();
+    frame++;
     //Se não houver um battler ativo, atualiza a estamina
     if (active_battler == NULL){
         update_stamina();
@@ -72,7 +73,7 @@ void Scene_Battle::draw(SDL_Surface *screen){
     if (active_battler != NULL){
         int x = active_battler->get_map_pos().x;
         int y = active_battler->get_map_pos().y;
-        apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40, cursor, screen, NULL, 0.5);
+        apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, screen, NULL, 0.5);
     }
 }
 
@@ -150,3 +151,5 @@ void Scene_Battle::load_battlers(Player* player1, Player* player2){
         battlersTeam2.push_back(battler);
     }
 }
+
+int Scene_Battle::frame = 0;

@@ -9,6 +9,8 @@ World* World::get_world(){
 		world->criaGrafo ();
 		// Cria os players
 		world->create_players();
+		// Carrega as skills
+		world->load_skills();
 		// Pega as funções de batalha do Lua pro actor
 		// ATENÇÃO: se deixar num lugar que roda duas vezes, ele segfaulta
 		Actor_Battler::getFunctionsFromLua ("script/actor_funcs.lua");
@@ -73,6 +75,10 @@ void World::create_players(){
 
 Player* World::get_player(int pos){ // utilizar a ID, em vez de posição ou verificar consistência
     return &players[pos];
+}
+
+void World::load_skills(){
+    Skill::add_skill("attack", "ataque");
 }
 
 World * World::world = nullptr;
