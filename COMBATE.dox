@@ -1,0 +1,252 @@
+/**
+ @page pageCombate Combate
+
+ @section Personagem
+  @subsection attr1 Atributos Primários
+
+   @subsubsection Força
+
+Medida da força física do personagem. Determina o quanto de dano ele pode 
+acrescentar aos seus golpes, o quanto de dano físico ele pode absorver e com 
+que eficiência de energia ele consegue executar suas ações de deslocamento e 
+ataque, conforme o peso do seu equipamento.
+
+- Dano bruto infligido: __dano_da_arma__ * (100 + 2 * __Força__)/100
+- Dano absorvido ao receber um golpe: __dano_da_arma__ * (100 + __Força__)/100
+- *Atenuação de carga: __carga_bruta__ x 0.98 ^ __Força__
+@todo rever fórmula *
+
+   @subsubsection Inteligência
+
+Medida do poder mental do personagem. Determina o quanto suas magias serão 
+mais poderosas, o quanto ele será resistente a magias de outros magos e com
+que eficiência de energia ele consegue executar suas magias.
+
+- Poder bruto: __poder_da_magia__ * (100 + 2 * __Inteligência__)/100
+- Poder atenuado de uma magia hostil: __poder_da_magia__ * (100 + __Inteligência__)/100
+- *Atenuação de fadiga: __fadiga_bruta__ * 0.98 ^ __Inteligência__
+@todo rever fórmula *
+
+   @subsubsection Agilidade
+
+Medida da destreza e velocidade do personagem. Determina sua chance de acertar
+e de desviar de golpes, sua chance base de infligir danos críticos e também com
+que frequência poderá agir novamente.
+
+- Precisão (chance base de acerto em %): __precisão_base__ + __Agilidade__
+- Evasão: __Agilidade__ % - (modificada pelo fator carga – a quantificar)
+- Chance base de crítico: __Agilidade__/ 2
+- Recuperação de estamina: __recuperação_base__ * (100 + __Agilidade__)/100
+
+   @subsubsection Vitalidade
+
+Medida da resistência física do personagem. Determina o quanto de dano consegue
+sustentar  antes de morrer e também o quanto de esforço poderá exigir de seu
+corpo e sua mente para executar suas ações.
+
+- Pontos de vida: __pontos_de_vida_base__ * (100 + 10 * __Vitalidade__)/100
+- Estamina: __estamina_base__ * (100 + __Vitalidade__)/100
+
+  @subsection attr2 Atributos Secundários
+
+O atributo primário @ref Vitalidade define dois novos atributos que são
+utilizados em batalha:
+
+   @subsubsection HP Pontos de Vida
+
+Medida do quanto o personagem poderá sofrer de dano (físico ou mágico) até que
+morra. Eles podem ser recuperados em batalha por poções ou magias de cura.
+Ao terminar uma batalha, os pontos de vida perdidos são recuperados
+automaticamente.
+
+   @subsubsection Estamina
+
+Medida do quanto um personagem poderá utilizar em ações: sejam ataques, magias
+ou mesmo movimentar-se pelo campo de batalha. Representa a energia ou o quanto
+de fadiga o personagem pode sustentar com suas ações. A estamina recupera-se
+entre os turnos de cada personagem, de acordo com a agilidade de cada um.
+
+  @subsection base Valores Base
+
+Alguns valores base são necessários para determinar atributos secundários e
+cálculos da batalha:
+
+- Precisão base: 80
+- Pontos de vida base: 40
+- Estamina base: 100
+- Recuperação de estamina base: (requer ajustes com testes no software)
+
+  @subsection Habilidades
+
+Além dos atributos primários do personagem (@ref Força, @ref Inteligência,
+@ref Agilidade e @ref Vitalidade), ele contará com um conjunto de habilidades
+que incrementarão seu potencial em batalha. As habilidades podem figurar entre
+ativas e passivas e estarão descritas em mais detalhes posteriormente, nesta
+seção.
+
+  @subsection Equipamento
+
+O personagem também disporá de equipamentos para tornar seu ataque e sua defesa
+mais eficientes. Eles apresentarão, regularmente, valores como:
+
+- __Ataque base__ - armas
+- __Resistência a dano físico__ - armaduras, elmos, (…)
+- __Chance de bloqueio__ - escudos
+- __Carga__ (peso do equipamento)
+
+Além disso, os equipamentos também poderão adicionar efeitos adicionais e
+especiais, como resistência mágica, proteção contra dano crítico, modificadores
+de precisão e de acerto crítico, além de vários outros tipos de modificadores.
+Descrição dos tipos de equipamentos disponíveis:
+
+- __Arma__
+	+ __Dano__
+	+ __Alcance__
+	+ __Peso__
+	+ __Carga de uso__ – uma medida do peso e do balanço da arma, significando a
+dificuldade de sua utilização (carga instrumental)
+- __Armadura__
+	+ __Resistência a dano__
+	+ __Peso__
+- __Elmo__
+- __Luvas__
+- __Anel__
+- __Amuleto__
+- __Botas__
+
+
+  @subsection Ações
+
+Os personagens em batalha poderão executar, por vez, uma entre as seguintes
+ações:
+
+   @subsubsection Habilidade
+
+São as ações específicas que cada personagem poderá executar, além do que é
+comum entre todos (deslocar-se e atacar). A cada nível ganho pelo personagem,
+ele poderá escolher uma habilidade para evoluir, segundo uma progressão em
+árvores de habilidade. Algumas habilidades serão passivas e não determinam uma
+ação em batalha, mas sim algum outro tipo de vantagem permanente que melhore o
+desempenho em batalha. Cada habilidade ativa possui os seguintes parâmetros:
+
+- __Custo__ (o custo base da habilidade, posteriormente modificado pelo fator de
+carga e pela força ou inteligência do personagem) *ver referência cruzada
+Actor-Skill
+- __Dano__ (o dano causado pela habilidade, que pode ser um valor fixo – positivo
+ou negativo – ou um valor percentual do dano da arma equipada) *ver referência
+cruzada Actor-Skil: possivelmente usar uma tag weapon_based pra dizer se é fixo
+ou da arma
+- __Alcance__ (alcance 0 para habilidades que não exigem seleção de ponto ou
+área de efeito) *ver referência cruzada Actor-Skill
+- __Area de efeito__ (a região afetada pela habilidade)
+- __Hostilidade__ (determina se afeta apenas inimigos, apenas amigos ou se é
+indiferente a esse fator)
+- Fator de bloqueio?
+- Fator de esquiva? Fator de crítico?
+- __Penetrância__ (medida do quanto do efeito é passado a alvos secundários –
+ataques com lanças, por exemplo, podem ter penetrância [1,0], indicando que
+atingem com 100% o primeiro alvo e 0% o segundo alvo)
+- __Efeito extra__ (algum efeito extra que possa ser aplicado ou uma segunda
+habilidade a ser evocada, como um “life steal” ou aplicação de veneno)
+
+   @subsubsection Ataque
+
+Esta ação é, na prática, uma habilidade padrão e o seu mecanismo está definido
+como de uma habilidade.
+
+Um ataque básico de arma corpo-a-corpo, por exemplo, é uma habilidade de
+custo igual a 100% do fator de carga da arma, dano igual a 100% do dano da
+arma, alcance igual ao alcance da arma, área de efeito na matriz [1] (apenas
+acerta o ponto indicado, mas nenhum em volta), hostilidade indiferente, fatores
+de bloqueio e esquiva inalterados e penetrância [1,(0)] (indicando que apenas
+causa dano ao primeiro alvo acertado - para caso de armas de maior alcance que
+1) e nenhum efeito extra, a menos que a arma o possua ou alguma habilidade
+passiva o garanta.
+
+Por padrão o custo de um ataque será igual a uma base 20 mais a carga da arma
+(geralmente o peso multiplicado por 10 e ajustado pela @ref Força, ficando 20 +
+10 * __peso_da_arma__ * __atenuação_pela_força__).
+
+   @subsubsection Deslocamento
+
+É a movimentação do personagem pelo campo de batalha. Seu custo em @ref Estamina
+está relacionado com a carga carregada pelo personagem, incluindo seus itens
+como armadura, espada, escudo, etc, além de um valor base a ser somado. Esse
+custo também pode ser atenuado pelo aumento do atributo @ref Força. Sugestão de
+custo de deslocamento: (30 + peso)/3 – assim, um personagem em armadura de
+placas completa e escudo gastaria cerca de 20 estamina por movimento e um
+personagem totalmente livre gastaria 10.
+
+
+  @subsection cost Custo e Carga
+
+Toda ação estará sujeita a um custo, que poderá ser modificado pela carga.
+
+- __Custo__ é o valor de estamina necessário para se executar uma ação,
+composto de __custo_base__ + __carga_efetiva__;
+- __Custo Base__ é o custo básico para se executar uma tarefa e pode representar,
+primordialmente, um custo de tempo para executar determinada ação; ele é
+determinado exclusivamente pela habilidade escolhida;
+- Carga Efetiva é um valor que pode ser nulo e representa o custo
+instrumental de se executar uma ação, e está sujeita a fatores como peso e
+força, bem como inteligência quando a ação se tratar de uma magia; ela pode
+se apresentar em três situações diferentes: 1 – ataque ou habilidade física;
+2 – magia; 3 – deslocamento; seu cálculo é feito usando-se a carga instrumental
+de cada situação e aplicando a ela o atenuante correspondente: Força para
+ataque, habilidade física e deslocamento; Inteligência para magia;
+- __Carga Instrumental__ é a carga relacionada ao esforço de se cumprir uma ação.
+Para ataques e habilidades (físicas ou mágicas) atreladas a armas, a carga
+instrumental é igual ao atributo carga da arma utilizada. Para deslocamento,
+a carga instrumental é o peso total dos itens equipados pelo personagem.
+Quando uma habilidade não está atrelada a uma arma, sua carga instrumental é
+igual a zero.
+
+
+  @subsection Estado
+
+Os personagens poderão apresentar um estado alterado, durante a batalha, que
+podem oferecer bônus ou ônus ao seu desempenho em combate. Esses estados podem
+ser aplicados por habilidades próprias ou de outros personagens, ou mesmo por
+efeitos ambientais do mapa. Os modificadores de estado poderão expirar com o
+tempo ou serem anulados por um outro modificador. Por exemplo, um golpe fatal
+poderá adicionar o estado morto ao personagem.
+
+
+  @subsection Turnos
+
+Os personagens agirão sequencialmente em turnos determinados pelo momento
+em que suas estaminas atingem o valor máximo. No início da batalha, todos
+iniciam com estamina zerada e ela é incrementada continuamente de acordo com
+a regeneração de estamina de cada um. O primeiro personagem a completar 100%
+de sua estamina será o primeiro a agir; em caso de empate, será feito um
+sorteio de quem será o primeiro. Todos então agirão em ordem conforme suas
+estaminas forem sendo maximizadas.
+
+Cada um em sua vez, ao agir, o personagem gasta pontos de estamina, com seus
+valores de acordo com o tipo de ação escolhida, até, no máximo, zerar sua
+estamina. Ele poderá escolher, porém, usar apenas parte de sua estamina, para
+poder agir novamente mais rápido. Será adicionada uma opção esperar
+(possivelmente adicionando um bônus defensivo) para permitir ao jogador
+gastar uma pequena porcentagem de sua estamina sem executar nenhuma ação,
+apenas para poder agir novamente mais cedo.
+
+
+  @subsection Mapa
+
+O mapa será em grade quadriculada e a movimentação dos personagens será
+somente horizontal ou vertical. Haverá objetos no mapa que poderão impedir a
+movimentação de um personagem sobre o tile, assim como os próprios personagens
+não poderão atravessar um ao outro. As distâncias no mapa são medidas pela soma
+dos quadrados que precisariam ser percorridos – seguindo a regra do deslocamento
+– até chegar lá. Assim, um quadrado adjacente por apenas um vértice (na
+diagonal) representaria uma distância de 2.
+
+O mapa poderá conter tiles com modificadores de estado do personagem que pisar
+sobre ele.
+
+
+  @subsection Inteligência Artificial
+
+(descrição do funcionamento do uso da IA; descrição detalhada do funcionamento
+interno e das especificidades de cada IA deverão ser descritas em outra seção)
+*/

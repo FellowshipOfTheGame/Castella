@@ -19,7 +19,7 @@ case "$1" in
 		valgrind $exe;;
 
 	"fullcheck")
-		valgrind --leak-check=full $exe;;
+		valgrind --leak-check=full --log-file=memcheck.out $exe;;
 
 	# cria base de dados do cscope
 	"cscope")

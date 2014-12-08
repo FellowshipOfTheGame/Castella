@@ -17,6 +17,7 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
     std::cout << "loading battlers... ";
 	load_battlers (players[0], players[1]);
 	active_battler = NULL;
+
 }
 
 Scene_Battle::~Scene_Battle()

@@ -1,22 +1,22 @@
-#include <Game.hpp>
+#include "Game.hpp"
 
 #include <iostream>
 #include <cstdio>
-
+#include <ctime>
 #include <cstring>
 
-#include <Screen.h>
-#include <GameStructure.hpp>
+#include "Screen.h"
+#include "GameStructure.hpp"
 
-#include <Timer.hpp>
-#include <ctime>
+#include "Timer.hpp"
 
-#include <Input.hpp>
+#include "Input.hpp"
 
-#include <SceneControl.hpp>
-#include <SceneHeaders.hpp>
+#include "SceneControl.hpp"
+#include "SceneHeaders.hpp"
 
-#include <World.hpp>
+#include "World.hpp"
+#include "Actor.hpp"
 
 
 Game::Game()

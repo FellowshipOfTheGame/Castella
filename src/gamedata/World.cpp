@@ -9,6 +9,9 @@ World* World::get_world(){
 		world->criaGrafo ();
 		// Cria os players
 		world->create_players();
+		// Pega as funções de batalha do Lua pro actor
+		// ATENÇÃO: se deixar num lugar que roda duas vezes, ele segfaulta
+		Actor::getFunctionsFromLua ("script/actor_funcs.lua");
     }
 
     return world;
