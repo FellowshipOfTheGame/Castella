@@ -88,8 +88,6 @@ void Actor_Battler::walk(Direction direction){
             case Direction::RIGHT:
                 x++;
                 break;
-            default:
-                break;
         }
         set_map_pos(x, y);
     }
@@ -138,16 +136,16 @@ bool Actor_Battler::is_passable(){
 }
 
 void Actor_Battler::update(){
-	using namespace luabind;
+    stamina += CALL_ACTOR_FUNC (get_stamina_recovery);
 
-    stamina += call_function<float> (*Lua_get_stamina_recovery, this);
-    if (stamina >= call_function<float> (*Lua_get_max_stamina, this)){
-        stamina = call_function<float> (*Lua_get_max_stamina, this);
+	float max_stamina = CALL_ACTOR_FUNC (get_max_stamina);
+    if (stamina >= max_stamina){
+        stamina = max_stamina;
     }
 }
 
 float Actor_Battler::get_stamina_percent(){
-    return (stamina/get_max_stamina())*100;
+    return (stamina / CALL_ACTOR_FUNC (get_max_stamina)) * 100;
 }
 
 bool Actor_Battler::use_stamina(int cost){
@@ -181,28 +179,6 @@ int Actor_Battler::get_skill_damage_buffer(){
 SDL_Rect Actor_Battler::get_skill_target_buffer(){
     return skillTargetBuffer;
 }
-
-/// GET pega uma função do lua, a partir do seu nome
-#define GET(func) (*Actor::Lua_get_##func = _G[#func])
-void Actor_Battler::getFunctionsFromLua (const string script_name) {
-	sH.load (script_name);
-	sH.run_lua ();
-
-	registerOnLua (sH.state ());
-
-	LuaTable _G = sH.global ();
-	GET (max_hp);
-	GET (max_stamina);
-	GET (precision);
-	GET (evasion);
-	GET (stamina_recovery);
-	GET (phys_dmg_amplifier);
-	GET (magic_dmg_amplifier);
-	GET (phys_dmg_attenuation);
-	GET (magic_dmg_attenuation);
-}
-#undef GET
-ScriptHandler Actor_Battler::sH;
 
 void Actor_Battler::registerOnLua (lua_State *L) {
 	using namespace luabind;

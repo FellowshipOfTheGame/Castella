@@ -26,20 +26,17 @@ class Actor
         float get_magic_dmg_amplifier();
         float get_phys_dmg_attenuation();
         float get_magic_dmg_attenuation();
-
         float get_weapon_damage();
-		//         Métodos de cálculos variados puxados do Lua       //
-        static LuaFunction *Lua_get_max_hp;
-        static LuaFunction *Lua_get_max_stamina;
-        static LuaFunction *Lua_get_precision;
-        static LuaFunction *Lua_get_evasion;
-        static LuaFunction *Lua_get_stamina_recovery;
-        static LuaFunction *Lua_get_phys_dmg_amplifier;
-        static LuaFunction *Lua_get_magic_dmg_amplifier;
-        static LuaFunction *Lua_get_phys_dmg_attenuation;
-        static LuaFunction *Lua_get_magic_dmg_attenuation;
+
+		/** @brief Chama alguma função de status do Actor
+		 *
+		 * Só uma definiçãozinha pra facilitar nossa vida
+		 */
+		#define CALL_ACTOR_FUNC(func) (luabind::call_function<double> (sH.state (), #func, this))
 		/// Registra Actor no Lua
 		static void registerOnLua (lua_State *L);
+
+		static ScriptHandler sH;
 
     protected:
         Actor(); //protected default ctor: only the subclass should use it

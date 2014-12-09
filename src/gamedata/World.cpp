@@ -9,11 +9,10 @@ World* World::get_world(){
 		world->criaGrafo ();
 		// Cria os players
 		world->create_players();
+		// pega as funções do Lua
+		world->getActorFunctions ();
 		// Carrega as skills
 		world->load_skills();
-		// Pega as funções de batalha do Lua pro actor
-		// ATENÇÃO: se deixar num lugar que roda duas vezes, ele segfaulta
-		Actor_Battler::getFunctionsFromLua ("script/actor_funcs.lua");
     }
 
     return world;
@@ -30,6 +29,12 @@ void World::criaGrafo () {
 	S.load ("script/criaGrafo.lua");
 	registerOnLua (S.state ());
 	S.run_lua ();
+}
+
+void World::getActorFunctions () {
+	Actor_Battler::registerOnLua (Actor::sH.state ());
+	Actor::sH.load ("script/actor_funcs.lua");
+	Actor::sH.run_lua ();
 }
 
 void World::registerOnLua (lua_State *L) {
