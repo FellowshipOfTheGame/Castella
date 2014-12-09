@@ -5,6 +5,13 @@ class Scene_Battle{
         static int frame;
 };
 
+class Skill{
+    public:
+        static std::vector<Skill*> skills;
+        int get_cost(Actor_Battler *battler);
+        int get_damage(Actor_Battler *battler);
+};
+
 Actor_Battler::Actor_Battler(Actor* actor){
     Actor_Battler *battler = this;
     *battler = *( (Actor_Battler*)actor );
@@ -13,11 +20,6 @@ Actor_Battler::Actor_Battler(Actor* actor){
     //this->spritesheet = FileHandler::load_img("actors/actor1.png");
     this->direction = Direction::DOWN;
     //setar IA, de acordo com atributo do actor
-}
-
-Actor_Battler::~Actor_Battler()
-{
-    //dtor
     walking = 0;
 }
 
@@ -40,6 +42,7 @@ void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
     apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index+(bool)walking*Scene_Battle::frame%18/6-1));
     //Código provisório para simular uma HUD em texto:
     write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", {0,0,0}, 0.5);
+    write_text(x, y+clip(index).h+24, screen, to_string(hp), {200,0,0}, 0.5);
 }
 
 void Actor_Battler::set_allegiance(int allegiance){
@@ -92,6 +95,36 @@ void Actor_Battler::walk(Direction direction){
     }
 }
 
+bool Actor_Battler::use_skill(int skill_id){
+    Skill *sk = Skill::skills.at(skill_id);
+    int cost = sk->get_cost(this);
+    std::cout << "Use Skill, cost:" << cost << std::endl;
+    if ( enough_stamina(cost) ){
+        SDL_Rect target;
+        target.x = map_pos.x;
+        target.y = map_pos.y;
+        switch (direction){
+            case Direction::DOWN:
+                target.y++;
+                break;
+            case Direction::UP:
+                target.y--;
+                break;
+            case Direction::LEFT:
+                target.x--;
+                break;
+            case Direction::RIGHT:
+                target.x++;
+                break;
+        }
+        use_stamina(cost);
+        skillDamageBuffer = sk->get_damage(this);
+        skillTargetBuffer = target;
+        return true;
+    }
+    return false;
+}
+
 void Actor_Battler::set_ai(int ai){
     this->AI = ai;
 }
@@ -118,11 +151,35 @@ float Actor_Battler::get_stamina_percent(){
 }
 
 bool Actor_Battler::use_stamina(int cost){
-    if (stamina >= cost){
+    if (enough_stamina(cost)){
         stamina -= cost;
         return true;
     }
     else return false;
+}
+
+bool Actor_Battler::enough_stamina(int cost){
+    if (stamina >= cost){
+        return true;
+    }
+    else return false;
+}
+
+void Actor_Battler::take_damage(int damage){
+    hp -= damage;
+    //Antes devem seguir possíveis redutores de dano, como:
+    // atenuação de dano físico;
+    // redução pela armadura;
+    // etc
+    //Depois, devem ser feitos outros testes, como de morte
+}
+
+int Actor_Battler::get_skill_damage_buffer(){
+    return skillDamageBuffer;
+}
+
+SDL_Rect Actor_Battler::get_skill_target_buffer(){
+    return skillTargetBuffer;
 }
 
 /// GET pega uma função do lua, a partir do seu nome

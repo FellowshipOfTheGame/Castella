@@ -26,6 +26,8 @@ class Actor
         float get_magic_dmg_amplifier();
         float get_phys_dmg_attenuation();
         float get_magic_dmg_attenuation();
+
+        float get_weapon_damage();
 		//         Métodos de cálculos variados puxados do Lua       //
         static LuaFunction *Lua_get_max_hp;
         static LuaFunction *Lua_get_max_stamina;
@@ -48,9 +50,11 @@ class Actor
         int agility;
         int vitality;
         //Equipamentos - devem receber o ponteiro de um item do player
-        Item *mainHand;
+        Weapon *mainHand;
         //...
         SDL_Surface* spritesheet;
+        //Habilidades
+        std::vector<int> skills; // armazena a ID das skills do actor
 
     private:
         static int idCount;

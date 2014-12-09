@@ -26,6 +26,10 @@ class Weapon : public Item
 				const double fatigue = 0.0, const double range = 0.0);
 
 		void buildWeapon(LuaTable &weapon);
+
+		float get_damage();
+		float get_fatigue();
+		float get_range();
 };
 
 #endif

@@ -16,7 +16,6 @@ class Scene_Battle : public Scene
         static int frame;
 
 
-
     protected:
         Map_Battle battleMap;
         std::vector<Actor_Battler*> battlersTeam1;
@@ -32,7 +31,9 @@ class Scene_Battle : public Scene
         Actor_Battler *active_battler;
 
         virtual void load_battlers(Player* player1, Player* player2);
+        std::vector<Actor_Battler*> get_battlers();
         void update_stamina();
+        bool cause_damage(int damage, SDL_Rect target); //return true if a battler was damaged
 };
 
 #endif // SCENE_BATTLE_HPP

@@ -44,8 +44,7 @@ void Scene_Battle::update(){
 
 void Scene_Battle::update_stamina(){
     //Concatena os times de battlers
-    std::vector<Actor_Battler*> battlers = battlersTeam1;
-    battlers.insert(battlers.end(), battlersTeam2.begin(), battlersTeam2.end());
+    std::vector<Actor_Battler*> battlers = get_battlers();
     //Verifica os battlers que chegaram a 100% da estamina e os marca como prontos
     std::vector<Actor_Battler*> ready_battlers;
     for (auto btlr : battlers){
@@ -110,7 +109,15 @@ void Scene_Battle::handle_scene_input(int input){
                     active_battler->use_stamina(10); //gasta 10 de estamina
                 }
                 active_battler = NULL;
-            default:
+                break;
+            case SDLK_SPACE:
+                std::cout << "Attack!" << std::endl;
+                if (active_battler->use_skill(0) ){
+                    int dmg = active_battler->get_skill_damage_buffer();
+                    std::cout << "dmg:" << dmg << std::endl;
+                    SDL_Rect tgt = active_battler->get_skill_target_buffer();
+                    cause_damage(dmg, tgt);
+                }
                 break;
         }
     }
@@ -150,6 +157,22 @@ void Scene_Battle::load_battlers(Player* player1, Player* player2){
         battler->look(Direction::LEFT);
         battlersTeam2.push_back(battler);
     }
+}
+
+std::vector<Actor_Battler*> Scene_Battle::get_battlers(){
+    //Concatena os times de battlers
+    std::vector<Actor_Battler*> battlers = battlersTeam1;
+    battlers.insert(battlers.end(), battlersTeam2.begin(), battlersTeam2.end());
+    return battlers;
+}
+
+bool Scene_Battle::cause_damage(int damage, SDL_Rect target){
+    Actor_Battler *battler = battleMap.get_battler_at(target, get_battlers());
+    if (battler != nullptr){
+        battler->take_damage(damage);
+        return true;
+    }
+    else return false;
 }
 
 int Scene_Battle::frame = 0;

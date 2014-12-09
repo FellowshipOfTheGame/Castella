@@ -22,4 +22,16 @@ void Weapon::buildWeapon(LuaTable &weapon) {
 	range = weapon.getDouble("alcance");
 }
 
+float Weapon::get_damage(){
+    return this->damage;
+}
+
+float Weapon::get_fatigue(){
+    return this->fatigue;
+}
+
+float Weapon::get_range(){
+    return this->range;
+}
+
 const std::string Weapon::scriptPath(Item::scriptPath + "weapons/");

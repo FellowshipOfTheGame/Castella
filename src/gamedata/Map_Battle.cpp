@@ -68,3 +68,12 @@ bool compare_battler_y(const void* b1, const void* b2){
     }
     return false;
 }
+
+Actor_Battler* Map_Battle::get_battler_at(SDL_Rect position, std::vector<Actor_Battler*> battlers){
+    for (auto btlr : battlers){
+        if (btlr->get_map_pos().x == position.x && btlr->get_map_pos().y == position.y){
+            return btlr;
+        }
+    }
+    return nullptr;
+}

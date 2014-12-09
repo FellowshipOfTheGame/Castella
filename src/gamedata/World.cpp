@@ -60,8 +60,8 @@ void World::registerOnLua (lua_State *L) {
 }
 
 void World::create_players(){
-    players.push_back(Player ( new Actor("actor2.png", 6, 6, 9, 6) )); //player 0 e seu líder
-    players.push_back(Player ( new Actor("actor1.png", 7, 7, 25, 7) )); //player 1 e seu líder
+    players.push_back(Player ( new Actor("actor2.png", 26, 6, 9, 6) )); //player 0 e seu líder
+    players.push_back(Player ( new Actor("actor1.png", 20, 7, 25, 7) )); //player 1 e seu líder
     //Insere mais dois actors para cada um dos dois primeiros players
     for (int i=0; i < 2; i++){
         players[0].add_actor( new Actor("actor1black.png"));

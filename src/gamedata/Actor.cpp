@@ -22,7 +22,8 @@ Actor::Actor(std::string spritesheetName, int str, int intel, int agi, int vit)
     vitality = vit;
     //Equipamentos iniciais:
 	mainHand = new Weapon("espadinha"); //código provisório: ela deve ser criada no player e o actor só deve pegar o endereço
-
+    //Habilidades iniciais:
+    skills.push_back(0); //atribui a habilidade de ID 0 ao repertório do personagem - TODO: adicionar campo de ID
     // Spritesheet
     this->spritesheet = FileHandler::load_img("actors/" + spritesheetName);
 }
@@ -71,6 +72,10 @@ float Actor::get_phys_dmg_attenuation(){
 
 float Actor::get_magic_dmg_attenuation(){
     return (100 + inteligence)/100;
+}
+
+float Actor::get_weapon_damage(){
+    return mainHand->get_damage();
 }
 
 // ---------------------------- FUNÇÕES PELO LUA -----------------------------//

@@ -24,6 +24,8 @@ class Actor_Battler : public Actor
         SDL_Rect map_pos; //battler position on the battle map
         //int frame;
         int walking;
+        int skillDamageBuffer;
+        SDL_Rect skillTargetBuffer;
 
     public:
         Actor_Battler(Actor* actor);
@@ -56,6 +58,14 @@ class Actor_Battler : public Actor
         float get_stamina_percent();
 
         bool use_stamina(int cost);
+
+        bool enough_stamina(int cost);
+
+        int get_skill_damage_buffer();
+        SDL_Rect get_skill_target_buffer();
+
+        void take_damage(int damage);
+
 
 		/** @brief Pega funções de controle de batalha do Lua
 		 *
