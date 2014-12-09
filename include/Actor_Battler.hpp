@@ -22,6 +22,8 @@ class Actor_Battler : public Actor
         Direction direction;
         SDL_Rect spriteclip[12];
         SDL_Rect map_pos; //battler position on the battle map
+        //int frame;
+        int walking;
 
     public:
         Actor_Battler(Actor* actor);

@@ -11,6 +11,8 @@ World* World::get_world(){
 		world->create_players();
 		// pega as funções do Lua
 		world->getActorFunctions ();
+		// Carrega as skills
+		world->load_skills();
     }
 
     return world;
@@ -78,6 +80,10 @@ void World::create_players(){
 
 Player* World::get_player(int pos){ // utilizar a ID, em vez de posição ou verificar consistência
     return &players[pos];
+}
+
+void World::load_skills(){
+    Skill::add_skill("attack", "ataque");
 }
 
 World * World::world = nullptr;
