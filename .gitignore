@@ -1,37 +1,4 @@
 *~
-Regnum/build/*
-Regnum/dist/*
-Regnum/dist-linux-amd64/*
-Regnum/dist-linux-i586/*
-Regnum/dist-macosx-universal/*
-Regnum/dist-solaris-i586/*
-Regnum/dist-solaris-sparc/*
-Regnum/dist-windows-i586/*
-Regnum/dist-windows-amd64/*
-Regnum/manifest.mf
-Regnum/build.xml
-Regnum/nbproject/*
-Regnum/test/*
-Regnum/dist-solaris-sparcv9/*
-Regnum/dist-macosx-ppc/*
-Casttela/nbproject/project.xml
-Casttela/nbproject/private/private.xml
-Casttela/nbproject/private/configurations.xml
-Casttela/nbproject/private/Makefile-variables.mk
-Casttela/nbproject/configurations.xml
-Casttela/nbproject/Package-Release.bash
-Casttela/nbproject/Package-Debug.bash
-Casttela/nbproject/Makefile-variables.mk
-Casttela/nbproject/Makefile-impl.mk
-Casttela/nbproject/Makefile-Release.mk
-Casttela/nbproject/Makefile-Debug.mk
-Casttela/dist/Debug/GNU-Linux-x86/casttela
-Casttela/build/Debug/GNU-Linux-x86/main.o.d
-Casttela/build/Debug/GNU-Linux-x86/main.o
-Casttela/Makefile
-Casttela/.dep.inc
-Casttela/Castella.cbp
-
 build/
 
 # coisas do Zumbi (Gil)
@@ -39,3 +6,4 @@ build/
 config.log
 *cscope*
 *.swp
+*.out

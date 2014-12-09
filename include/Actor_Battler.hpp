@@ -66,8 +66,6 @@ class Actor_Battler : public Actor
     protected:
         bool passable;
         SDL_Rect clip(int index);
-
-		static ScriptHandler sH;
 };
 
 #endif // ACTOR_BATTLER_H

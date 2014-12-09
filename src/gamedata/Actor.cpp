@@ -24,7 +24,7 @@ Actor::Actor(std::string spritesheetName, int str, int intel, int agi, int vit)
 	mainHand = new Weapon("espadinha"); //código provisório: ela deve ser criada no player e o actor só deve pegar o endereço
 
     // Spritesheet
-    this->spritesheet = FileHandler::load_img("actors/" + spritesheetName);
+    this->spritesheet = FileHandler::load_img ("actors/" + spritesheetName);
 }
 
 Actor::~Actor()
@@ -37,40 +37,40 @@ int Actor::get_id(){
 }
 
 int Actor::get_max_hp(){
-    return BASE_HP*(100 + 10*vitality)/100;
+    return CALL_ACTOR_FUNC (get_max_hp);
 }
 
 int Actor::get_max_stamina(){
-    return BASE_STAMINA*(100 + vitality)/100;
+    return CALL_ACTOR_FUNC (get_max_stamina);
 }
 
 int Actor::get_precision(){
-    return BASE_PRECISION + agility;
+	return CALL_ACTOR_FUNC (get_precision);
 }
 
 int Actor::get_evasion(){
-    return agility;
+    return CALL_ACTOR_FUNC (get_evasion);
 }
 
 float Actor::get_stamina_recovery(){
     //Uma porcentagem da estamina total, aumentada pela agilidade
-    return BASE_STAMINA_REGEN * get_max_stamina() * (100 + agility)/100;
+    return CALL_ACTOR_FUNC (get_stamina_recovery);
 }
 
 float Actor::get_phys_dmg_amplifier(){
-    return (100 + 2*strength)/100;
+    return CALL_ACTOR_FUNC (get_phys_dmg_amplifier);
 }
 
 float Actor::get_magic_dmg_amplifier(){
-    return (100 + 2*inteligence)/100;
+    return CALL_ACTOR_FUNC (get_magic_dmg_amplifier);
 }
 
 float Actor::get_phys_dmg_attenuation(){
-    return (100 + strength)/100;
+    return CALL_ACTOR_FUNC (get_phys_dmg_attenuation);
 }
 
 float Actor::get_magic_dmg_attenuation(){
-    return (100 + inteligence)/100;
+    return CALL_ACTOR_FUNC (get_magic_dmg_attenuation);
 }
 
 // ---------------------------- FUNÇÕES PELO LUA -----------------------------//
@@ -89,14 +89,6 @@ void Actor::registerOnLua (lua_State *L) {
 	ScriptHandler::send_to_lua<int> (L, "BASE_STAMINA", BASE_STAMINA);
 	ScriptHandler::send_to_lua<float> (L, "BASE_STAMINA_REGEN", Actor::BASE_STAMINA_REGEN);
 }
-LuaFunction *Actor::Lua_get_max_hp = new LuaFunction;
-LuaFunction *Actor::Lua_get_max_stamina = new LuaFunction;
-LuaFunction *Actor::Lua_get_precision = new LuaFunction;
-LuaFunction *Actor::Lua_get_evasion = new LuaFunction;
-LuaFunction *Actor::Lua_get_stamina_recovery = new LuaFunction;
-LuaFunction *Actor::Lua_get_phys_dmg_amplifier = new LuaFunction;
-LuaFunction *Actor::Lua_get_magic_dmg_amplifier = new LuaFunction;
-LuaFunction *Actor::Lua_get_phys_dmg_attenuation = new LuaFunction;
-LuaFunction *Actor::Lua_get_magic_dmg_attenuation = new LuaFunction;
+ScriptHandler Actor::sH;
 
 int Actor::idCount = 0;

@@ -32,6 +32,8 @@ class World
 
 		void criaGrafo ();	///< Pede pro lua construir o grafo
 
+		void getActorFunctions ();	///< Pega as funções do actor a partir do Lua
+
         static World* world;	///< Ponteiro eterno para o único mundo: NULL, se ainda não existir
 
 		RegionGraph regionMap;	///< Grafo contendo todas as regiões do mundo

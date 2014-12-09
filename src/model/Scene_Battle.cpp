@@ -53,7 +53,7 @@ void Scene_Battle::update_stamina(){
         }
     }
     //Se não houver mais battlers prontos, volta a fazer update da estamina
-    if (ready_battlers.size() == 0){
+    if (ready_battlers.empty ()) {
         for (auto btlr : battlers){
             btlr->update();
         }
@@ -109,8 +109,6 @@ void Scene_Battle::handle_scene_input(int input){
                     active_battler->use_stamina(10); //gasta 10 de estamina
                 }
                 active_battler = NULL;
-            default:
-                break;
         }
     }
     //Other input:
