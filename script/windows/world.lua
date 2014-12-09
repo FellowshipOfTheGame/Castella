@@ -1,5 +1,5 @@
 --- Nossa bibliotecazinha pra mexer nas regiões
-require ('script/regionGraph')
+require 'script/regionGraph'
 
 janela = {
 	x = 0,

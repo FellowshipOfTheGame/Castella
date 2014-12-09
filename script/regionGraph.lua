@@ -4,17 +4,21 @@
 -- Criando as regiões do RegionGraph no Lua
 -- Taê umas funçõezinhas úteis =]
 --
--- Variáveis exportadas: grafo -> o grafo mesmo =P
+-- Exportados:
 --
--- grafo:novaRegiao (ID, tipo, x, y)
--- grafo:get (n)
--- grafo:criaConexoes (regiao)
--- grafo:size ()
--- CONSTANTES: RegionGraph.altura, RegionGraph.largura, RegionGraph.tamanho_bloco
+--	RegionGraph::
+--		RegionGraph:novaRegiao (ID, tipo, x, y)
+-- 		RegionGraph:get (n)
+-- 		RegionGraph:criaConexoes (regiao)
+-- 		RegionGraph:size ()
+-- 		CONSTANTES: RegionGraph.altura, RegionGraph.largura, RegionGraph.tamanho_bloco
 --
--- regiao:print ()
--- regiao:getX ()
--- regiao:getY ()
+--	Region::
+-- 		Region:print ()
+-- 		Region:getX ()
+-- 		Region:getY ()
+--
+--	Variáveis exportadas: grafo -> o grafo mesmo =P
 --
 -- Nota: faça botões com as regiões, por favor, usando a função pula abaixo ;]
 --]]

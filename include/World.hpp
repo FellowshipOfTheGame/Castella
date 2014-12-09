@@ -23,9 +23,16 @@ class World
 
         RegionGraph *getRegionGraph ();	///< Método que retora no grafo das regiões
 
-		static void registerOnLua (lua_State *L);	///< Registra o mapa do mundo no Lua
-
 		Player* get_player(int pos);
+
+		/// Adiciona players por uma table do Lua
+		void addPlayers (LuaObject player_table);
+
+		///< Registra o mapa do mundo no Lua
+		static void registerOnLua (lua_State *L);
+
+		/// Dtor: destrói todos os Players associados
+		~World ();
 
     protected:
 
@@ -40,7 +47,7 @@ class World
 
 		RegionGraph regionMap;	///< Grafo contendo todas as regiões do mundo
 
-		vector<Player> players;
+		vector<Player *> players;
 
 		void create_players();
 

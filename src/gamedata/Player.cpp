@@ -1,15 +1,15 @@
 #include "Player.hpp"
 
 //Cria o player, garantindo que ele já receba um actor (o líder) no seu construtor
-Player::Player(Actor* actor)
-{
+Player::Player(Actor* actor) : Player (vector<Actor *> {actor}) {}
+
+Player::Player (vector<Actor *> actors) : actors (actors) {
     id = idCount;
-    actors.push_back(actor);
 }
 
 Player::~Player()
 {
-    //dtor
+
 }
 
 std::vector<Actor*> Player::get_actors(){
@@ -21,7 +21,7 @@ int Player::get_id(){
 }
 
 void Player::add_actor(Actor *actor){
-    actors.push_back(actor);
+    actors.push_back (actor);
 }
 
 void Player::remove_actor(Actor *actor){
@@ -33,6 +33,18 @@ void Player::remove_actor(Actor *actor){
             }
         }
     }
+}
+
+void Player::registerOnLua (lua_State *L) {
+	using namespace luabind;
+
+	Actor::registerOnLua (L);
+
+	module (L) [
+		class_<Player> ("Player")
+			.def_readonly ("id", &Player::id)
+			.def ("add_actor", &Player::add_actor)
+	];
 }
 
 int Player::idCount = 0;

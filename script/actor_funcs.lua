@@ -1,6 +1,22 @@
 -- Funções da batalha, dos Actors, lembrando que todas 
 -- elas recebem um Actor como primeiro parâmetro
 
+--[[
+-- Exportados:
+--	Actor::
+--		Actor.vitality
+--		Actor.agility
+--		Actor.strength
+--		Actor.inteligence
+--		BASE_HP
+--		BASE_STAMINA
+--		BASE_PRECISION
+--		BASE_STAMINA_REGEN
+--
+--	Actor_Battler::
+--		
+--]]
+
 function get_max_hp (act)
 	return BASE_HP * (100 + 10 * act.vitality) / 100
 end

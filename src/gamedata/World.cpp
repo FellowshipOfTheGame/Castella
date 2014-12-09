@@ -18,15 +18,19 @@ World* World::get_world(){
     return world;
 }
 
+World::~World () {
+	for (auto P : players) {
+		delete P;
+	}
+}
+
 RegionGraph * World::getRegionGraph () {
 	return &regionMap;
 }
 
 void World::criaGrafo () {
-	ScriptHandler S;
-
 	// loada o script, registra as coisa e roda (gerando o grafo)
-	S.load ("script/criaGrafo.lua");
+	ScriptHandler S ("script/criaGrafo.lua");
 	registerOnLua (S.state ());
 	S.run_lua ();
 }
@@ -41,6 +45,8 @@ void World::registerOnLua (lua_State *L) {
 	using namespace luabind;
 
 	module (L) [
+		class_<World> ("World")
+			.def ("addPlayers", &World::addPlayers),
 		// Grafo
 		class_<RegionGraph> ("RegionGraph")
 			.def ("novaRegiao", &RegionGraph::newRegion)
@@ -60,30 +66,53 @@ void World::registerOnLua (lua_State *L) {
 			.def ("getType", &Region::getType)
 	];
 
+	ScriptHandler::send_to_lua<World *> (L, "mundo", get_world ());
 	ScriptHandler::send_to_lua<RegionGraph *> (L, "grafo",
 			get_world ()->getRegionGraph ());
 }
 
 void World::create_players(){
-    players.push_back(Player ( new Actor("actor2.png", 26, 6, 9, 6) )); //player 0 e seu líder
-    players.push_back(Player ( new Actor("actor1.png", 20, 7, 25, 7) )); //player 1 e seu líder
-    //Insere mais dois actors para cada um dos dois primeiros players
-    for (int i=0; i < 2; i++){
-        players[0].add_actor( new Actor("actor1black.png"));
-        players[1].add_actor( new Actor("actor1.png"));
-    }
+    //players.push_back(Player ( new Actor("actor2.png", 26, 6, 9, 6) )); //player 0 e seu líder
+    //players.push_back(Player ( new Actor("actor1.png", 20, 7, 25, 7) )); //player 1 e seu líder
+    ////Insere mais dois actors para cada um dos dois primeiros players
+    //for (int i=0; i < 2; i++){
+        //players[0].add_actor( new Actor("actor1black.png"));
+        //players[1].add_actor( new Actor("actor1.png"));
+    //}
 
-    for (int n=0; n<10; n++){
-        players.push_back(Player( new Actor("actor1.png") ));
-    }
+    //for (int n=0; n<10; n++){
+        //players.push_back(Player( new Actor("actor1.png") ));
+    //}
+	ScriptHandler S ("script/players.lua");
+	registerOnLua (S.state ());
+	Player::registerOnLua (S.state ());
+	S.run_lua ();
 }
 
-Player* World::get_player(int pos){ // utilizar a ID, em vez de posição ou verificar consistência
-    return &players[pos];
+void World::addPlayers (LuaObject player_table) {
+	LuaTable T (player_table);
+
+	for (LuaObject obj : T) {
+		LuaTable player (obj);
+
+		vector<Actor *> actors;
+
+		for (LuaObject act : player.getLuaTable ("actors")) {
+			LuaTable A (act);
+			actors.push_back (new Actor (A.getString (1),
+					A.getInt (2), A.getInt (3), A.getInt (4)));
+		}
+
+		players.push_back (new Player (actors));
+	}
+}
+
+Player * World::get_player(int pos){ // utilizar a ID, em vez de posição ou verificar consistência
+    return players[pos];
 }
 
 void World::load_skills(){
-    Skill::add_skill("attack", "ataque");
+    Skill::add_skill_table ("attack", "skills");
 }
 
 World * World::world = nullptr;

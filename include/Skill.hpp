@@ -16,11 +16,25 @@ class Skill
     public:
         virtual ~Skill();
         static void add_skill(std::string skillScript, std::string skillName);
+		/// Pega todas as skills desde uma table do lua, com tables pra cada Skill
+		static void add_skill_table (std::string skillScript, std::string tableName);
         int get_cost(Actor_Battler *battler);
         int get_damage(Actor_Battler *battler);
 
+		/** @brief Destrói todos os skills alocados
+		 *
+		 * Essa função destrói as skills dentro do @ref Skill::skills,
+		 * liberando a memória alocada.
+		 *
+		 * @warning Lembre-se que, ao chamá-la, as skills não mais existirão,
+		 * então chamar qualquer uma delas gera um __segfault__.
+		 */
+		static void destroy_all_skills ();
+
     protected:
     private:
+		/// ctor padrão, pro add_skill_table
+		Skill ();
         //ctor recebe o nome do script das skills e o nome da skill
         Skill(std::string skillScript, std::string skillName);
         static std::vector<Skill*> skills;

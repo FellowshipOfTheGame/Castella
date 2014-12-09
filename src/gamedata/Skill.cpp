@@ -1,10 +1,12 @@
 #include "Skill.hpp"
 
+Skill::Skill () {}
+
 Skill::Skill(std::string skillScript, std::string skillName)
 {
     ScriptHandler sH (Skill::scriptPath + skillScript);
     sH.run_lua();
-    LuaTable skill = sH.getTable(skillName.c_str());
+    LuaTable skill = sH.getTable (skillName);
     build_skill(skill);
 }
 
@@ -29,6 +31,22 @@ void Skill::add_skill(std::string skillScript, std::string skillName){
     skills.push_back(new Skill(skillScript, skillName));
 }
 
+void Skill::add_skill_table (std::string skillScript, std::string tableName) {
+    ScriptHandler sH (Skill::scriptPath + skillScript);
+    sH.run_lua();
+	
+	LuaTable table = sH.getTable (tableName);
+
+	// a cada table lá dentro
+	for (LuaObject obj : table) {
+		LuaTable skill_table (obj);
+		// pega  skill, o constrói e adiciona
+		Skill *S = new Skill;
+		S->build_skill (skill_table);
+		skills.push_back (S);
+	}
+}
+
 int Skill::get_cost(Actor_Battler *battler){
     std::cout << "Name: " << name << std::endl;
     float attenuation = battler->get_phys_dmg_attenuation(); //usar int pra magias e str pra ataques - FIX
@@ -48,6 +66,12 @@ int Skill::get_damage(Actor_Battler *battler){
         std::cout << dmg << endl;
     }
     return dmg*modifier;
+}
+
+void Skill::destroy_all_skills () {
+	for (auto skill : skills) {
+		delete skill;
+	}
 }
 
 std::vector<Skill*> Skill::skills;

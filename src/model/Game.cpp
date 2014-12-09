@@ -17,6 +17,7 @@
 
 #include "World.hpp"
 #include "Actor.hpp"
+#include "Skill.hpp"
 
 
 Game::Game()
@@ -45,6 +46,8 @@ void Game::terminate(){
     Mix_CloseAudio();
     TTF_Quit();
     SDL_Quit();
+
+	Skill::destroy_all_skills ();
 }
 
 int Game::initialize(){

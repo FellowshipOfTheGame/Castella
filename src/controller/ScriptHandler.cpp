@@ -22,7 +22,7 @@ ScriptHandler::~ScriptHandler(){
     //std::cout << "dtor ScriptHandler: lua closed" << std::endl;
 } //dtor
 
-LuaTable ScriptHandler::getTable(const char *tableName) const {
+LuaTable ScriptHandler::getTable(const std::string tableName) const {
 	checkState();
 	LuaObject obj = luabind::gettable ( luabind::globals(L), tableName);
 	//if (type (obj) != LUA_TTABLE) {

@@ -30,7 +30,7 @@ class ScriptHandler
             return luabind::object_cast<T>( table[key] );
         }
 
-        LuaTable getTable(const char *tableName) const; ///<Retrieves table from the global table.
+        LuaTable getTable(const std::string tableName) const; ///<Retrieves table from the global table.
 
         LuaTable global() const; ///<Returns the global table.
 

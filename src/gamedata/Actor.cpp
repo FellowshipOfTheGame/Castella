@@ -78,7 +78,6 @@ float Actor::get_weapon_damage(){
     return mainHand->get_damage();
 }
 
-// ---------------------------- FUNÇÕES PELO LUA -----------------------------//
 void Actor::registerOnLua (lua_State *L) {
 	using namespace luabind;
 
