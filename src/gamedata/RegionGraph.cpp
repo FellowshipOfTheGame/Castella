@@ -22,14 +22,14 @@ RegionGraph::~RegionGraph () {
 }
 
 
-int RegionGraph::newRegion (int ID, Region_Type new_type, int x, int y) {
+Region * RegionGraph::newRegion (int ID, Region_Type new_type, int x, int y) {
 	// mais uma região!
 	Region* aux = new Region (ID, new_type, x, y);
 
 	// e guarda ela lá no grafo
 	regions.push_back (aux);
 	
-	return regions.size () - 1;
+	return aux;
 }
 
 
@@ -131,7 +131,7 @@ RegionGraphIterator RegionGraph::begin () const {
 
 
 RegionGraphIterator RegionGraph::end () const {
-	return RegionGraphIterator (this, graph_height * graph_width);
+	return RegionGraphIterator (this, regions.size ());
 }
 
 

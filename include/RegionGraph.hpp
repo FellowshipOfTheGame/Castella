@@ -44,11 +44,11 @@ protected:
 
 public:
 	~RegionGraph ();
-	/** @brief Cria uma região
+	/** @brief Cria uma região e a adiciona ao vector
 	 *
-	 * @return Tamanho atual do vector de regiões
+	 * @return Região recentemente criada
 	 */
-	int newRegion (int ID, Region_Type new_type, int x, int y);
+	Region * newRegion (int ID, Region_Type new_type, int x, int y);
 	void printGraphInfo ();		///< Imprime o grafo na stdout, listando as adjacências
 	void printGraph ();		///< Imprime o grafo na stdout, com pontos!
 
@@ -70,7 +70,7 @@ public:
 	
 	// Consts do tilemap
 	static const int graph_height = 4;	///< Altura do mapa, em blocos
-	static const int graph_width = 4;	///< Largura do mapa, em bloco
+	static const int graph_width = 6;	///< Largura do mapa, em bloco
 	static const int block_size = 3;	///< Tamanho do lado do bloco, em tiles
 };
 

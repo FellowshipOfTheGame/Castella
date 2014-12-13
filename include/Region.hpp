@@ -70,8 +70,7 @@ private:
 	 * 
 	 * A diplomacia pode estar boa (positiva), ruim (negativa), ou neutra (zero).
 	 */
-	int diplomacy;
-	int getDistance (Region *region);	///< Calcula a distância entre duas regiões
+	int diplomacy {0};
 
 protected:
 
@@ -86,12 +85,21 @@ public:
 	 * @return @ref Region_Type "Tipo" da região
 	 */
 	Region_Type getType ();
+	int getId ();
 	int getX ();
 	int getY ();
 	vector<Structure *> getStructures ();
 	
 	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
 	set<Region *> getNeighbourhood ();	///< Retorna o set de vizinhos
+	/// Conecta duas regiões
+	void connect (Region *region);
+	/** Desconecta duas regiões
+	 * @return Desconectou?
+	 */
+	bool disconnect (Region *region);
+	/// Calcula a distância entre duas regiões
+	int getDistance (Region *region);
 
 	/** @brief Representação em string dos tipos de regiões
 	 * 

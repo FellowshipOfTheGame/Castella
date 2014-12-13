@@ -38,7 +38,6 @@ void Scene_World::update() {
 void Scene_World::draw (SDL_Surface *screen) {
 	fill_surface (screen, {0, 100, 0});
 	Scene::draw (screen);
-	//map->draw (screen);
 	// desenha as linhas que mostram os caminhos entre as regiões
 	for (auto & reg : (*World::get_world ()->getRegionGraph ())) {
 		for (auto neighbour : reg->getNeighbourhood ()) {
