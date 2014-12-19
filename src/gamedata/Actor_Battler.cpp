@@ -1,4 +1,5 @@
 #include <Actor_Battler.hpp>
+#include <MapTile.hpp>
 
 class Scene_Battle{
     public:
@@ -39,10 +40,19 @@ SDL_Rect Actor_Battler::clip(int index){
 
 void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
     index = (int)direction*3 + 1;
-    apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index+(bool)walking*Scene_Battle::frame%18/6-1));
+    //apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index+(bool)walking*Scene_Battle::frame%18/6-1));
+    if (walking == 0){
+        aSprite->set_position(x , y);
+    }
+    else {
+        walking--;
+    }
+    aSprite->draw(screen);
     //Código provisório para simular uma HUD em texto:
-    write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", {0,0,0}, 0.5);
-    write_text(x, y+clip(index).h+24, screen, to_string(hp), {200,0,0}, 0.5);
+    if (!walking){ // preferencialmente, fazer a hud se movimentar junto com o personagem - adicionar a possibilidade de se construir uma ASprite tendo outra de "host"
+        write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", PRETO, 0.5);
+        write_text(x, y+clip(index).h+24, screen, to_string(hp), VERMELHO, 0.5);
+    }
 }
 
 void Actor_Battler::set_allegiance(int allegiance){
@@ -64,15 +74,21 @@ SDL_Rect Actor_Battler::get_map_pos(){
 
 void Actor_Battler::look(Direction direction){
     this->direction = direction;
+    //Muda o clip do battler para corresponder à direção
+    int clip = (int)direction*3 + 1;
+    aSprite->animate({clip}, 1, 1);
 }
 
 void Actor_Battler::walk(Direction direction){
+    // Cancela a ação caso ainda esteja executando outra
+    if (walking > 3) return; // permite ao jogador executar a ação ainda no final da movimentação
+    // Vira-se na direção apropriada
     look(direction);
     // Adicionar verificação de passabilidade do tile...
     //Caso seja passável, verificar custo e tentar executar a movimentação
     int cost = (30)/3; // estabelecer custo em função do peso e da força
     if (use_stamina(cost)){ //se tiver estamina suficiente, gasta e executa
-        walking = 9;
+        walking = 9; // tirar isto e substituir por um método da animação que controla o tempo restante
         int x = map_pos.x;
         int y = map_pos.y;
         switch (direction){
@@ -89,11 +105,16 @@ void Actor_Battler::walk(Direction direction){
                 x++;
                 break;
         }
+        aSprite->translate( (x+0.5) * MapTile::TILESIZE, y* MapTile::TILESIZE-18, walking);
+        int clipRef = (int)direction*3 +1;
+        aSprite->animate({clipRef-1, clipRef, clipRef+1, clipRef}, walking, 1);
         set_map_pos(x, y);
     }
 }
 
 bool Actor_Battler::use_skill(int skill_id){
+    // Cancela a ação caso j esteja usando outra
+    if (walking) return false;
     Skill *sk = Skill::skills.at(skill_id);
     int cost = sk->get_cost(this);
     std::cout << "Use Skill, cost:" << cost << std::endl;

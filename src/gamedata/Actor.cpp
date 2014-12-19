@@ -26,6 +26,7 @@ Actor::Actor(std::string spritesheetName, int str, int intel, int agi, int vit)
     skills.push_back(0); //atribui a habilidade de ID 0 ao repertório do personagem - TODO: adicionar campo de ID
     // Spritesheet
     this->spritesheet = FileHandler::load_img ("actors/" + spritesheetName);
+    aSprite = new Animated_Sprite("actors/"+spritesheetName, 4, 3, 1);
 }
 
 Actor::~Actor()

@@ -4,6 +4,7 @@
 #include "FileHandler.hpp"
 #include "ScriptHandler.hpp"
 #include <Item_Weapon.hpp>
+#include "Animated_Sprite.hpp"
 
 class Actor
 {
@@ -50,6 +51,7 @@ class Actor
         Weapon *mainHand;
         //...
         SDL_Surface* spritesheet;
+        Animated_Sprite *aSprite;
         //Habilidades
         std::vector<int> skills; // armazena a ID das skills do actor
 

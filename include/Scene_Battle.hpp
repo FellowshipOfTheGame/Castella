@@ -34,6 +34,9 @@ class Scene_Battle : public Scene
         std::vector<Actor_Battler*> get_battlers();
         void update_stamina();
         bool cause_damage(int damage, SDL_Rect target); //return true if a battler was damaged
+
+        //temp:
+        Animated_Sprite aSprite;
 };
 
 #endif // SCENE_BATTLE_HPP

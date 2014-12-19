@@ -1,7 +1,7 @@
 #include <Scene_Battle.hpp>
 #include <cstdlib>
 
-Scene_Battle::Scene_Battle() : battleMap (20, 12)
+Scene_Battle::Scene_Battle() : battleMap (20, 12), aSprite("actors/actor2.png", 4, 3, 4)
 {
     SceneControl::set_cur (Scenes::SCENE_BATTLE); //TODO Move this code to a SceneControl or somewhere alike
 
@@ -17,6 +17,11 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
     std::cout << "loading battlers... ";
 	load_battlers (players[0], players[1]);
 	active_battler = NULL;
+
+	//temp: tirar o aSprite do construtor
+	aSprite.set_position(200, 200);
+	aSprite.animate({6,7,8,7}, 20, -1);
+	aSprite.translate(600, 200, 80);
 }
 
 Scene_Battle::~Scene_Battle()
@@ -74,6 +79,9 @@ void Scene_Battle::draw(SDL_Surface *screen){
         int y = active_battler->get_map_pos().y;
         apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, screen, NULL, 0.5);
     }
+    //temp:
+
+    aSprite.draw(screen);
 }
 
 void Scene_Battle::mouseclick(int x, int y){

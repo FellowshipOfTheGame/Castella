@@ -20,7 +20,7 @@ class Actor_Battler : public Actor
         float stamina;
         int AI; //fazer enum (ou usar string do script, puxada do actor): none, preset1, preset2, ..., custom - usar scripts (por enquanto IA=false é player)
         Direction direction;
-        SDL_Rect spriteclip[12];
+        //SDL_Rect spriteclip[12];
         SDL_Rect map_pos; //battler position on the battle map
         //int frame;
         int walking;
