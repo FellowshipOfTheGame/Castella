@@ -54,11 +54,11 @@ void Animated_Sprite::animate(std::vector<int> clips, int period, int cicles){
 
 void Animated_Sprite::update_animation(){
     //Verifica se um período foi cumprido; reseta o contador e atualiza o número restante de ciclos
-    std::cout << animationFrame <<"/"<<animationPeriod << std::endl;
+    //std::cout << animationFrame <<"/"<<animationPeriod << std::endl;
     if (animationFrame >= animationPeriod){
         animationFrame %= animationPeriod;
         remainingAnimationCicles--;
-        std::cout << "CICLE-- ";
+        //std::cout << "CICLE-- ";
     }
     //Verifica se acabaram os ciclos de animação
     if (remainingAnimationCicles == 0){

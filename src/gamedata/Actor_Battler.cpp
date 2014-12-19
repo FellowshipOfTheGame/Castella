@@ -14,8 +14,13 @@ class Skill{
 };
 
 Actor_Battler::Actor_Battler(Actor* actor){
+    //Copia o ator base
     Actor_Battler *battler = this;
     *battler = *( (Actor_Battler*)actor );
+    //Ajusta os estados
+    dead = false;
+    cout << " DEAD: " << (int)dead << endl;
+    //Inicializa HP e Estamina
     this->hp = get_max_hp();
     this->stamina = 0;
     //this->spritesheet = FileHandler::load_img("actors/actor1.png");
@@ -48,11 +53,11 @@ void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
         walking--;
     }
     aSprite->draw(screen);
-    //Código provisório para simular uma HUD em texto:
-    if (!walking){ // preferencialmente, fazer a hud se movimentar junto com o personagem - adicionar a possibilidade de se construir uma ASprite tendo outra de "host"
-        write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", PRETO, 0.5);
-        write_text(x, y+clip(index).h+24, screen, to_string(hp), VERMELHO, 0.5);
-    }
+//    //Código provisório para simular uma HUD em texto:
+//    if (!walking && !dead){ // preferencialmente, fazer a hud se movimentar junto com o personagem - adicionar a possibilidade de se construir uma ASprite tendo outra de "host"
+//        write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", PRETO, 0.5);
+//        write_text(x, y+clip(index).h+24, screen, to_string(hp), VERMELHO, 0.5);
+//    }
 }
 
 void Actor_Battler::set_allegiance(int allegiance){
@@ -81,7 +86,7 @@ void Actor_Battler::look(Direction direction){
 
 void Actor_Battler::walk(Direction direction){
     // Cancela a ação caso ainda esteja executando outra
-    if (walking > 3) return; // permite ao jogador executar a ação ainda no final da movimentação
+    if (walking > 1) return; // permite ao jogador executar a ação ainda no final da movimentação
     // Vira-se na direção apropriada
     look(direction);
     // Adicionar verificação de passabilidade do tile...
@@ -157,16 +162,26 @@ bool Actor_Battler::is_passable(){
 }
 
 void Actor_Battler::update(){
-    stamina += CALL_ACTOR_FUNC (get_stamina_recovery);
-
-	float max_stamina = CALL_ACTOR_FUNC (get_max_stamina);
-    if (stamina >= max_stamina){
-        stamina = max_stamina;
+    cout << "DEAD: " << (int)dead << endl;
+    if (!dead){
+        stamina += CALL_ACTOR_FUNC (get_stamina_recovery);
+        float max_stamina = CALL_ACTOR_FUNC (get_max_stamina);
+        if (stamina >= max_stamina){
+            stamina = max_stamina;
+        }
+    }
+    else { // morto
+        hp = 0;
+        stamina = 0;
     }
 }
 
 float Actor_Battler::get_stamina_percent(){
     return (stamina / CALL_ACTOR_FUNC (get_max_stamina)) * 100;
+}
+
+int Actor_Battler::get_hp(){
+    return hp;
 }
 
 bool Actor_Battler::use_stamina(int cost){
@@ -191,6 +206,16 @@ void Actor_Battler::take_damage(int damage){
     // redução pela armadura;
     // etc
     //Depois, devem ser feitos outros testes, como de morte
+    if (hp <= 0){
+        //Flag de morto
+        dead = true;
+        //Força atualização os valores de vida e estamina
+        update();
+        //Muda a spritesheet para a de morto
+        std::string deadSpriteSheet = "skull.png";
+        this->spritesheet = FileHandler::load_img ("actors/" + deadSpriteSheet);
+        aSprite = new Animated_Sprite("actors/" + deadSpriteSheet, 1, 1);
+    }
 }
 
 int Actor_Battler::get_skill_damage_buffer(){
@@ -200,6 +225,16 @@ int Actor_Battler::get_skill_damage_buffer(){
 SDL_Rect Actor_Battler::get_skill_target_buffer(){
     return skillTargetBuffer;
 }
+
+bool Actor_Battler::is_acting(){
+    //TODO - Adicionar ação de usar skills
+    return (bool)walking;
+}
+
+bool Actor_Battler::is_dead(){
+    return dead;
+}
+
 
 void Actor_Battler::registerOnLua (lua_State *L) {
 	using namespace luabind;

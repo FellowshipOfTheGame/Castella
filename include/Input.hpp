@@ -20,6 +20,8 @@ class Input
         static int get_input();
         //Gets the mouse x and y coords into a SDL_Rect
         static SDL_Rect get_mouse_offset();
+        //Finds out rather a key is pressed or not
+        static bool is_key_pressed(SDLKey key);
 
     private:
         static SDL_Event event;

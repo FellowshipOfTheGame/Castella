@@ -46,6 +46,11 @@ SDL_Rect Input::get_mouse_offset(){
     return offset;
 }
 
+bool Input::is_key_pressed(SDLKey key){
+    Uint8 *keystates = SDL_GetKeyState(NULL);
+    return keystates[key];
+}
+
 int Input::mouseX = 0;
 int Input::mouseY = 0;
 SDL_Event Input::event;
