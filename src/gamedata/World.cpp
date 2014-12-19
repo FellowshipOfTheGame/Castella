@@ -53,17 +53,25 @@ void World::registerOnLua (lua_State *L) {
 			.def ("criaConexoes", &RegionGraph::checkNeighbourhood)
 			.def ("get", &RegionGraph::operator[])
 			.def ("size", &RegionGraph::size)
+			.def ("print", &RegionGraph::printGraph)
+			.def ("printInfo", &RegionGraph::printGraphInfo)
 			.enum_("constantes") [
 				value ("altura", RegionGraph::graph_height),
 				value ("largura", RegionGraph::graph_width),
-				value ("tamanho_bloco", RegionGraph::block_size)
+				value ("tamanho_bloco", RegionGraph::block_size),
+				value ("MaxNeighbours", Region::MaxNeighbours)
 			],
 		// Regiões
 		class_<Region> ("Region")
 			.def ("print", &Region::print)
+			.def ("getId", &Region::getId)
 			.def ("getX", &Region::getX)
 			.def ("getY", &Region::getY)
 			.def ("getType", &Region::getType)
+			.def ("getDistance", &Region::getDistance)
+			.def ("getAdjQuantity", &Region::getAdjQuantity)
+			.def ("connect", &Region::connect)
+			.def ("disconnect", &Region::disconnect)
 	];
 
 	ScriptHandler::send_to_lua<World *> (L, "mundo", get_world ());
@@ -72,17 +80,6 @@ void World::registerOnLua (lua_State *L) {
 }
 
 void World::create_players(){
-    //players.push_back(Player ( new Actor("actor2.png", 26, 6, 9, 6) )); //player 0 e seu líder
-    //players.push_back(Player ( new Actor("actor1.png", 20, 7, 25, 7) )); //player 1 e seu líder
-    ////Insere mais dois actors para cada um dos dois primeiros players
-    //for (int i=0; i < 2; i++){
-        //players[0].add_actor( new Actor("actor1black.png"));
-        //players[1].add_actor( new Actor("actor1.png"));
-    //}
-
-    //for (int n=0; n<10; n++){
-        //players.push_back(Player( new Actor("actor1.png") ));
-    //}
 	ScriptHandler S ("script/players.lua");
 	registerOnLua (S.state ());
 	Player::registerOnLua (S.state ());
@@ -94,6 +91,8 @@ void World::addPlayers (LuaObject player_table) {
 
 	for (LuaObject obj : T) {
 		LuaTable player (obj);
+
+		cout << "\tcarregou player: " << player.getString ("nome") << '\n';
 
 		vector<Actor *> actors;
 

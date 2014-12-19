@@ -8,7 +8,7 @@
 --
 --	RegionGraph::
 --		RegionGraph:novaRegiao (ID, tipo, x, y)
--- 		RegionGraph:get (n)
+-- 		RegionGraph:get (n)    -- Lembrando que `n' é indexado a partir de 0
 -- 		RegionGraph:criaConexoes (regiao)
 -- 		RegionGraph:size ()
 -- 		CONSTANTES: RegionGraph.altura, RegionGraph.largura, RegionGraph.tamanho_bloco
@@ -17,6 +17,8 @@
 -- 		Region:print ()
 -- 		Region:getX ()
 -- 		Region:getY ()
+-- 		Region:getType ()
+-- 		Region:connect (reg)
 --
 --	Variáveis exportadas: grafo -> o grafo mesmo =P
 --
@@ -28,9 +30,17 @@ function pula (regiao)
 	return function () vaiPraRegiao (regiao) end
 end
 
--- iterador pro RegionGraph, retornando o índice (começando de 0) e a região
-function regioes (graph)
+--- Iterador pro RegionGraph
+--
+-- @param graph Grafo
+-- @param start Começo do iterador: índice da primeira região. Padrão: zero
+-- @param drop Quantidade de regiões a serem deixadas. Padrão: zero
+--
+-- @return Índice (começando de 0) e a região
+function regioes (graph, drop)
 	local i = -1
+	local drop = drop or 0
+
 	return function ()
 		i = i + 1
 		if i >= graph:size () then return nil, nil end
@@ -42,6 +52,39 @@ end
 RegionGraph.altura = 4
 RegionGraph.largura = 6
 RegionGraph.tamanho_bloco = 3
+
+--- Iterador pra achar os índices de possíveis vizinhos
+function vizinhos (index)
+	-- todos os movimentos possíveis, em {x,y}
+	local movimentos = {
+		{-1, -1},
+		{-1, 0},
+		{-1, 1},
+		{0, -1},
+		{0, 1},
+		{1, -1},
+		{1, 0},
+		{1, 1}
+	}
+
+	local y = math.floor (index / RegionGraph.largura)
+	local x = index % RegionGraph.largura
+
+	local retorno = {}
+
+	for _, mov in ipairs (movimentos) do
+		local y_teste = y + mov[1]
+		local x_teste = x + mov[2]
+
+		-- posição válida: adiciona à table de retorno
+		if x_teste >= 0 and x_teste < RegionGraph.largura and 
+				y_teste >= 0 and y_teste < RegionGraph.altura then
+			table.insert (retorno, y_teste * RegionGraph.largura + x_teste)
+		end
+	end
+
+	return ipairs (retorno)
+end
 
 -- Chances de criar uma tal Região
 RegionGraph.castle_ratio = 10

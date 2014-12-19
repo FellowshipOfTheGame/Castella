@@ -16,11 +16,8 @@ string Region::RegionTypeName (Region_Type tipo) {
  * * * * * * * * * * * */
 Region::Region (int ID, Region_Type new_type, int x, int y) 
 		: ID (ID), type (new_type), x (x), y (y) {
-	diplomacy = 0;
-
 	// dependendo do tipo, precisamos das tais estruturas
 	vector<Structure_Type> aux;
-	StructureFactory factory;
 	switch ((int) type) {
 		case castle:
 			aux.push_back (throne);
@@ -42,11 +39,12 @@ Region::Region (int ID, Region_Type new_type, int x, int y)
 			aux.push_back (mines);
 			break;
 	}
+
+	StructureFactory factory;
 	// e põe as tais dentro da região
 	for (auto structype : aux) {
 		// a nova estrutura
-		// pra cada uma que tiver que criar, faça-o		
-		// e joga lá dentro do vetor
+		// pra cada uma que tiver que criar, faça-o	e joga lá dentro do vetor
 		inner_structures.push_back (factory.createStructure (structype));
 	}
 }
@@ -61,6 +59,11 @@ Region::~Region () {
 /* * * * * * * * * * * * *
  * REGIÃO outras coisas  *
  * * * * * * * * * * * * */
+int Region::getId () {
+	return ID;
+}
+
+
 Region_Type Region::getType () {
 	return type;
 }
@@ -91,10 +94,28 @@ vector<Structure *> Region::getStructures () {
 }
 
 
+void Region::connect (Region *region) {
+	neighbourhood.insert (region);
+}
+
+
+bool Region::disconnect (Region *region) {
+	auto it = neighbourhood.find (region);
+	// região válida (tava no neighbourhood)
+	if (it != neighbourhood.end ()) {
+		neighbourhood.erase (it);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
 int Region::getDistance (Region *region) {
-	int x = this->x - region->x;
-	int y = this->y - region->y;
-	return (x * x + y * y);
+	int x = abs (this->x - region->x);
+	int y = abs (this->y - region->y);
+	return (x + y);
 }
 
 
