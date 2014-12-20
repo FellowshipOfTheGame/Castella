@@ -31,7 +31,6 @@ Scene_Battle::~Scene_Battle()
 }
 
 void Scene_Battle::update(){
-    cout << "HUD " << (int) displayHUD <<endl;
     Scene::update();
     frame++;
     //Se não houver um battler ativo, atualiza a estamina
@@ -91,43 +90,35 @@ void Scene_Battle::escape(){
 }
 
 void Scene_Battle::handle_scene_input(int input){
+    //Verifica se a tecla shift está pressionada e ajusta a flag
+    bool shift = false;
+    if (is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
+        shift = true;
+    }
     //Se um battler estiver ativo - (e não for controlado por IA)
     if (active_battler != NULL){
         //Mover
-        if (Input::is_key_pressed(SDLK_RIGHT)){     //Seta direita
-            //Segurando o SHIFT, apenas olha
-            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
-                active_battler->look(Direction::RIGHT);
+        if ( is_key_pressed(SDLK_RIGHT) || is_key_pressed(SDLK_LEFT) || is_key_pressed(SDLK_UP) || is_key_pressed(SDLK_DOWN) ){
+            //Verifica a direção
+            Direction dir;
+            if (is_key_pressed(SDLK_RIGHT)){        //Seta direita
+                dir = Direction::RIGHT;
             }
-            else {
-                active_battler->walk(Direction::RIGHT);
+            else if (is_key_pressed(SDLK_LEFT)){    //Seta esquerda
+                dir = Direction::LEFT;
             }
-        }
-        else if (Input::is_key_pressed(SDLK_LEFT)){ //Seta esquerda
-            //Segurando o SHIFT, apenas olha
-            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
-                active_battler->look(Direction::LEFT);
+            else if (is_key_pressed(SDLK_UP)){      //Seta pra cima
+                dir = Direction::UP;
+            }
+            else{                                   //Seta pra baixo
+                dir = Direction::DOWN;
+            }
+            //Verifica o shift
+            if (shift){
+                active_battler->look(dir);
             }
             else{
-                active_battler->walk(Direction::LEFT);
-            }
-        }
-        else if (Input::is_key_pressed(SDLK_UP)){   //Seta pra cima
-            //Segurando o SHIFT, apenas olha
-            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
-                active_battler->look(Direction::UP);
-            }
-            else {
-                active_battler->walk(Direction::UP);
-            }
-        }
-        else if (Input::is_key_pressed(SDLK_DOWN)){ //Seta pra baixo
-            //Segurando o SHIFT, apenas olha
-            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
-                active_battler->look(Direction::DOWN);
-            }
-            else {
-                active_battler->walk(Direction::DOWN);
+                active_battler->walk(dir);
             }
         }
         else {
@@ -151,20 +142,15 @@ void Scene_Battle::handle_scene_input(int input){
                     break;
             }
         }
-
     }
 
-    //Inputs gerais da batalha
+    //Inputs gerais da batalha - não dependem de haver battler ativo
     switch (input){
         case SDLK_h: // alterna display da HUD
             displayHUD = !displayHUD;
             break;
     }
 
-    //Se um battler estiver ativo - (e não for controlado por IA)
-    if (active_battler != NULL){
-
-    }
 }
 
 void Scene_Battle::load_battlers(Player* player1, Player* player2){

@@ -1,7 +1,7 @@
 #include "Animated_Sprite.hpp"
 #include <iostream>
 
-Animated_Sprite::Animated_Sprite(std::string filename, int verticalClips, int horizontalClips, int initialIndex)
+Animated_Sprite::Animated_Sprite(std::string filename, int horizontalClips, int verticalClips, int initialIndex)
 {
     //Carrega o arquivo de imagem
     spritesheet = FileHandler::load_img(filename);
@@ -14,7 +14,7 @@ Animated_Sprite::Animated_Sprite(std::string filename, int verticalClips, int ho
     }
     //Inicia a imagem no clip correto
     curClipIndex = initialIndex;
-    //Inicializa em false os indicadores de animação e tranalação
+    //Inicializa em false os indicadores de animação e translação
     animating = false;
     translating = false;
 }

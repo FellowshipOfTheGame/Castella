@@ -69,6 +69,11 @@ void Scene::handle_scene_input (int input) {
 		win->handle_input (input);
 	}
 }
+
+bool Scene::is_key_pressed(SDLKey key){
+    return Input::is_key_pressed(key);
+}
+
 // definindo as variáveis estáticas
 Scene *Scene::scene = nullptr;
 void *Scene::ptr = nullptr;

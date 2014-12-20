@@ -22,7 +22,8 @@ class Actor_Battler : public Actor
         Direction direction;
         SDL_Rect map_pos; //battler position on the battle map
         //int frame;
-        int walking;
+        int walking; //indicador de quantos frames o personagem ainda usará para andar (0 se estiver parado)
+        static const int WALKING_TIME; //tempo (em frames) total para um battler mover-se para outro tile no mapa
         int skillDamageBuffer;
         SDL_Rect skillTargetBuffer;
         bool dead;
@@ -37,11 +38,11 @@ class Actor_Battler : public Actor
 
         bool use_skill(int skill_id);
 
-        bool is_passable();
+        bool is_passable(); // MapObject
 
-        void draw(int x, int y, int index, SDL_Surface *screen);
+        void draw(int x, int y, int index, SDL_Surface *screen); // MapObject - modificado
 
-        void set_map_pos(int x, int y);
+        void set_map_pos(int x, int y); // MapObject
 
         void look(Direction direction);
 
@@ -51,9 +52,9 @@ class Actor_Battler : public Actor
 
         bool is_player_controlled();
 
-        SDL_Rect get_map_pos();
+        SDL_Rect get_map_pos(); // MapObject
 
-        void update();
+        void update(); // MapObject - modificado?
 
         float get_stamina_percent();
 
@@ -82,8 +83,8 @@ class Actor_Battler : public Actor
 		static void registerOnLua (lua_State *L);
 
     protected:
-        bool passable;
-        SDL_Rect clip(int index);
+        bool passable; // MapObject
+        //SDL_Rect clip(int index);
 };
 
 #endif // ACTOR_BATTLER_H

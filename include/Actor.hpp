@@ -13,10 +13,16 @@ class Actor
         virtual ~Actor();
         int get_id();
         //Constants:
-        static const int BASE_PRECISION;
+        static const int BASE_PRECISION; // precisão base de acerto, em porcentagem
         static const int BASE_HP;
         static const int BASE_STAMINA;
-        static const float BASE_STAMINA_REGEN;
+        static const float BASE_STAMINA_REGEN; // regeneração base de estamina por frame
+        //Image constants
+        static const int SPRITECLIPS_HOR;  // horizontal spritesheet clips
+        static const int SPRITECLIPS_VER;  // vertical spritesheet clips
+        static const int SPRITECLIPS_NEUTRAL_HOR_INDEX;    //índice horizontal da posição neutra na spritesheet
+        static const int SPRITECLIPS_INITIAL_INDEX;    //clip inicial da spritesheet
+        static const std::string IMG_FOLDER;    // pasta das imagens de actors em "images/"
         //Methods:
         int get_max_hp();
         int get_max_stamina();

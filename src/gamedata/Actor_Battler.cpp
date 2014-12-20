@@ -1,6 +1,7 @@
 #include <Actor_Battler.hpp>
 #include <MapTile.hpp>
 
+// FORWARD DECLARATIONS ---------->
 class Scene_Battle{
     public:
         static int frame;
@@ -12,6 +13,9 @@ class Skill{
         int get_cost(Actor_Battler *battler);
         int get_damage(Actor_Battler *battler);
 };
+// <-------------------------------
+
+const int Actor_Battler::WALKING_TIME = 7;
 
 Actor_Battler::Actor_Battler(Actor* actor){
     //Copia o ator base
@@ -34,18 +38,8 @@ Actor_Battler::~Actor_Battler()
     //dtor
 }
 
-SDL_Rect Actor_Battler::clip(int index){
-    SDL_Rect clip;
-    clip.w = spritesheet->w/3;
-    clip.h = spritesheet->h/4;
-    clip.x = index%3 * clip.w;
-    clip.y = index/3 * clip.h;
-    return clip;
-}
-
 void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
-    index = (int)direction*3 + 1;
-    //apply_surface(x-clip(index).w/2, y, spritesheet, screen, &clip(index+(bool)walking*Scene_Battle::frame%18/6-1));
+    index = (int)direction * SPRITECLIPS_HOR + SPRITECLIPS_NEUTRAL_HOR_INDEX;
     if (walking == 0){
         aSprite->set_position(x , y);
     }
@@ -53,11 +47,6 @@ void Actor_Battler::draw(int x, int y, int index, SDL_Surface *screen){
         walking--;
     }
     aSprite->draw(screen);
-//    //Código provisório para simular uma HUD em texto:
-//    if (!walking && !dead){ // preferencialmente, fazer a hud se movimentar junto com o personagem - adicionar a possibilidade de se construir uma ASprite tendo outra de "host"
-//        write_text(x, y+clip(index).h, screen, to_string( (int)get_stamina_percent() ) +"%", PRETO, 0.5);
-//        write_text(x, y+clip(index).h+24, screen, to_string(hp), VERMELHO, 0.5);
-//    }
 }
 
 void Actor_Battler::set_allegiance(int allegiance){
@@ -80,7 +69,7 @@ SDL_Rect Actor_Battler::get_map_pos(){
 void Actor_Battler::look(Direction direction){
     this->direction = direction;
     //Muda o clip do battler para corresponder à direção
-    int clip = (int)direction*3 + 1;
+    int clip = (int)direction * SPRITECLIPS_HOR + SPRITECLIPS_NEUTRAL_HOR_INDEX;
     aSprite->animate({clip}, 1, 1);
 }
 
@@ -93,7 +82,7 @@ void Actor_Battler::walk(Direction direction){
     //Caso seja passável, verificar custo e tentar executar a movimentação
     int cost = (30)/3; // estabelecer custo em função do peso e da força
     if (use_stamina(cost)){ //se tiver estamina suficiente, gasta e executa
-        walking = 9; // tirar isto e substituir por um método da animação que controla o tempo restante
+        walking = WALKING_TIME;
         int x = map_pos.x;
         int y = map_pos.y;
         switch (direction){
@@ -111,8 +100,8 @@ void Actor_Battler::walk(Direction direction){
                 break;
         }
         aSprite->translate( (x+0.5) * MapTile::TILESIZE, y* MapTile::TILESIZE-18, walking);
-        int clipRef = (int)direction*3 +1;
-        aSprite->animate({clipRef-1, clipRef, clipRef+1, clipRef}, walking, 1);
+        int clipRef = (int)direction * SPRITECLIPS_HOR + 1;
+        aSprite->animate({clipRef-1, clipRef, clipRef+1, clipRef}, walking, 1); //atrelado à subdivisão da spritesheet - TODO: utilizar as consts para calcular os índices
         set_map_pos(x, y);
     }
 }
@@ -214,7 +203,7 @@ void Actor_Battler::take_damage(int damage){
         //Muda a spritesheet para a de morto
         std::string deadSpriteSheet = "skull.png";
         this->spritesheet = FileHandler::load_img ("actors/" + deadSpriteSheet);
-        aSprite = new Animated_Sprite("actors/" + deadSpriteSheet, 1, 1);
+        aSprite = new Animated_Sprite("actors/" + deadSpriteSheet);
     }
 }
 

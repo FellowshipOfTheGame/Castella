@@ -5,6 +5,12 @@ const int Actor::BASE_HP                = 40;
 const int Actor::BASE_PRECISION         = 80;
 const int Actor::BASE_STAMINA           = 100;
 const float Actor::BASE_STAMINA_REGEN   = 0.01;
+//Spritesheet consts
+const int Actor::SPRITECLIPS_HOR = 3;   // 3 clips horizontal
+const int Actor::SPRITECLIPS_VER = 4;   // 4 clips vertical
+const int Actor::SPRITECLIPS_NEUTRAL_HOR_INDEX = 1;
+const int Actor::SPRITECLIPS_INITIAL_INDEX = SPRITECLIPS_NEUTRAL_HOR_INDEX;    // clip inicial da imagem
+const std::string Actor::IMG_FOLDER = "actors/";
 
 Actor::Actor(){
     //default ctor
@@ -25,8 +31,8 @@ Actor::Actor(std::string spritesheetName, int str, int intel, int agi, int vit)
     //Habilidades iniciais:
     skills.push_back(0); //atribui a habilidade de ID 0 ao repertório do personagem - TODO: adicionar campo de ID
     // Spritesheet
-    this->spritesheet = FileHandler::load_img ("actors/" + spritesheetName);
-    aSprite = new Animated_Sprite("actors/"+spritesheetName, 4, 3, 1);
+    this->spritesheet = FileHandler::load_img (IMG_FOLDER + spritesheetName);
+    aSprite = new Animated_Sprite(IMG_FOLDER + spritesheetName, SPRITECLIPS_HOR, SPRITECLIPS_VER, SPRITECLIPS_INITIAL_INDEX);
 }
 
 Actor::~Actor()

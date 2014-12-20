@@ -41,6 +41,8 @@ class Scene
         virtual void mouseclick(int x, int y);
         //Defines a method for the ESC key
         virtual void escape();
+        //Checks rather a key is pressed or not
+        virtual bool is_key_pressed(SDLKey key);
 
 		/// Ponteiro de qualquer tipo, para guardar algo que precisar (estou olhando pra Região e Estrutura)
 		static void *ptr;
