@@ -20,12 +20,12 @@ class Actor_Battler : public Actor
         float stamina;
         int AI; //fazer enum (ou usar string do script, puxada do actor): none, preset1, preset2, ..., custom - usar scripts (por enquanto IA=false é player)
         Direction direction;
-        SDL_Rect spriteclip[12];
         SDL_Rect map_pos; //battler position on the battle map
         //int frame;
         int walking;
         int skillDamageBuffer;
         SDL_Rect skillTargetBuffer;
+        bool dead;
 
     public:
         Actor_Battler(Actor* actor);
@@ -57,6 +57,8 @@ class Actor_Battler : public Actor
 
         float get_stamina_percent();
 
+        int get_hp();
+
         bool use_stamina(int cost);
 
         bool enough_stamina(int cost);
@@ -65,6 +67,10 @@ class Actor_Battler : public Actor
         SDL_Rect get_skill_target_buffer();
 
         void take_damage(int damage);
+        //Diz se o battler está com uma ação em curso - como mover-se ou atacar
+        bool is_acting();
+        //Diz se o battler está morto - TODO substituir por um bool get_status(status)
+        bool is_dead();
 
 
 		/** @brief Pega funções de controle de batalha do Lua

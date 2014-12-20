@@ -40,7 +40,7 @@ Map_Battle::~Map_Battle()
     //dtor
 }
 
-void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersTeam1, std::vector<Actor_Battler*> battlersTeam2){
+void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersTeam1, std::vector<Actor_Battler*> battlersTeam2, bool displayHUD){
     //Draws map tiles
     for(int i=0; i<height; i++){
         for(int j=0; j<width; j++){
@@ -53,11 +53,18 @@ void Map_Battle::draw(SDL_Surface *screen, std::vector<Actor_Battler*> battlersT
     //Ordena os battlers da menor posição em y para a maior, para desenhá-los com a sobreposição correta
     sort(battlers.begin(), battlers.end(), compare_battler_y);
     //Draws battlers
-    for (auto battlersIt : battlers){
+    for (Actor_Battler* battlersIt : battlers){
         int clip = 7; //deve ser escolhido de acordo com a orientação e com o movimento do actor
-        int x = (battlersIt)->get_map_pos().x * MapTile::TILESIZE;
-        int y = (battlersIt)->get_map_pos().y * MapTile::TILESIZE;
-        (battlersIt)->draw(x+MapTile::TILESIZE/2, y-18, clip, screen);
+        int x = (battlersIt)->get_map_pos().x * MapTile::TILESIZE + MapTile::TILESIZE/2;
+        int y = (battlersIt)->get_map_pos().y * MapTile::TILESIZE - 18;
+        (battlersIt)->draw(x, y, clip, screen);
+
+        //Código provisório para simular uma HUD em texto:
+        // preferencialmente, fazer a hud se movimentar junto com o personagem - adicionar a possibilidade de se construir uma ASprite tendo outra de "host"
+        if (!battlersIt->is_acting() && !battlersIt->is_dead() && displayHUD){
+            write_text(x, y+80, screen, to_string( (int)(battlersIt->get_stamina_percent()) ) +"%", PRETO, 0.5);
+            write_text(x, y+100, screen, to_string(battlersIt->get_hp()), VERMELHO, 0.5);
+        }
     }
 
 }

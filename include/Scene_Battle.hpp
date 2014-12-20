@@ -30,6 +30,8 @@ class Scene_Battle : public Scene
     private:
         Actor_Battler *active_battler;
 
+        bool displayHUD;
+
         virtual void load_battlers(Player* player1, Player* player2);
         std::vector<Actor_Battler*> get_battlers();
         void update_stamina();

@@ -17,6 +17,7 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
     std::cout << "loading battlers... ";
 	load_battlers (players[0], players[1]);
 	active_battler = NULL;
+	displayHUD = true;
 }
 
 Scene_Battle::~Scene_Battle()
@@ -30,6 +31,7 @@ Scene_Battle::~Scene_Battle()
 }
 
 void Scene_Battle::update(){
+    cout << "HUD " << (int) displayHUD <<endl;
     Scene::update();
     frame++;
     //Se não houver um battler ativo, atualiza a estamina
@@ -67,12 +69,14 @@ void Scene_Battle::update_stamina(){
 void Scene_Battle::draw(SDL_Surface *screen){
     //Super
     Scene::draw(screen);
-    battleMap.draw(screen, battlersTeam1, battlersTeam2);
+    battleMap.draw(screen, battlersTeam1, battlersTeam2, displayHUD);
     //Desenha o cursor
     if (active_battler != NULL){
-        int x = active_battler->get_map_pos().x;
-        int y = active_battler->get_map_pos().y;
-        apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, screen, NULL, 0.5);
+        if (!active_battler->is_acting()){
+            int x = active_battler->get_map_pos().x;
+            int y = active_battler->get_map_pos().y;
+            apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, screen, NULL, 0.5);
+        }
     }
 }
 
@@ -89,43 +93,77 @@ void Scene_Battle::escape(){
 void Scene_Battle::handle_scene_input(int input){
     //Se um battler estiver ativo - (e não for controlado por IA)
     if (active_battler != NULL){
-        switch(input){
-            //Mover
-            case SDLK_DOWN:
-                active_battler->walk(Direction::DOWN);
-                break;
-            case SDLK_RIGHT:
+        //Mover
+        if (Input::is_key_pressed(SDLK_RIGHT)){     //Seta direita
+            //Segurando o SHIFT, apenas olha
+            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
+                active_battler->look(Direction::RIGHT);
+            }
+            else {
                 active_battler->walk(Direction::RIGHT);
-                break;
-            case SDLK_LEFT:
-                active_battler->walk(Direction::LEFT);
-                break;
-            case SDLK_UP:
-                active_battler->walk(Direction::UP);
-                break;
-            //Encerrar turno
-            case SDLK_END:
-                if ( (int)(active_battler->get_stamina_percent()) == 100 ){
-                    active_battler->use_stamina(10); //gasta 10 de estamina
-                }
-                active_battler = NULL;
-                break;
-            //Skill
-            case SDLK_SPACE:
-                std::cout << "Attack!" << std::endl;
-                if (active_battler->use_skill(0) ){
-                    int dmg = active_battler->get_skill_damage_buffer();
-                    std::cout << "dmg:" << dmg << std::endl;
-                    SDL_Rect tgt = active_battler->get_skill_target_buffer();
-                    cause_damage(dmg, tgt);
-                }
-                break;
+            }
         }
+        else if (Input::is_key_pressed(SDLK_LEFT)){ //Seta esquerda
+            //Segurando o SHIFT, apenas olha
+            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
+                active_battler->look(Direction::LEFT);
+            }
+            else{
+                active_battler->walk(Direction::LEFT);
+            }
+        }
+        else if (Input::is_key_pressed(SDLK_UP)){   //Seta pra cima
+            //Segurando o SHIFT, apenas olha
+            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
+                active_battler->look(Direction::UP);
+            }
+            else {
+                active_battler->walk(Direction::UP);
+            }
+        }
+        else if (Input::is_key_pressed(SDLK_DOWN)){ //Seta pra baixo
+            //Segurando o SHIFT, apenas olha
+            if (Input::is_key_pressed(SDLK_LSHIFT) || Input::is_key_pressed(SDLK_RSHIFT)){
+                active_battler->look(Direction::DOWN);
+            }
+            else {
+                active_battler->walk(Direction::DOWN);
+            }
+        }
+        else {
+            switch(input){
+                //Encerrar turno
+                case SDLK_END:
+                    if ( (int)(active_battler->get_stamina_percent()) == 100 ){
+                        active_battler->use_stamina(10); //gasta 10 de estamina
+                    }
+                    active_battler = NULL;
+                    break;
+                //Skill
+                case SDLK_SPACE:
+                    std::cout << "Attack!" << std::endl;
+                    if (active_battler->use_skill(0) ){
+                        int dmg = active_battler->get_skill_damage_buffer();
+                        std::cout << "dmg:" << dmg << std::endl;
+                        SDL_Rect tgt = active_battler->get_skill_target_buffer();
+                        cause_damage(dmg, tgt);
+                    }
+                    break;
+            }
+        }
+
     }
-    //Other input:
-    switch(input){
-        default:
+
+    //Inputs gerais da batalha
+    switch (input){
+        case SDLK_h: // alterna display da HUD
+            displayHUD = !displayHUD;
             break;
+    }
+
+    //Se um battler estiver ativo - (e não for controlado por IA)
+    if (active_battler != NULL){
+
     }
 }
 
