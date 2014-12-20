@@ -68,10 +68,20 @@ void World::registerOnLua (lua_State *L) {
 			.def ("getX", &Region::getX)
 			.def ("getY", &Region::getY)
 			.def ("getType", &Region::getType)
+			.def ("getStructure", &Region::getStructure)
+			.def ("getStructureQuantity", &Region::getStructureQuantity)
 			.def ("getDistance", &Region::getDistance)
 			.def ("getAdjQuantity", &Region::getAdjQuantity)
 			.def ("connect", &Region::connect)
 			.def ("disconnect", &Region::disconnect)
+			.scope [
+				def ("getTypeName", &Region::RegionTypeName)
+			],
+		class_<Structure> ("Structure")
+			.def ("getType", &Structure::getType)
+			.scope [
+				def ("getTypeName", &Structure::StructureTypeName)
+			]
 	];
 
 	ScriptHandler::send_to_lua<World *> (L, "mundo", get_world ());

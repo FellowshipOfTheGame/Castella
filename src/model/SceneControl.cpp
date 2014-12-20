@@ -61,6 +61,9 @@ void SceneControl::update(){
 			case Scenes::SCENE_REGION:
 				aux = new Scene_Region ();
 				break;
+			case Scenes::SCENE_STRUCTURE:
+				aux = new Scene_Structure ();
+				break;
 			// saindo da cena
 			case Scenes::SCENE_EXIT:
 				popScene ();

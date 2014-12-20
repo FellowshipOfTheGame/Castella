@@ -7,7 +7,7 @@ else
 fi
 
 # link com as libs que tão na pasta libs xD
-export LD_LIBRARY_PATH=libs/$arch
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:libs/$arch
 
 exe="build/Castella"
 

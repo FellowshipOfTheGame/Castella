@@ -46,7 +46,7 @@ public:
 	Structure_Type getType ();
 
 	/** @brief Representação em string dos tipos de estruturas */
-	static std::string Structure_TypeName (Structure_Type tipo);
+	static std::string StructureTypeName (Structure_Type tipo);
 };
 
 

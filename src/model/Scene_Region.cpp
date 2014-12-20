@@ -1,11 +1,19 @@
 #include "Scene_Region.hpp"
+#include "World.hpp"
 
 Scene_Region::Scene_Region () {
 	SceneControl::set_cur (Scenes::SCENE_REGION);
 	current = (Region *) Scene::ptr;
 
 	// window
-	Window *win = new Window ("region.lua");
+	Window *win = new Window ("region.lua", [=] (lua_State *L) {
+				World::registerOnLua (L);
+				ScriptHandler::send_to_lua<Region *> (L, "reg", current);
+				using namespace luabind;
+				module (L) [
+					def ("vaiPraEstrutura", &Scene_Region::goToStructure)
+				];
+			});
 	windows.push_back (win);
 
 	static string a = "oi";
@@ -16,6 +24,12 @@ Scene_Region::Scene_Region () {
 			80, 80, {&a, &b, &c});
 
 	win->addWidget (Cont);
+}
+
+
+void Scene_Region::goToStructure (Structure *structure) {
+	Scene::ptr = structure;
+	SceneControl::set_next (Scenes::SCENE_STRUCTURE);
 }
 
 
@@ -43,7 +57,7 @@ void Scene_Region::draw (SDL_Surface *screen) {
 				positions[i][1] + Screen::HEIGHT/2,
 				i * 40, i * 40, i * 40, 255);
 		write_text (positions[i][0], positions[i][1], screen, 
-				Structure::Structure_TypeName (S->getType ()), {0, 255, 0});
+				Structure::StructureTypeName (S->getType ()), {0, 255, 0});
 		i++;
 	}
 

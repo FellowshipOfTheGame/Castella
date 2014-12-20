@@ -13,13 +13,13 @@ botoes = {}
 
 for i, reg in regioes (grafo) do
 	-- Ícone da região de acordo com seu tipo
-	local img = regionTypeName (reg:getType ()) .. ".png"
+	local img = Region.getTypeName (reg:getType ()) .. ".png"
 
 	botoes[i] = {
 		reg:getX () * tilesize,
 		reg:getY () * tilesize,
 		img, img,
-		pula (reg)
+		pulaReg (reg)
 	}
 	--reg:print ()
 end

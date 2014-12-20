@@ -18,7 +18,7 @@ Region::Region (int ID, Region_Type new_type, int x, int y)
 		: ID (ID), type (new_type), x (x), y (y) {
 	// dependendo do tipo, precisamos das tais estruturas
 	vector<Structure_Type> aux;
-	switch ((int) type) {
+	switch (type) {
 		case castle:
 			aux.push_back (throne);
 			aux.push_back (tavern);
@@ -91,6 +91,21 @@ set<Region *> Region::getNeighbourhood () {
 
 vector<Structure *> Region::getStructures () {
 	return inner_structures;
+}
+
+
+Structure * Region::getStructure (unsigned int index) {
+	if (index < inner_structures.size ()) {
+		return inner_structures[index];
+	}
+	else {
+		return nullptr;
+	}
+}
+
+
+unsigned int Region::getStructureQuantity () {
+	return inner_structures.size ();
 }
 
 

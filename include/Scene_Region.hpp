@@ -1,6 +1,6 @@
 /** @file Scene_Region.hpp
- *
- * @brief Cena das @ref Region "regiões"
+ * header do model/Scene_Region.cpp
+ * Cena das @ref Region "regiões"
  *
  * Aqui se apresentam as @ref Structure "estruturas" e controle das mesmas (se quiser criar novas).
  */
@@ -22,6 +22,7 @@ public:
 	virtual void mouseclick (int x, int y);
 	virtual void escape();
 	virtual void handle_scene_input (int input);
+	static void goToStructure (Structure *structure);
 
 protected:
 

@@ -13,8 +13,7 @@ Scene_World::Scene_World()
 				ScriptHandler::send_to_lua<int> (L, "tilesize", MapTile::TILESIZE);
 
 				module (L) [
-					def ("vaiPraRegiao", &Scene_World::goToRegion),
-					def ("regionTypeName", &Region::RegionTypeName)
+					def ("vaiPraRegiao", &Scene_World::goToRegion)
 				];
 			}));
 }
