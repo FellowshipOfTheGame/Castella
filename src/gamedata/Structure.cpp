@@ -1,7 +1,7 @@
 #include "Structure.hpp"
 
 
-std::string Structure::Structure_TypeName (Structure_Type tipo) {
+std::string Structure::StructureTypeName (Structure_Type tipo) {
 	const std::string nomes[] = {
 		"throne",
 		"townhall",

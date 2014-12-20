@@ -89,6 +89,8 @@ public:
 	int getX ();
 	int getY ();
 	vector<Structure *> getStructures ();
+	Structure * getStructure (unsigned int index);	///< Retorna a estrutura de índice `index'
+	unsigned int getStructureQuantity ();	///< Retorna o tanto de estruturas
 	
 	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
 	set<Region *> getNeighbourhood ();	///< Retorna o set de vizinhos
