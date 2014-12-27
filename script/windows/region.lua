@@ -9,11 +9,14 @@ janela = {
 	a = TelaAltura
 }
 
+-- avanço vertical dos botões
+AVANCO = 200
+
 buttons = {}
 for i, struct in estruturas (reg) do
 	buttons[i + 1] = {
 		TelaComprimento/2,
-		50 + 100 * i,
+		50 + AVANCO * i,
 		"estrutura.png", "estrutura.png",
 		pulaStruct (struct)
 	}

@@ -20,7 +20,7 @@ ja_visitado = {}
 -- Fila de regiões a serem processadas
 a_visitar = {0}
 
--- conecta as regiões, formando uma árvore (pra ser conexo)
+--[[ conecta as regiões, formando uma árvore (pra ser conexo) ]]--
 repeat
 	-- próxima região, com seu índice
 	index = table.remove (a_visitar, 1)
@@ -54,3 +54,16 @@ repeat
 
 	::continue::
 until #a_visitar == 0
+
+-- uma chance em CHANCE de conectar
+CHANCE = 8
+
+--[[ e completa o grafo ]]--
+for i, reg in regioes (grafo) do
+	for _, j in vizinhos (reg:getId ()) do
+		local candidato = grafo:get (j)
+		if math.random (CHANCE) == 1 then
+			reg:connect (candidato)
+		end
+	end
+end

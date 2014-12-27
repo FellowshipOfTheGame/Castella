@@ -15,6 +15,7 @@
 --
 --	Region::
 -- 		Region:print ()
+-- 		Region:getId ()
 -- 		Region:getX ()
 -- 		Region:getY ()
 -- 		Region:getType ()
@@ -95,6 +96,8 @@ RegionGraph.largura = 6
 RegionGraph.tamanho_bloco = 3
 
 --- Iterador pra achar os índices de possíveis vizinhos
+--
+-- @return i, índice do vizinho
 function vizinhos (index)
 	-- todos os movimentos possíveis, em {x,y}
 	local movimentos = {
@@ -128,10 +131,10 @@ function vizinhos (index)
 end
 
 -- Chances de criar uma tal Região
-RegionGraph.castle_ratio = 10
+RegionGraph.castle_ratio = 20
 RegionGraph.village_ratio = 20
 RegionGraph.cave_ratio = 20
-RegionGraph.forest_ratio = 30
+RegionGraph.forest_ratio = 20
 
 local ratios = {
 	RegionGraph.castle_ratio,

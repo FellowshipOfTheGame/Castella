@@ -130,7 +130,7 @@ bool Region::disconnect (Region *region) {
 int Region::getDistance (Region *region) {
 	int x = abs (this->x - region->x);
 	int y = abs (this->y - region->y);
-	return (x + y);
+	return (x * x + y * y);
 }
 
 

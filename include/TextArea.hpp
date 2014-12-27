@@ -26,6 +26,9 @@ public:
 	/// Gerencia input de teclado
 	void handle_input (int input);
 
+	/// Muda o texto
+	void setTexto (string texto);
+
 	/** @brief Trabalha o texto, a partir dum clique
 	 * 
 	 * Se 'c' der pra ser escrito, escreve. aceita backspace também.

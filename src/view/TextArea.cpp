@@ -22,6 +22,12 @@ void TextArea::handle_input (int input) {
 }
 
 
+void TextArea::setTexto (string texto) {
+	this->texto = texto;
+	redraw ();
+}
+
+
 void TextArea::enterInput (int c) {
 	switch (c) {
 		case SDLK_BACKSPACE:
