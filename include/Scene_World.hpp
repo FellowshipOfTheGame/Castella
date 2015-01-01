@@ -24,11 +24,14 @@ class Scene_World : public Scene
 
         virtual void handle_scene_input(int input);
 
-		static void goToRegion (Region *reg);
+		void goToRegion (Region *reg);
 
     protected:
     private:
 		FileContainer image_container;
+
+		/// Índice da região atual
+		Region *current;
 };
 
 #endif // SCENE_WORLD_H

@@ -71,7 +71,7 @@ void fill_surface (SDL_Surface *target, SDL_Color cor = PRETO,
 //-------------------------------- ESCREVER TEXTO ----------------------------//
 //Escreve um texto na tela, na posição desejada
 // cor pelo SDL_Color: padrão = preto
-void write_text(int x, int y, SDL_Surface *destino, std::string texto,
+void write_text (int x, int y, SDL_Surface *destino, std::string texto,
 		SDL_Color cor = PRETO, float alinhamento = 0);
 //----------------------------------------------------------------------------//
 #endif // SIMPLESDLFUNCTIONS_H_INCLUDED

@@ -1,5 +1,5 @@
 require 'script/cores'
-require 'script/regionGraph'
+require 'script/region'
 
 --- Window das regiões
 janela = { 
