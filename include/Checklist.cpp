@@ -31,8 +31,27 @@ Checklist<Content>::~Checklist () {
 
 
 template <class Content>
+void Checklist<Content>::setLimit (const int limit) {
+	this->limit = limit;
+}
+
+
+template <class Content>
+int Checklist<Content>::getLimit () {
+	return limit;
+}
+
+
+template <class Content>
 void Checklist<Content>::addContent (Content *cont) {
 	ContentTable<check_item<Content> >::addContent (new check_item<Content> (cont));
+}
+
+
+template <class Content>
+void Checklist<Content>::flip (check_item<Content> *target) {
+	target->flip ();
+	target->second () ? num_checked++ : num_checked--;
 }
 
 
@@ -40,8 +59,13 @@ template <class Content>
 bool Checklist<Content>::mouse_try_click (int x, int y) {
 	bool aux = ContentTable<check_item<Content> >::mouse_try_click (x, y);
 
-	if (this->ultimo_clicado) {
-		this->ultimo_clicado->flip ();
+	check_item<Content> *clicado = this->ultimo_clicado;
+	if (clicado) {
+		// flipa se não tiver limite, se for desmarcar, ou não chegou no limite
+		if (!limit || clicado->second () || num_checked < limit) {
+			flip (clicado);
+		}
+		
 		redraw ();
 	}
 

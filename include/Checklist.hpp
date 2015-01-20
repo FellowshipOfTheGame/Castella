@@ -40,8 +40,12 @@ class Checklist : public ContentTable<check_item<Content> > {
 private:
 	/// Número de valores marcados
 	int num_checked {0};
+	/// Limite. Se 0, ilimitado (padrão)!
+	int limit {0};
 	/// Cor do marcado
 	SDL_Color checked_foreground;
+	/// Flipa um conteúdo marcado, fazendo a contagem certa
+	void flip (check_item<Content> *target);
 
 public:
 	/** Ctor, agora com o checked_foreground: padrão = vermelho */
@@ -58,6 +62,11 @@ public:
 
 	/// Dtor: destrói os pairs dentro da ContentTable
 	~Checklist ();
+
+	/// Ajusta o limite
+	void setLimit (const int limit);
+	/// Pega o limite, vai que precisa
+	int getLimit ();
 
 	/** @brief Clicou lá
 	 *

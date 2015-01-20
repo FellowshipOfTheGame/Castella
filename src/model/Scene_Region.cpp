@@ -20,8 +20,9 @@ Scene_Region::Scene_Region () {
 	static string b = "doido";
 	static string c = "mais um xD";
 
-	Cont = new Checklist<string> (&win->get_position (), 220, 80,
+	Cont = new Checklist<string> (&win->get_position (), 220, 180,
 			80, 80, {&a, &b, &c});
+	Cont->setLimit (2);
 
 	win->addWidget (Cont);
 }
