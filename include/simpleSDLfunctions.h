@@ -11,6 +11,7 @@
 #include <SDL/SDL_gfxPrimitives.h>
 
 #include <string>
+#include <iostream>
 
 #define DEFAULT_FONT_SIZE 26
 

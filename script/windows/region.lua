@@ -35,3 +35,8 @@ textArea = {
 	{400, 30, 500, 500, PRETO, BRANCO}
 }
 Win:addTextAreas (textArea)
+
+-- teste da ContentTable
+--cont = newChecklist_string (Win:getPosition (), 100, 100, 20, 20)
+--print (cont)
+--Win:addWidget (cont)

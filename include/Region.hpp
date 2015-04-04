@@ -9,7 +9,6 @@
 #define REGION_HPP
 
 #include "Structure.hpp"
-#include "Player.hpp"
 
 #include <cstdlib>
 #include <vector>
@@ -64,7 +63,6 @@ private:
 		y;	///< coordenada _y_ do reino no mapa global
 	set<Region *> neighbourhood;	///< vetor de regiões vizinhas; É um set para não haver repetições
 	vector<Structure *> inner_structures;	///< estruturas encontradas na região: depende do @ref Region_Type "tipo"
-	Player *owner {nullptr};	///< personagem (ainda não sei o nome da classe) dono da região; se NULL, não há dono
 	
 	/** @brief Diplomacia é o recurso que simboliza a relação entre o jogador e o lorde/prefeito/dono da região.
 	 * 

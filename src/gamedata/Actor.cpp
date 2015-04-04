@@ -12,6 +12,10 @@ const int Actor::SPRITECLIPS_NEUTRAL_HOR_INDEX = 1;
 const int Actor::SPRITECLIPS_INITIAL_INDEX = SPRITECLIPS_NEUTRAL_HOR_INDEX;    // clip inicial da imagem
 const std::string Actor::IMG_FOLDER = "actors/";
 
+ostream& operator<< (ostream & os, const Actor & actor) {
+	return os << actor.id;
+}
+
 Actor::Actor(){
     //default ctor
 }

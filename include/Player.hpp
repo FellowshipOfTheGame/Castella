@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include "Actor.hpp"
+#include "Reign.hpp"
 #include <vector>
 
 class Player //Possivelmente diferenciar Human e Computer player por subclasses
@@ -20,6 +22,7 @@ class Player //Possivelmente diferenciar Human e Computer player por subclasses
     protected:
 
     private:
+		Reign reign;
         static int idCount;
         int id;
         std::vector<Actor*> actors;

@@ -6,6 +6,7 @@
 #define WIDGET_HPP
 
 #include "simpleSDLfunctions.h"
+#include <iostream>
 
 using namespace std;
 

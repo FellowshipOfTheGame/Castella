@@ -56,9 +56,12 @@ void Window::addWidget (Widget *W) {
 void Window::registerWindow (lua_State *L) {
 	module (L) [
 		class_<Window> ("Window")
+			.def ("addWidget", &Window::addWidget)
 			.def ("addSliders", &Window::addSliders)
 			.def ("addButtons", &Window::addButtons)
 			.def ("addTextAreas", &Window::addTextAreas)
+			.def ("getPosition", &Window::get_position),
+		class_<SDL_Rect> ("SDL_Rect")
 	];
 }
 
@@ -161,8 +164,8 @@ void Window::set_position(int x, int y){
 }
 
 
-SDL_Rect & Window::get_position(){
-    return rect;
+SDL_Rect * Window::get_position(){
+    return &rect;
 }
 
 
@@ -203,7 +206,6 @@ void Window::draw(SDL_Surface *screen){
     //Draw windowskin
     apply_surface(rect.x, rect.y, wSurface, screen);
     //For each window element: draw
-    //Draw each button
     for (auto & widget : widgetList) {
         widget->draw (screen);
     }
@@ -217,6 +219,6 @@ void Window::update(){
 }
 
 
-const std::string Window::scriptPath("script/windows/");
-const std::string Window::buttonImgPath("images/buttons/");
-const std::string Window::sliderImgPath("images/sliders/");
+const std::string Window::scriptPath ("script/windows/");
+const std::string Window::buttonImgPath ("images/buttons/");
+const std::string Window::sliderImgPath ("images/sliders/");

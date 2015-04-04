@@ -10,6 +10,7 @@
 #include "Slider.hpp"
 #include "ContentTable.hpp"
 #include "Checklist.hpp"
+#include "ContentTable_Checklist_Factory.hpp"
 #include "TextArea.hpp"
 
 #endif

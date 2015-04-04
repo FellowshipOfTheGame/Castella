@@ -36,8 +36,14 @@ SDL_Surface *load_image (std::string nome_do_arquivo)
 //--------------------------------- CRIAR SUPERFICIE --------------------------/
 // Função que cria uma superfície vazia
 SDL_Surface *create_surface (int width, int height) {
-	return SDL_CreateRGBSurface (SDL_SWSURFACE, width, height, 32,
+	auto ret = SDL_CreateRGBSurface (SDL_SWSURFACE, width, height, 32,
 			RMASK, GMASK, BMASK, AMASK);
+
+	if (!ret) {
+		std::cout << "Create_surface error " << width << "x" << height <<
+				": " << SDL_GetError () << std::endl;
+	}
+	return ret;
 }
 //
 

@@ -3,11 +3,12 @@
 
 #include "FileHandler.hpp"
 #include "ScriptHandler.hpp"
-#include <Item_Weapon.hpp>
+#include "Item_Weapon.hpp"
 #include "Animated_Sprite.hpp"
 
 class Actor
 {
+	friend ostream& operator<< (ostream & os, const Actor & actor);
     public:
         Actor(std::string spritesheetName, int str=5, int intel=5, int agi=5, int vit=5);
         virtual ~Actor();

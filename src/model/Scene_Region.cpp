@@ -9,6 +9,7 @@ Scene_Region::Scene_Region () {
 	Window *win = new Window ("region.lua", [=] (lua_State *L) {
 				World::registerOnLua (L);
 				ScriptHandler::send_to_lua<Region *> (L, "reg", current);
+				ContentTable_Checklist_Factory::registerOnLua (L);
 				using namespace luabind;
 				module (L) [
 					def ("vaiPraEstrutura", &Scene_Region::goToStructure)
@@ -16,15 +17,15 @@ Scene_Region::Scene_Region () {
 			});
 	windows.push_back (win);
 
-	static string a = "oi";
-	static string b = "doido";
-	static string c = "mais um xD";
+	//static string a = "oi";
+	//static string b = "doido";
+	//static string c = "mais um xD";
 
-	Cont = new Checklist<string> (&win->get_position (), 220, 180,
-			80, 80, {&a, &b, &c});
-	Cont->setLimit (2);
+	//Cont = new Checklist<string> (&win->get_position (), 220, 180,
+			//80, 80, {&a, &b, &c});
+	//Cont->setLimit (2);
 
-	win->addWidget (Cont);
+	//win->addWidget (Cont);
 }
 
 

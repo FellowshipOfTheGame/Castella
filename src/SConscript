@@ -1,5 +1,5 @@
-# SConscript do Castella: constroi baseado no ambiente da raiz (SConstruct)
 # coding: utf-8
+# SConscript do Castella: constrói baseado no ambiente da raiz (SConstruct)
 Import ('env')
 
 # Os arquivos fonte são os .cpp dentro das pastas e a main

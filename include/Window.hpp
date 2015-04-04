@@ -56,7 +56,7 @@ class Window
         //Sets the window position
         void set_position(int x, int y);
         //Gets the window rect
-        SDL_Rect & get_position();
+        SDL_Rect * get_position();
         //Runs a mouseclick on the specified coordinates
         void mouseclick(int x, int y);
 		/// Gerencia input de teclado

@@ -101,7 +101,8 @@ void ContentTable<Content>::addContent (Content *cont) {
 
 template <class Content>
 void ContentTable<Content>::redraw () {
-	fill_surface (image, background);
+	cout << "\t\timage: " << this->image;
+	fill_surface (this->image, background);
 
 	unsigned int parada = data.size () - deslocamento () < maxPagina () ?
 			data.size () - deslocamento () : maxPagina ();
