@@ -1,4 +1,5 @@
 /** @file World.hpp
+ *
  * Header do gamedata/World.cpp
  */
 #ifndef WORLD_H
@@ -23,7 +24,8 @@ class World
 
         RegionGraph *getRegionGraph ();	///< Método que retora no grafo das regiões
 
-		Player* get_player(int pos);
+		Player* get_player(int pos);	///< Retorna Player na posição indicada
+		#define get_human() get_player (0)	///< Facilidade pra pegar o player humano (que é sempre o 0)
 
 		/// Adiciona players por uma table do Lua
 		void addPlayers (LuaObject player_table);

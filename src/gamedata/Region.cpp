@@ -89,6 +89,11 @@ set<Region *> Region::getNeighbourhood () {
 }
 
 
+bool Region::isNeighbour (Region *region) {
+	return (bool) neighbourhood.count (region);
+}
+
+
 vector<Structure *> Region::getStructures () {
 	return inner_structures;
 }

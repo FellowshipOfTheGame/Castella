@@ -1,3 +1,7 @@
+/** @file Player.hpp
+ *
+ * Header do gamedata/Player.cpp
+ */
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -19,10 +23,21 @@ class Player //Possivelmente diferenciar Human e Computer player por subclasses
 		/// Registra Player no Lua
 		static void registerOnLua (lua_State *L);
 
+		/// Verifica que região está o Player
+		Region * getRegion ();
+		/// Atualiza a Região corrente do Player
+		void setRegion (Region *reg);
+		/// Getter do reino
+		Reign * getReign ();
+
     protected:
 
     private:
+		/// Reino controlado pelo Player
 		Reign reign;
+		/// Região (posição) atual do Player
+		Region *current_pos;
+
         static int idCount;
         int id;
         std::vector<Actor*> actors;

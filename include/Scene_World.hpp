@@ -1,3 +1,7 @@
+/** @file Scene_World.hpp
+ *
+ * Header do model/Scene_World.cpp
+ */
 #ifndef SCENE_WORLD_H
 #define SCENE_WORLD_H
 
@@ -30,8 +34,8 @@ class Scene_World : public Scene
     private:
 		FileContainer image_container;
 
-		/// Índice da região atual
-		Region *current;
+		/// Player humano, o cara importante do jogo
+		Player *human {World::get_world ()->get_human ()};
 };
 
 #endif // SCENE_WORLD_H

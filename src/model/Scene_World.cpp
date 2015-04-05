@@ -1,6 +1,6 @@
 #include "Scene_World.hpp"
 
-Scene_World::Scene_World() : current ((*World::get_world ()->getRegionGraph ())[0])
+Scene_World::Scene_World()
 {
     SceneControl::set_cur (Scenes::SCENE_WORLD);
 
@@ -22,10 +22,12 @@ Scene_World::Scene_World() : current ((*World::get_world ()->getRegionGraph ())[
 
 
 void Scene_World::goToRegion (Region *reg) {
-	if (reg != current) {
-		current = reg;
+	auto current = human->getRegion ();
+
+	if (current->isNeighbour (reg)) {
+		human->setRegion (reg);
 	}
-	else {
+	else if (reg == current) {
 		reg->print ();
 		Scene::ptr = reg;
 		SceneControl::set_next (Scenes::SCENE_REGION);
@@ -59,6 +61,7 @@ void Scene_World::draw (SDL_Surface *screen) {
 		}
 	}
 
+	auto current = human->getRegion ();
 	write_text (current->getX () * MapTile::TILESIZE,
 			current->getY () * MapTile::TILESIZE, screen, "player");
 }

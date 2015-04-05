@@ -47,4 +47,20 @@ void Player::registerOnLua (lua_State *L) {
 	];
 }
 
+
+Reign * Player::getReign () {
+	return &reign;
+}
+
+
+Region * Player::getRegion () {
+	return current_pos;
+}
+
+
+void Player::setRegion (Region *reg) {
+	current_pos = reg;
+}
+
+
 int Player::idCount = 0;

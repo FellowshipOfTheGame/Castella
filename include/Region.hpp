@@ -92,6 +92,7 @@ public:
 	
 	unsigned int getAdjQuantity ();		///< Retorna o tanto de vizinhos
 	set<Region *> getNeighbourhood ();	///< Retorna o set de vizinhos
+	bool isNeighbour (Region *region);	///< Essa região é vizinha de region?
 	/// Conecta duas regiões
 	void connect (Region *region);
 	/** Desconecta duas regiões

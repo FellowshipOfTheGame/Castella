@@ -94,6 +94,13 @@ void World::create_players(){
 	registerOnLua (S.state ());
 	Player::registerOnLua (S.state ());
 	S.run_lua ();
+
+	// Põe player 1 (o humano) na região 0, e a registra em seu reino
+	auto human = get_human ();
+	auto regionZero = regionMap[0];
+	human->setRegion (regionZero);
+	human->getReign ()->addRegion (regionZero);
+
 }
 
 void World::addPlayers (LuaObject player_table) {
