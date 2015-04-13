@@ -116,6 +116,7 @@ unsigned int Region::getStructureQuantity () {
 
 void Region::connect (Region *region) {
 	neighbourhood.insert (region);
+	region->neighbourhood.insert (this);
 }
 
 

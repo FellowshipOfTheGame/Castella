@@ -26,6 +26,8 @@ void Scene_World::goToRegion (Region *reg) {
 
 	if (current->isNeighbour (reg)) {
 		human->setRegion (reg);
+		// testezim: add ouro só pra ver o trem trocar
+		human->getReign ()->add_ouro (2);
 	}
 	else if (reg == current) {
 		reg->print ();
@@ -64,6 +66,25 @@ void Scene_World::draw (SDL_Surface *screen) {
 	auto current = human->getRegion ();
 	write_text (current->getX () * MapTile::TILESIZE,
 			current->getY () * MapTile::TILESIZE, screen, "player");
+
+	// escreve recursos no canto superior esquerdo da tela
+	int i = 0;
+	auto reign = human->getReign ();
+	ostringstream str;
+#define escreve_recurso(recurso) \
+	str.str (""); \
+	str << #recurso << ' ' << reign->get_ ## recurso (); \
+	write_text (0, i, screen, str.str ()); \
+	i += DEFAULT_FONT_SIZE
+	escreve_recurso (tecido);
+	escreve_recurso (ouro);
+	escreve_recurso (gemas);
+	escreve_recurso (madeira);
+	escreve_recurso (ervas);
+	escreve_recurso (couro);
+	escreve_recurso (pedra);
+	escreve_recurso (ferro);
+#undef escreve_recurso
 }
 
 
