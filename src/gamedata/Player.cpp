@@ -63,4 +63,9 @@ void Player::setRegion (Region *reg) {
 }
 
 
+void Player::turn_cycle () {
+	reign.turn_cycle ();
+}
+
+
 int Player::idCount = 0;

@@ -19,3 +19,7 @@ bool Reign::removeRegion (Region *reg) {
 bool Reign::isRegionIn (Region *reg) {
 	return (bool) all_regions.count (reg);
 }
+
+void Reign::turn_cycle () {
+	add_ouro (2);
+}

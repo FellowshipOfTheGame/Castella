@@ -124,7 +124,15 @@ void Game::run(){
         //
 
         //Caps the fps
-        if(GameVar::fpsCap) while(timer.get_ticks() < 1000/Screen::FPS){/*Wait*/}
+        if(GameVar::fpsCap) {
+			// Verifica tempo a esperar, e espera se tal tempo é positivo (se
+			// for negativo, é pq faltou tempo =P)
+			int remaining_ms = (1000 / Screen::FPS) - timer.get_ticks ();
+			if (remaining_ms > 0) {
+				SDL_Delay (remaining_ms);
+			}
+		}
+			//while(timer.get_ticks() < 1000/Screen::FPS){[>Wait<]}
     }
     //Game Loop End
 }

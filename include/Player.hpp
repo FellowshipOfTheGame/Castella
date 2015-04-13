@@ -30,6 +30,9 @@ class Player //Possivelmente diferenciar Human e Computer player por subclasses
 		/// Getter do reino
 		Reign * getReign ();
 
+		/// Atualiza por ciclo. @sa World::turn_cycle
+		void turn_cycle ();
+
     protected:
 
     private:

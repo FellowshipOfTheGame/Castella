@@ -30,8 +30,14 @@ class World
 		/// Adiciona players por uma table do Lua
 		void addPlayers (LuaObject player_table);
 
-		///< Registra o mapa do mundo no Lua
+		/// Registra o mapa do mundo no Lua
 		static void registerOnLua (lua_State *L);
+
+		/** @brief Atualiza tudo o que precisar, quando passa um ciclo
+		 *
+		 * @note Ciclo ocorre quando Player anda, espera ou sai duma batalha
+		 */
+		void turn_cycle ();
 
 		/// Dtor: destrói todos os Players associados
 		~World ();

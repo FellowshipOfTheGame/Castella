@@ -26,8 +26,8 @@ void Scene_World::goToRegion (Region *reg) {
 
 	if (current->isNeighbour (reg)) {
 		human->setRegion (reg);
-		// testezim: add ouro só pra ver o trem trocar
-		human->getReign ()->add_ouro (2);
+		// andou, rodou ciclo
+		World::get_world ()->turn_cycle ();
 	}
 	else if (reg == current) {
 		reg->print ();

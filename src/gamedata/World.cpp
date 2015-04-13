@@ -131,4 +131,11 @@ void World::load_skills(){
     Skill::add_skill_table ("attack", "skills");
 }
 
+
+void World::turn_cycle () {
+	for (auto & player : players) {
+		player->turn_cycle ();
+	}
+}
+
 World * World::world = nullptr;

@@ -30,11 +30,14 @@ public:
 	 * @return Região existia em all_regions?
 	 */
 	bool removeRegion (Region *reg);
+	
+	/// Atualiza por ciclo. @sa World::turn_cycle
+	void turn_cycle ();
 
 /* GETTER Recursos -> get_recurso (), construído com MACRO; por que não? */
 #define get_recurso(recurso) \
 	unsigned int get_ ## recurso () { \
-		return recurso; \
+		return this->recurso; \
 	}
 	get_recurso (tecido);
 	get_recurso (ouro);
