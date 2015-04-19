@@ -1,4 +1,4 @@
-#include <Scene_MapEditor.hpp>
+#include "Scene_MapEditor.hpp"
 
 Scene_MapEditor::Scene_MapEditor()
 {
@@ -18,9 +18,9 @@ void Scene_MapEditor::update(){
     window->update();
 }
 
-void Scene_MapEditor::draw(SDL_Surface *screen){
-    SDL_FillRect(screen, NULL, 0x00f1eab9); //0x00f1eaa9 notebook
-    window->draw(screen);
+void Scene_MapEditor::redraw(){
+	fill_surface (image, {0xf1, 0xea, 0xb9}); //0x00f1eaa9 notebook
+    window->draw(image);
 }
 
 void Scene_MapEditor::handle_scene_input(int){

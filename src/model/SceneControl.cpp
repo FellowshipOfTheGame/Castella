@@ -1,5 +1,5 @@
-#include <SceneControl.hpp>
-#include <SceneHeaders.hpp>
+#include "SceneControl.hpp"
+#include "SceneHeaders.hpp"
 #include "Player.hpp"
 
 SceneControl::SceneControl()
@@ -27,6 +27,7 @@ void SceneControl::popScene () {
 	delete (Scene::scenes.top ());
 	Scene::scenes.pop ();
 	Scene::scene = Scene::scenes.top ();
+	Scene::scene->set_need_redraw ();
 }
 
 Scenes SceneControl::get_cur(){

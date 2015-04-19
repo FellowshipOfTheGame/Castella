@@ -18,7 +18,7 @@ public:
     Scene_Region ();
     virtual ~Scene_Region ();
 	virtual void update ();
-	virtual void draw (SDL_Surface *screen);
+	virtual void redraw ();
 	virtual void mouseclick (int x, int y);
 	virtual void escape();
 	virtual void handle_scene_input (int input);

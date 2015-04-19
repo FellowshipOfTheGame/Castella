@@ -104,7 +104,6 @@ void Game::run(){
 
         /*Render*/
         //cout << "---------RENDER" << endl;
-        SDL_FillRect(screen, NULL, 0x00000000); //clear the screen
         Scene::scene->draw(screen);
         SDL_Flip(screen);
 
@@ -121,7 +120,6 @@ void Game::run(){
             frameCounter = 0;
         }
         //End count the fps - TODO - review this code and consider splitting the method
-        //
 
         //Caps the fps
         if(GameVar::fpsCap) {
@@ -132,7 +130,6 @@ void Game::run(){
 				SDL_Delay (remaining_ms);
 			}
 		}
-			//while(timer.get_ticks() < 1000/Screen::FPS){[>Wait<]}
     }
     //Game Loop End
 }

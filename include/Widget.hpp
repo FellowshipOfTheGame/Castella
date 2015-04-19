@@ -16,16 +16,6 @@ using namespace std;
  * não ser específico.
  */
 class Widget {
-protected:
-	/// Caixa que contém o widget. Guarda sua posição e tamanho
-	SDL_Rect box;
-	/// Distância em relação à janela pai
-	SDL_Rect windowRelativeOffset;
-	/// Referência da janela pai, caso ela se desloque, widget desloca junto
-	SDL_Rect *window {NULL};
-	/// Imagem, o que será efetivamente mostrado
-	SDL_Surface *image {NULL};
-
 public:
 	Widget ();
 	/// Ctor com parâmetros: já define window pai, tamanho e posição relativa
@@ -50,6 +40,18 @@ public:
 	 * image, que daí aqui a desenhamos na target.
 	 */ 
 	void draw (SDL_Surface *target);
+
+protected:
+	/// Caixa que contém o widget. Guarda sua posição e tamanho
+	SDL_Rect box;
+	/// Distância em relação à janela pai
+	SDL_Rect windowRelativeOffset;
+	/// Referência da janela pai, caso ela se desloque, widget desloca junto
+	SDL_Rect *window {NULL};
+	/// Imagem, o que será efetivamente mostrado
+	SDL_Surface *image {NULL};
+	/// Controla se precisa redesenhar (pra melhorar eficiência)
+	bool need_redraw {false};
 };
 
 #endif

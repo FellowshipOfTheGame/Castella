@@ -1,5 +1,5 @@
-#include <Scene_Battle.hpp>
-#include <cstdlib>
+#include "Scene_Battle.hpp"
+#include "cstdlib"
 
 Scene_Battle::Scene_Battle() : battleMap (20, 12)
 {
@@ -36,6 +36,7 @@ void Scene_Battle::update(){
     //Se não houver um battler ativo, atualiza a estamina
     if (active_battler == NULL){
         update_stamina();
+		need_redraw = true;
     }
     else { //há um battler ativo
         //Recebe input para o battler
@@ -65,16 +66,14 @@ void Scene_Battle::update_stamina(){
     }
 }
 
-void Scene_Battle::draw(SDL_Surface *screen){
-    //Super
-    Scene::draw(screen);
-    battleMap.draw(screen, battlersTeam1, battlersTeam2, displayHUD);
+void Scene_Battle::redraw(){
+    battleMap.draw(image, battlersTeam1, battlersTeam2, displayHUD);
     //Desenha o cursor
     if (active_battler != NULL){
         if (!active_battler->is_acting()){
             int x = active_battler->get_map_pos().x;
             int y = active_battler->get_map_pos().y;
-            apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, screen, NULL, 0.5);
+            apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, image, NULL, 0.5);
         }
     }
 }
@@ -142,6 +141,7 @@ void Scene_Battle::handle_scene_input(int input){
                     break;
             }
         }
+		need_redraw = true;
     }
 
     //Inputs gerais da batalha - não dependem de haver battler ativo

@@ -1,4 +1,4 @@
-#include <Scene_StartMenu.hpp>
+#include "Scene_StartMenu.hpp"
 
 Scene_StartMenu::Scene_StartMenu()
 {
@@ -19,12 +19,10 @@ Scene_StartMenu::~Scene_StartMenu()
     SDL_FreeSurface(title);
 }
 
-void Scene_StartMenu::draw(SDL_Surface *screen){
-    //Set scene background
-    SDL_FillRect(screen, NULL, 0x00f1eab9); //0x00f1eaa9 notebook; 0x00f1eab9 desk
-    apply_surface(Screen::WIDTH/2 - 262, 100, title, screen);
-    //Call super
-    Scene::draw(screen);
+void Scene_StartMenu::redraw(){
+	//Set scene background
+	fill_surface (image, {0xf1, 0xea, 0xb9});
+	apply_surface(Screen::WIDTH/2 - 262, 100, title, image);
 }
 
 void Scene_StartMenu::update(){

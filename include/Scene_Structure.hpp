@@ -13,7 +13,7 @@ public:
     Scene_Structure ();
     virtual ~Scene_Structure ();
 	virtual void update ();
-	virtual void draw (SDL_Surface *screen);
+	virtual void redraw ();
 	virtual void mouseclick (int x, int y);
 	virtual void escape();
 

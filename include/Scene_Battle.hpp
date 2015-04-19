@@ -11,7 +11,7 @@ class Scene_Battle : public Scene
     public:
         Scene_Battle();
         virtual ~Scene_Battle();
-        virtual void draw(SDL_Surface *screen);
+        virtual void redraw();
         virtual void update();
         static int frame;
 

@@ -7,8 +7,6 @@
 
 #include "Window.hpp"
 #include "Input.hpp"
-#include "ScriptHandler.hpp"
-#include "Player.hpp"
 
 //Virtual class parent to every game scene
 class Scene
@@ -19,9 +17,12 @@ class Scene
         //Runs the scene logic
         virtual void update();
         //Draws the scene items
-        virtual void draw(SDL_Surface *screen);
+        void draw(SDL_Surface *screen);
         //Handles the scene input - handles generic context inputs and calls specific context handler
         void handle_input();
+
+		// Força cena a redesenhar
+		void set_need_redraw ();
 
         static Scene *scene; //the logic game scene
         /** Pilha de Cenas
@@ -43,6 +44,14 @@ class Scene
         virtual void escape();
         //Checks rather a key is pressed or not
         virtual bool is_key_pressed(SDLKey key);
+
+		// Redesenha tela na surface "image", pra poder ser desenhada na tela
+		virtual void redraw () = 0;
+
+		/// Imagem, o que será efetivamente mostrado
+		SDL_Surface *image {NULL};
+		/// Controla se precisa redesenhar (pra melhorar eficiência)
+		bool need_redraw {true};
 
 		/// Ponteiro de qualquer tipo, para guardar algo que precisar (estou olhando pra Região e Estrutura)
 		static void *ptr;

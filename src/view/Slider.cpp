@@ -93,4 +93,6 @@ void Slider::redraw () {
 
 	// escreve porcentagem em cima
 	write_text (0, 0, image, to_string (percent) + "%");
+
+	need_redraw = true;
 }

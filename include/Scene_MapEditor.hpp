@@ -12,7 +12,7 @@ class Scene_MapEditor : public Scene
         virtual ~Scene_MapEditor();
 
         virtual void update();
-        virtual void draw(SDL_Surface *screen);
+        virtual void redraw();
         virtual void handle_scene_input(int);
         void mouseclick(int x, int y);
 

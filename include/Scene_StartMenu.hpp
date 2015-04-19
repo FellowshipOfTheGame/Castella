@@ -11,7 +11,7 @@ class Scene_StartMenu : public Scene
         Scene_StartMenu();
         virtual ~Scene_StartMenu();
 
-        virtual void draw(SDL_Surface *screen);
+        virtual void redraw ();
 
         virtual void update();
 

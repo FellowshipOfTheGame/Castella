@@ -12,8 +12,9 @@ TextArea::TextArea (SDL_Rect *window, int width, int height, int x, int y,
 
 void TextArea::redraw () {
 	fill_surface (image, background);
-
 	write_text (0, 0, image, texto, foreground);
+
+	need_redraw = true;
 }
 
 

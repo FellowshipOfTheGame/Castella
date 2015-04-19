@@ -25,6 +25,7 @@ bool Button::mouse_try_click (int x, int y){
 void Button::activate(){
     apply_surface (0, 0, imgActive, image);
     activated = 8;
+	need_redraw = true;
     try{
 		callback();
     }
@@ -36,6 +37,7 @@ void Button::activate(){
 void Button::deactivate(){
     apply_surface (0, 0, imgInactive, image);
     activated = 0;
+	need_redraw = true;
 }
 
 void Button::update(){

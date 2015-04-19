@@ -21,9 +21,7 @@ void Scene_Structure::update () {
 }
 
 
-void Scene_Structure::draw (SDL_Surface *screen) {	
-	Scene::draw (screen);
-}
+void Scene_Structure::redraw () {}
 
 
 void Scene_Structure::mouseclick (int x, int y) {

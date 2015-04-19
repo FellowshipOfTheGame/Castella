@@ -26,7 +26,9 @@ void Widget::update () {
 
 
 void Widget::draw (SDL_Surface *target) {
-	apply_surface(box.x, box.y, image, target);
+	if (need_redraw) {
+		apply_surface(box.x, box.y, image, target);
+	}
 }
 
 

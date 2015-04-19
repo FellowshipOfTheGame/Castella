@@ -17,15 +17,17 @@ Scene_Region::Scene_Region () {
 			});
 	windows.push_back (win);
 
-	//static string a = "oi";
-	//static string b = "doido";
-	//static string c = "mais um xD";
-
-	//Cont = new Checklist<string> (&win->get_position (), 220, 180,
-			//80, 80, {&a, &b, &c});
-	//Cont->setLimit (2);
-
-	//win->addWidget (Cont);
+/*
+ *    static string a = "oi";
+ *    static string b = "doido";
+ *    static string c = "mais um xD";
+ *
+ *    Cont = new Checklist<string> (&win->get_position (), 220, 180,
+ *            80, 80, {&a, &b, &c});
+ *    Cont->setLimit (2);
+ *
+ *    win->addWidget (Cont);
+ */
 }
 
 
@@ -43,7 +45,7 @@ void Scene_Region::update () {
 }
 
 
-void Scene_Region::draw (SDL_Surface *screen) {	
+void Scene_Region::redraw () {
 	const int positions[][2] = {
 		{0, 0},
 		{Screen::WIDTH/2, 0},
@@ -53,20 +55,18 @@ void Scene_Region::draw (SDL_Surface *screen) {
 
 	int i = 0;
 	for (Structure *S : current->getStructures ()) {
-		boxRGBA (screen,
+		boxRGBA (image,
 				positions[i][0], positions[i][1],
 				positions[i][0] + Screen::WIDTH/2,
 				positions[i][1] + Screen::HEIGHT/2,
 				i * 40, i * 40, i * 40, 255);
-		write_text (positions[i][0], positions[i][1], screen, 
+		write_text (positions[i][0], positions[i][1], image, 
 				Structure::StructureTypeName (S->getType ()), {0, 255, 0});
 		i++;
 	}
 
-	write_text (200, 400, screen,
+	write_text (200, 400, image,
 			"Enter pra pegar os conteudos da checklist (na stdout)", PRETO);
-
-	Scene::draw (screen);
 }
 
 
@@ -82,12 +82,14 @@ void Scene_Region::escape () {
 
 void Scene_Region::handle_scene_input (int input) {
 	// teste da checklist
-	if (input == SDLK_RETURN) {
-		cout << "marcados:\n";
-		for (auto i : Cont->getChecked ()) {
-			cout << *i << '\n';
-		}
-		cout << '\n';
-	}
+	/*
+	 *if (input == SDLK_RETURN) {
+	 *    cout << "marcados:\n";
+	 *    for (auto i : Cont->getChecked ()) {
+	 *        cout << *i << '\n';
+	 *    }
+	 *    cout << '\n';
+	 *}
+	 */
 	Scene::handle_scene_input (input);
 }

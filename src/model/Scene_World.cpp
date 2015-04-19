@@ -26,6 +26,7 @@ void Scene_World::goToRegion (Region *reg) {
 
 	if (current->isNeighbour (reg)) {
 		human->setRegion (reg);
+		need_redraw = true;
 		// andou, rodou ciclo
 		World::get_world ()->turn_cycle ();
 	}
@@ -45,13 +46,12 @@ void Scene_World::update() {
 }
 
 
-void Scene_World::draw (SDL_Surface *screen) {
-	fill_surface (screen, {0, 100, 0});
-	Scene::draw (screen);
+void Scene_World::redraw () {
+	fill_surface (image, {0, 100, 0});
 	// desenha as linhas que mostram os caminhos entre as regiões
 	for (auto & reg : (*World::get_world ()->getRegionGraph ())) {
 		for (auto neighbour : reg->getNeighbourhood ()) {
-			lineColor (screen,
+			lineColor (image,
 					// primeiro ponto
 					reg->getX () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
 					reg->getY () * MapTile::TILESIZE + (MapTile::TILESIZE/2),
@@ -65,7 +65,7 @@ void Scene_World::draw (SDL_Surface *screen) {
 
 	auto current = human->getRegion ();
 	write_text (current->getX () * MapTile::TILESIZE,
-			current->getY () * MapTile::TILESIZE, screen, "player");
+			current->getY () * MapTile::TILESIZE, image, "player");
 
 	// escreve recursos no canto superior esquerdo da tela
 	int i = 0;
@@ -74,7 +74,7 @@ void Scene_World::draw (SDL_Surface *screen) {
 #define escreve_recurso(recurso) \
 	str.str (""); \
 	str << #recurso << ' ' << reign->get_ ## recurso (); \
-	write_text (0, i, screen, str.str ()); \
+	write_text (0, i, image, str.str ()); \
 	i += DEFAULT_FONT_SIZE
 	escreve_recurso (tecido);
 	escreve_recurso (ouro);

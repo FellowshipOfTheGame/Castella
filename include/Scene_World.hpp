@@ -20,7 +20,7 @@ class Scene_World : public Scene
 
         virtual void update();
 
-        virtual void draw(SDL_Surface *screen);
+        virtual void redraw();
 
         virtual void mouseclick(int x, int y);
 

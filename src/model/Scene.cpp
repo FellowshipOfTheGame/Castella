@@ -1,9 +1,7 @@
-#include <Scene.hpp>
+#include "Scene.hpp"
+#include "Screen.h"
 
-Scene::Scene()
-{
-
-}
+Scene::Scene() : image (create_surface (Screen::WIDTH, Screen::HEIGHT)) {}
 
 Scene::~Scene()
 {
@@ -20,9 +18,17 @@ void Scene::update(){
 }
 
 void Scene::draw(SDL_Surface *screen){
-    for (auto & win : windows) {
-        win->draw(screen);
-    }
+	if (need_redraw) {
+		// limpa background
+		fill_surface (screen);
+		redraw ();
+		apply_surface (0, 0, image, screen);
+		need_redraw = false;
+	}
+
+	for (auto & win : windows) {
+		win->draw(screen);
+	}
 }
 
 void Scene::mouseclick(int x, int y){
@@ -72,6 +78,10 @@ void Scene::handle_scene_input (int input) {
 
 bool Scene::is_key_pressed(SDLKey key){
     return Input::is_key_pressed(key);
+}
+
+void Scene::set_need_redraw () {
+	need_redraw = true;
 }
 
 // definindo as variáveis estáticas

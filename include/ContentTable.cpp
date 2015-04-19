@@ -133,6 +133,8 @@ void ContentTable<Content>::redraw () {
 	str.str ("");
 	str << pagina + 1 << '/' << numPags () + 1;
 	write_text (box.w/2 - arrowHeight, setinhas_Y (), image, str.str (), foreground);
+
+	need_redraw = true;
 }
 
 
