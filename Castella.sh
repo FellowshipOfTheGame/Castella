@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ `uname -m` == 'x86_64' ]
 then
 	arch='x86_64'

@@ -16,7 +16,6 @@
 class Scene_Region : public Scene {
 public:
     Scene_Region ();
-    virtual ~Scene_Region ();
 	virtual void update ();
 	virtual void redraw ();
 	virtual void mouseclick (int x, int y);

@@ -18,6 +18,8 @@ Scene_Battle::Scene_Battle() : battleMap (20, 12)
 	load_battlers (players[0], players[1]);
 	active_battler = NULL;
 	displayHUD = true;
+
+	battleMap.set_battlers (battlersTeam1, battlersTeam2);
 }
 
 Scene_Battle::~Scene_Battle()
@@ -36,9 +38,10 @@ void Scene_Battle::update(){
     //Se não houver um battler ativo, atualiza a estamina
     if (active_battler == NULL){
         update_stamina();
-		need_redraw = true;
+		battleMap.set_need_redraw ();
     }
     else { //há um battler ativo
+		need_redraw = true;
         //Recebe input para o battler
         //Quando finalizar suas ações, passa o active_battler para NULL
     }
@@ -66,14 +69,19 @@ void Scene_Battle::update_stamina(){
     }
 }
 
+void Scene_Battle::draw (SDL_Surface *screen) {
+	// desenha mapa primeiro, depois o resto =]
+	battleMap.draw (screen);
+	Drawable::draw (screen);
+}
+
 void Scene_Battle::redraw(){
-    battleMap.draw(image, battlersTeam1, battlersTeam2, displayHUD);
     //Desenha o cursor
     if (active_battler != NULL){
         if (!active_battler->is_acting()){
-            int x = active_battler->get_map_pos().x;
-            int y = active_battler->get_map_pos().y;
-            apply_surface( (x+0.5)*Screen::TILE_SIZE, y*Screen::TILE_SIZE-40  -frame%16/4, cursor, image, NULL, 0.5);
+            int x = (active_battler->get_map_pos().x + 0.5) * Screen::TILE_SIZE;
+            int y = active_battler->get_map_pos().y * Screen::TILE_SIZE - 40 - frame%16/4;
+            apply_surface(x, y, cursor, image, NULL, 0.5);
         }
     }
 }
@@ -141,13 +149,14 @@ void Scene_Battle::handle_scene_input(int input){
                     break;
             }
         }
-		need_redraw = true;
+		battleMap.set_need_redraw ();
     }
 
     //Inputs gerais da batalha - não dependem de haver battler ativo
     switch (input){
         case SDLK_h: // alterna display da HUD
             displayHUD = !displayHUD;
+			battleMap.set_displayHUD (displayHUD);
             break;
     }
 

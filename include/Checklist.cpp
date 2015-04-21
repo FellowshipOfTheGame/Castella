@@ -66,7 +66,7 @@ bool Checklist<Content>::mouse_try_click (int x, int y) {
 			flip (clicado);
 		}
 		
-		redraw ();
+		this->need_redraw = true;
 	}
 
 	return aux;
@@ -104,6 +104,4 @@ void Checklist<Content>::redraw () {
 			write_text (0, i * DEFAULT_FONT_SIZE, this->image, str.str (), checked_foreground);
 		}
 	}
-
-	this->need_redraw = true;
 }

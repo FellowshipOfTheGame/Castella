@@ -11,7 +11,7 @@ Scene_MapEditor::~Scene_MapEditor()
 {
     //dtor
     cout << "dtor Scene_MapEditor" << endl;
-    window->~Window();
+    delete window;
 }
 
 void Scene_MapEditor::update(){

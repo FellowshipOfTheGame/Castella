@@ -14,7 +14,6 @@ ContentTable<Content>::ContentTable (SDL_Rect *window, int width, int height,
 		SDL_Color foreground, SDL_Color background)
 		: Widget (window, width, height, x, y), data (l),
 		foreground (foreground), background (background) {
-	redraw ();
 }
 
 
@@ -63,7 +62,7 @@ bool ContentTable<Content>::mouse_try_click (int x, int y) {
 			// não clicou em conteúdo, né
 			ultimo_clicado = nullptr;
 
-			redraw ();
+			need_redraw = true;
 		}
 		// ou não, então conteúdo
 		else {
@@ -95,7 +94,7 @@ void ContentTable<Content>::addContent (Content *cont) {
 	// Adiciona cont no vector de conteúdos
 	data.push_back (cont);
 
-	redraw ();
+	need_redraw = true;
 }
 
 
@@ -133,8 +132,6 @@ void ContentTable<Content>::redraw () {
 	str.str ("");
 	str << pagina + 1 << '/' << numPags () + 1;
 	write_text (box.w/2 - arrowHeight, setinhas_Y (), image, str.str (), foreground);
-
-	need_redraw = true;
 }
 
 

@@ -2,9 +2,8 @@
 
 Widget::Widget () {}
 
-
 Widget::Widget (SDL_Rect *window, int width, int height, int x, int y) 
-		: window (window), image (create_surface (width, height)) {
+		: Drawable (width, height), window (window) {
 	windowRelativeOffset.x = x;
 	windowRelativeOffset.y = y;
 	box.w = width;
@@ -12,12 +11,6 @@ Widget::Widget (SDL_Rect *window, int width, int height, int x, int y)
 	box.x = windowRelativeOffset.x + window->x;
 	box.y = windowRelativeOffset.y + window->y;
 }
-
-
-Widget::~Widget () {
-	SDL_FreeSurface (image);
-};
-
 
 void Widget::update () {
 	box.x = windowRelativeOffset.x + window->x;
@@ -27,7 +20,9 @@ void Widget::update () {
 
 void Widget::draw (SDL_Surface *target) {
 	if (need_redraw) {
-		apply_surface(box.x, box.y, image, target);
+		redraw ();
+		apply_surface (box.x, box.y, image, target);
+		need_redraw = false;
 	}
 }
 

@@ -11,7 +11,6 @@
 class Scene_Structure : public Scene {
 public:
     Scene_Structure ();
-    virtual ~Scene_Structure ();
 	virtual void update ();
 	virtual void redraw ();
 	virtual void mouseclick (int x, int y);

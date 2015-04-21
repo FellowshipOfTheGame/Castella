@@ -6,15 +6,12 @@ TextArea::TextArea (SDL_Rect *window, int width, int height, int x, int y,
 		SDL_Color foreground, SDL_Color background)
 		: Widget (window, width, height, x, y),
 		foreground (foreground), background (background) {
-	redraw ();
 }
 
 
 void TextArea::redraw () {
 	fill_surface (image, background);
 	write_text (0, 0, image, texto, foreground);
-
-	need_redraw = true;
 }
 
 
@@ -25,7 +22,7 @@ void TextArea::handle_input (int input) {
 
 void TextArea::setTexto (string texto) {
 	this->texto = texto;
-	redraw ();
+	need_redraw = true;
 }
 
 
@@ -43,5 +40,5 @@ void TextArea::enterInput (int c) {
 			}
 			break;
 	}
-	redraw ();
+	need_redraw = true;
 }

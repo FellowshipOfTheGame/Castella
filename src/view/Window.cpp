@@ -18,7 +18,7 @@ Window::Window (const string scriptFile, function<void (SDL_Rect *, lua_State *)
 
 
 Window::Window (const string scriptFile, function<void (lua_State *)> registerOnLua)
-		: sHandler (Window::scriptPath + scriptFile) {
+		: Drawable (nullptr), sHandler (Window::scriptPath + scriptFile) {
 
     //Registers the needed variables and runs the code.
     //Warning if the Callbacks are already registered at that lua state bad things may happen.
@@ -44,7 +44,7 @@ Window::Window (const string scriptFile, function<void (lua_State *)> registerOn
 
 	SDL_Surface *windowSkin = NULL;
 	windowSkin = files.push ("images/" + windowSkinPath);
-	wSurface = ImageHandler::make_window (rect, windowSkin);
+	image = ImageHandler::make_window (rect, windowSkin);
 }
 
 
@@ -150,7 +150,6 @@ void Window::addTextAreas (LuaObject luatable) {
 
 
 Window::~Window(){
-    SDL_FreeSurface(wSurface);
     for (auto & widget : widgetList) {
         delete widget;
     }
@@ -203,12 +202,28 @@ void Window::handle_input (int input) {
 
 
 void Window::draw(SDL_Surface *screen){
-    //Draw windowskin
-    apply_surface(rect.x, rect.y, wSurface, screen);
+	if (need_redraw) {
+		//Draw windowskin
+		apply_surface (rect.x, rect.y, image, screen);
+		need_redraw = false;
+	}
+
     //For each window element: draw
     for (auto & widget : widgetList) {
         widget->draw (screen);
     }
+}
+
+
+void Window::redraw () {}
+
+
+void Window::set_need_redraw () {
+	need_redraw = true;
+
+	for (auto & widget : widgetList) {
+		widget->set_need_redraw ();
+	}
 }
 
 

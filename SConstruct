@@ -17,7 +17,7 @@ if not GetOption ('help'):
         CC = 'g++',
         CCFLAGS = '-Wall -g -fpermissive -std=c++11 -O2 -pipe',
         LIBPATH = ['/usr/lib'],
-        LIBS = ['SDL', 'SDL_image', 'SDL_mixer', 'SDL_ttf', 'SDL_gfx',
+        LIBS = ['SDL', 'SDL_image', 'SDL_mixer', 'SDL_gfx',
                 'luabindd'],
         CPPPATH = ['#include', '/usr/include/SDL', '/usr/local/include/',
                 '/usr/include/lua5.2'],
@@ -45,7 +45,14 @@ if not GetOption ('help'):
         lua = '-llua5.2'
     else:
         lua = '-llua'
-    conf.env.Append (LIBS = (lua))
+    # -llua ou -llua5.2 ?
+    # se o grep retornar 0, é pq achou 'lua5.2', então linka com tal;
+    # se retornar 1, é pq não achou, então o lua5.2 linka diretão no -llua
+    if not os.system ('pkg-config --list-all | grep SDL_ttf > /dev/null'):
+        ttf = '-lSDL_ttf'
+    else:
+        ttf = '-lSDL2_ttf'
+    conf.env.Append (LIBS = (lua, ttf))
 
     env = conf.Finish ()
 

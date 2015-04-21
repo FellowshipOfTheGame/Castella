@@ -5,6 +5,7 @@
 #ifndef WIDGET_HPP
 #define WIDGET_HPP
 
+#include "Drawable.hpp"
 #include "simpleSDLfunctions.h"
 #include <iostream>
 
@@ -15,13 +16,11 @@ using namespace std;
  * Note que Widget é uma classe abstrata, já que não faz sentido um widget
  * não ser específico.
  */
-class Widget {
+class Widget : public Drawable {
 public:
 	Widget ();
 	/// Ctor com parâmetros: já define window pai, tamanho e posição relativa
 	Widget (SDL_Rect *window, int width, int height, int x, int y);
-	/// dtor
-	virtual ~Widget () = 0;
 	/// Verifica se clicou
 	virtual bool mouse_try_click (int x, int y);
 	/// Gerencia input de teclado
@@ -39,7 +38,9 @@ public:
 	 * @note As classes filhas, aplicam o que quiserem à
 	 * image, que daí aqui a desenhamos na target.
 	 */ 
-	void draw (SDL_Surface *target);
+	virtual void draw (SDL_Surface *target);
+
+	virtual void redraw () = 0;
 
 protected:
 	/// Caixa que contém o widget. Guarda sua posição e tamanho
@@ -48,10 +49,6 @@ protected:
 	SDL_Rect windowRelativeOffset;
 	/// Referência da janela pai, caso ela se desloque, widget desloca junto
 	SDL_Rect *window {NULL};
-	/// Imagem, o que será efetivamente mostrado
-	SDL_Surface *image {NULL};
-	/// Controla se precisa redesenhar (pra melhorar eficiência)
-	bool need_redraw {false};
 };
 
 #endif

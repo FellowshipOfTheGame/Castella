@@ -21,9 +21,6 @@ Slider::Slider (SDL_Rect *window, int x, int y, SDL_Surface *img_back, SDL_Surfa
 	else {
 		dir = Direction::HORIZONTAL;
 	}
-	// desenha pela primeira vez o Slider, visto que ele 
-	// só é redesenhado hora que é clicado
-	redraw ();
 }
 
 
@@ -45,7 +42,7 @@ bool Slider::mouse_try_click (int x, int y) {
 			percent = (x - box.x) * 100.0 / box.w;
 		}
 
-		redraw ();
+		need_redraw = true;
 	}
 
 	return aux;
@@ -93,6 +90,4 @@ void Slider::redraw () {
 
 	// escreve porcentagem em cima
 	write_text (0, 0, image, to_string (percent) + "%");
-
-	need_redraw = true;
 }

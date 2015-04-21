@@ -13,9 +13,6 @@ Scene_Structure::Scene_Structure () {
 }
 
 
-Scene_Structure::~Scene_Structure () {}
-
-
 void Scene_Structure::update () {
 	Scene::update ();
 }

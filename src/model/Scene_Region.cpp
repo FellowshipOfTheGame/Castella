@@ -37,9 +37,6 @@ void Scene_Region::goToStructure (Structure *structure) {
 }
 
 
-Scene_Region::~Scene_Region () {}
-
-
 void Scene_Region::update () {
 	Scene::update ();
 }

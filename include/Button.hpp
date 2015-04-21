@@ -12,12 +12,6 @@
 
 class Button : public Widget
 {
-    private:
-        SDL_Surface *imgInactive, *imgActive; //images when the button is active, inactive, and the logic image
-        unsigned char activated; //holds the number of frames for the button to stay active
-        //LuaFunction callback; //the method called back from the button when it is activated
-		LuaFunction callback;
-
     public:
 		Button();
         //Creates a button bound to a window, at a relative position (x,y), that calls a method when activated
@@ -33,8 +27,17 @@ class Button : public Widget
         //Does the update logic that must be called every frame
         virtual void update();
 
+		virtual void redraw ();
+
         //Static method to allocate memory for an array of buttons
 		static Button* create_button_list(int buttonCount);
+
+    private:
+        SDL_Surface *imgInactive, *imgActive; //images when the button is active, inactive, and the logic image
+        unsigned char activated; //holds the number of frames for the button to stay active
+        //LuaFunction callback; //the method called back from the button when it is activated
+		LuaFunction callback;
+
 };
 
 #endif // BUTTON_H

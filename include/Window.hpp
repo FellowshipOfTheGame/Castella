@@ -8,6 +8,7 @@
 #include "FileContainer.hpp"
 #include "ImageHandler.hpp"
 
+#include "Drawable.hpp"
 #include "Widgets.hpp"
 #include "Screen.h"
 #include "GameStructure.hpp"
@@ -18,7 +19,7 @@
 
 // Virtual class parent to each window; holds elements such as buttons and 
 // responds to input
-class Window
+class Window : public Drawable
 {
     public:
         Window();
@@ -63,6 +64,8 @@ class Window
 		void handle_input (int input);
         //Draws the window
         void draw(SDL_Surface *screen);
+		/// Setta que precisa redesenhar
+		void set_need_redraw ();
         //Do an update on the window's and its elements' logic
         void update();
 
@@ -70,12 +73,13 @@ class Window
         std::vector<Widget *> widgetList; //widget lsit
         //Button *buttonList; //a pointer to a list of buttons
         SDL_Rect rect; //the rectangle with coordinates and dimentions of the window
-        SDL_Surface *wSurface; //the image surface for the window
         bool visible; //visibility of the window - to implement
         static const std::string scriptPath;
         static const std::string buttonImgPath;
         static const std::string sliderImgPath;
         ScriptHandler sHandler;
+
+		void redraw ();
 
         FileContainer files;
 

@@ -15,6 +15,8 @@ class Scene_Battle : public Scene
         virtual void update();
         static int frame;
 
+		/// Desenha! Ordem: Mapa, battlers
+		void draw (SDL_Surface *screen);
 
     protected:
         Map_Battle battleMap;

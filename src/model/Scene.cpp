@@ -1,7 +1,6 @@
 #include "Scene.hpp"
-#include "Screen.h"
 
-Scene::Scene() : image (create_surface (Screen::WIDTH, Screen::HEIGHT)) {}
+Scene::Scene() {}
 
 Scene::~Scene()
 {
@@ -28,6 +27,16 @@ void Scene::draw(SDL_Surface *screen){
 
 	for (auto & win : windows) {
 		win->draw(screen);
+	}
+}
+
+void Scene::redraw () {}
+
+void Scene::set_need_redraw () {
+	need_redraw = true;
+
+	for (auto & win : windows) {
+		win->set_need_redraw ();
 	}
 }
 
@@ -78,10 +87,6 @@ void Scene::handle_scene_input (int input) {
 
 bool Scene::is_key_pressed(SDLKey key){
     return Input::is_key_pressed(key);
-}
-
-void Scene::set_need_redraw () {
-	need_redraw = true;
 }
 
 // definindo as variáveis estáticas
